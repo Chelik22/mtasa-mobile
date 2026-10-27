@@ -15,27 +15,44 @@ def records(path):
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+def capture(stdout, stderr):
+    result = {"stdout": [], "raw_stdout": "", "stderr": "", "parse_errors": [], "read_errors": []}
+    for field, path in (("raw_stdout", stdout), ("stderr", stderr)):
+        try:
+            result[field] = path.read_text(encoding="utf-8", errors="replace")
+        except OSError as error:
+            result["read_errors"].append(f"{path.name}: {error}")
+    # A crashed child may leave an unfinished line; preserve evidence without parsing it strictly.
+    for number, line in enumerate(result["raw_stdout"].splitlines(), 1):
+        if line.strip():
+            try:
+                result["stdout"].append(json.loads(line))
+            except json.JSONDecodeError as error:
+                result["parse_errors"].append({"line": number, "error": str(error)})
+    return result
+
+
+def persist(path, evidence):
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(path)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--probe", required=True, type=Path)
     parser.add_argument("--evidence", required=True, type=Path)
     args = parser.parse_args()
     args.evidence.parent.mkdir(parents=True, exist_ok=True)
-    # The server reports successful bind before clients start; a reservation race fails loudly.
-    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as reservation:
-        reservation.bind(("127.0.0.1", 0))
-        port = reservation.getsockname()[1]
-    identities = [secrets.randbits(63) + 1, secrets.randbits(63) + 1]
-    while identities[1] == identities[0]:
-        identities[1] = secrets.randbits(63) + 1
     processes, handles, paths = [], [], []
     evidence = {
         "scope": "ENet transport readiness only; no MTA/GTA world or Lua integration",
         "utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "enet_commit": "2662c0de09e36f2a2030ccc2c528a3e4c9e8138a",
-        "probe_sha256": hashlib.sha256(args.probe.read_bytes()).hexdigest(),
-        "host": "127.0.0.1", "port": port, "passed": False,
+        "host": "127.0.0.1", "passed": False, "state": "running",
     }
+    # Invalidate any previous success before a child can crash or the runner can be interrupted.
+    persist(args.evidence, evidence)
     overall_deadline = time.monotonic() + 35
 
     def launch(name, *arguments):
@@ -51,6 +68,15 @@ def main():
         return process
 
     try:
+        evidence["probe_sha256"] = hashlib.sha256(args.probe.read_bytes()).hexdigest()
+        # The server confirms bind before clients start; a reservation race fails loudly.
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as reservation:
+            reservation.bind(("127.0.0.1", 0))
+            port = reservation.getsockname()[1]
+        evidence["port"] = port
+        identities = [secrets.randbits(63) + 1, secrets.randbits(63) + 1]
+        while identities[1] == identities[0]:
+            identities[1] = secrets.randbits(63) + 1
         server = launch("server", "server", port)
         deadline = time.monotonic() + 5
         while not paths[0][0].read_text(encoding="utf-8").strip():
@@ -78,23 +104,33 @@ def main():
     except Exception as error:
         evidence["error"] = str(error)
     finally:
+        cleanup_errors = []
         for process in processes:
-            if process.poll() is None:
-                process.terminate()
-                try:
-                    process.wait(timeout=3)
-                except subprocess.TimeoutExpired:
-                    process.kill()
-                    process.wait(timeout=3)
+            try:
+                if process.poll() is None:
+                    process.terminate()
+                    try:
+                        process.wait(timeout=3)
+                    except subprocess.TimeoutExpired:
+                        process.kill()
+                        process.wait(timeout=3)
+            except (OSError, subprocess.TimeoutExpired) as error:
+                cleanup_errors.append(f"process {process.pid}: {error}")
         for handle in handles:
-            handle.close()
+            try:
+                handle.close()
+            except OSError as error:
+                cleanup_errors.append(str(error))
         evidence["processes"] = [
             {"pid": process.pid, "exit_code": process.returncode,
-             "stdout": records(paths[index][0]),
-             "stderr": paths[index][1].read_text(encoding="utf-8")}
+             **capture(*paths[index])}
             for index, process in enumerate(processes)
         ]
-        args.evidence.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
+        if cleanup_errors:
+            evidence["cleanup_errors"] = cleanup_errors
+            evidence["passed"] = False
+        evidence["state"] = "passed" if evidence["passed"] else "failed"
+        persist(args.evidence, evidence)
         print(json.dumps(evidence))
     return 0 if evidence["passed"] else 1
 

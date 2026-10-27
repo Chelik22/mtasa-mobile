@@ -1,19 +1,20 @@
 {
   "scope": "ENet transport readiness only; no MTA/GTA world or Lua integration",
-  "utc": "2026-10-27T20:50:59.460156+00:00",
+  "utc": "2026-10-27T21:02:02.073235+00:00",
   "enet_commit": "2662c0de09e36f2a2030ccc2c528a3e4c9e8138a",
-  "probe_sha256": "5998e0b0efeaf5b16a1a3479d22652abb439852030d6cb998fc86f9c0eb68e4e",
   "host": "127.0.0.1",
-  "port": 57972,
   "passed": true,
+  "state": "passed",
+  "probe_sha256": "5998e0b0efeaf5b16a1a3479d22652abb439852030d6cb998fc86f9c0eb68e4e",
+  "port": 55805,
   "processes": [
     {
-      "pid": 31832,
+      "pid": 39312,
       "exit_code": 0,
       "stdout": [
         {
           "event": "listening",
-          "port": 57972
+          "port": 55805
         },
         {
           "event": "server_complete",
@@ -24,31 +25,40 @@
           "reconnected": 1
         }
       ],
-      "stderr": ""
+      "raw_stdout": "{\"event\":\"listening\",\"port\":55805}\n{\"event\":\"server_complete\",\"connections\":3,\"disconnected\":3,\"accepted\":6,\"sessions\":2,\"reconnected\":1}\n",
+      "stderr": "",
+      "parse_errors": [],
+      "read_errors": []
     },
     {
-      "pid": 1620,
+      "pid": 32284,
       "exit_code": 0,
       "stdout": [
         {
           "event": "client_complete",
-          "session": "4859354492455707311",
+          "session": "5519272211864388623",
           "completed_cycles": 2
         }
       ],
-      "stderr": ""
+      "raw_stdout": "{\"event\":\"client_complete\",\"session\":\"5519272211864388623\",\"completed_cycles\":2}\n",
+      "stderr": "",
+      "parse_errors": [],
+      "read_errors": []
     },
     {
-      "pid": 29396,
+      "pid": 32876,
       "exit_code": 0,
       "stdout": [
         {
           "event": "client_complete",
-          "session": "8921472235497255844",
+          "session": "3577275438717853677",
           "completed_cycles": 1
         }
       ],
-      "stderr": ""
+      "raw_stdout": "{\"event\":\"client_complete\",\"session\":\"3577275438717853677\",\"completed_cycles\":1}\n",
+      "stderr": "",
+      "parse_errors": [],
+      "read_errors": []
     }
   ],
   "configuration": {
@@ -59,18 +69,24 @@
     "build_parallelism": 2
   },
   "ctest": {
-    "passed": 2,
+    "passed": 3,
     "failed": 0,
-    "wire_contract_seconds": 0.6,
-    "enet_three_process_loopback_seconds": 3.29,
-    "total_seconds": 3.91
+    "wire_contract_seconds": 0.19,
+    "enet_three_process_loopback_seconds": 1.86,
+    "smoke_failure_evidence_seconds": 2.83,
+    "total_seconds": 4.92,
+    "failure_regression_cases": [
+      "partial_stdout_crash",
+      "missing_probe"
+    ]
   },
+  "source_sha256_mode": "UTF-8 file bytes with CRLF normalized to LF",
   "source_sha256": {
-    "CMakeLists.txt": "f4680f38c2c1482deb41179230d3201835cf52f1d890133aec1ed8246bea736d",
+    "CMakeLists.txt": "4a469cc4cc4d98a61ed7c53d408f3c8adbbc8a18bb81f4ea18aeda2d151fd803",
     "wire.hpp": "e8d3047a18431f6912649e9cc2ed372f011a06ac4d9d55abc88d8a6ac62495f5",
     "wire_tests.cpp": "4656ee1f1baf117fa7ad8f2c33a6afcf582ec5a306e19e460a7b3ec32c56a8d9",
     "net_probe.cpp": "e3b3417e979580f188468c18a939625837e745d7557293a80416eb2a98c15117",
-    "smoke.py": "3745a54187dcbe77896035d91441d82434dc387cacd0df197b08c89c8c8fa332"
-  },
-  "source_sha256_mode": "UTF-8 file bytes with CRLF normalized to LF"
+    "smoke.py": "407bfeaa872ff8ccc3fad61b6eb80550b3d2325ef3dad97bacd6ba9834d8252a",
+    "smoke_failure_test.py": "cf865e1f97fa0e8c6b0d4b1df1a0f6ad5e8952c23683e6e100d10d6a20ad3000"
+  }
 }

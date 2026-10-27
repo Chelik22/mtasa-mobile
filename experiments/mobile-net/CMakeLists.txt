@@ -32,3 +32,5 @@ add_test(NAME enet_three_process_loopback
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/smoke.py
         --probe $<TARGET_FILE:net_probe> --evidence ${CMAKE_CURRENT_BINARY_DIR}/evidence/loopback.json)
 set_tests_properties(enet_three_process_loopback PROPERTIES TIMEOUT 45 PROCESSORS 2)
+add_test(NAME smoke_failure_evidence COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/smoke_failure_test.py)
+set_tests_properties(smoke_failure_evidence PROPERTIES TIMEOUT 35)
