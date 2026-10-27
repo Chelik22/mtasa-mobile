@@ -25,12 +25,16 @@ if(WIN32)
     target_link_libraries(net_probe PRIVATE ws2_32 winmm)
 endif()
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
-enable_testing()
-add_test(NAME wire_contract COMMAND wire_tests)
-add_test(NAME enet_three_process_loopback
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/smoke.py
-        --probe $<TARGET_FILE:net_probe> --evidence ${CMAKE_CURRENT_BINARY_DIR}/evidence/loopback.json)
-set_tests_properties(enet_three_process_loopback PROPERTIES TIMEOUT 45 PROCESSORS 2)
-add_test(NAME smoke_failure_evidence COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/smoke_failure_test.py)
-set_tests_properties(smoke_failure_evidence PROPERTIES TIMEOUT 35)
+# Cross-build the same executables without trying to run Android ELF files or
+# requiring host Python. The three existing host tests remain unchanged.
+if(NOT ANDROID)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    enable_testing()
+    add_test(NAME wire_contract COMMAND wire_tests)
+    add_test(NAME enet_three_process_loopback
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/smoke.py
+            --probe $<TARGET_FILE:net_probe> --evidence ${CMAKE_CURRENT_BINARY_DIR}/evidence/loopback.json)
+    set_tests_properties(enet_three_process_loopback PROPERTIES TIMEOUT 45 PROCESSORS 2)
+    add_test(NAME smoke_failure_evidence COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/smoke_failure_test.py)
+    set_tests_properties(smoke_failure_evidence PROPERTIES TIMEOUT 35)
+endif()
