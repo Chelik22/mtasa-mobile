@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Reject binary Lua after an optional UTF-8 BOM, matching CLuaMain's later BOM
+  stripping. Checking only the raw first byte allowed compiled chunks through
+  a module that explicitly supports source scripts only. BOM-prefixed source
+  remains unchanged for the real Lua loader; DLL-boundary regression covers both.
+
 ### Added
 
 - An owned MTAX session envelope and opt-in CNetServer DLL over pinned ENet.

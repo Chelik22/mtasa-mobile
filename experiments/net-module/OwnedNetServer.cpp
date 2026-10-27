@@ -282,7 +282,11 @@ namespace experimental_net
         {
             if (!output || !output_size || (!data && size) || size > 16 * 1024 * 1024)
                 return false;
-            if (size && static_cast<unsigned char>(data[0]) == 0x1b)
+            // CLuaMain strips a UTF-8 BOM before calling Lua's loader. Inspect
+            // the same first meaningful byte so binary chunks cannot bypass
+            // this source-only boundary by prepending that BOM.
+            const uint prefix = size >= 3 && std::memcmp(data, "\xEF\xBB\xBF", 3) == 0 ? 3 : 0;
+            if (size > prefix && static_cast<unsigned char>(data[prefix]) == 0x1b)
                 return false;
             *output = data ? data : "";
             *output_size = size;

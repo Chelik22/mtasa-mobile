@@ -160,6 +160,17 @@ int main(int argc, char** argv)
         require(server->DeobfuscateScript(lua, sizeof(lua) - 1, &output, &length, "plain") && output == lua && length == sizeof(lua) - 1,
                 "plain source Lua buffer");
         require(!server->DeobfuscateScript("\x1bLua", 4, &output, &length, "compiled"), "compiled Lua must be rejected");
+        const char bom_binary[] =
+            "\xEF\xBB\xBF"
+            "\x1bLua";
+        require(!server->DeobfuscateScript(bom_binary, sizeof(bom_binary) - 1, &output, &length, "bom-compiled"),
+                "compiled Lua behind UTF-8 BOM must be rejected before CLuaMain strips the BOM");
+        const char bom_source[] =
+            "\xEF\xBB\xBF"
+            "return 42";
+        require(server->DeobfuscateScript(bom_source, sizeof(bom_source) - 1, &output, &length, "bom-source") && output == bom_source &&
+                    length == sizeof(bom_source) - 1,
+                "UTF-8 BOM source remains a synchronous pass-through");
         require(!server->GetHTTPDownloadManager(EDownloadMode::CALL_REMOTE)->QueueFile("http://127.0.0.1/", "unused"), "unsupported HTTP must report failure");
         require(!server->StartNetwork("0.0.0.0", 23803, 4, "test"), "lab must stay loopback");
         unsigned short port = 30000;
