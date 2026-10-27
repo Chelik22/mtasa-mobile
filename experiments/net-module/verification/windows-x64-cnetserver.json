@@ -80,5 +80,28 @@
     "Android runtime/gameplay",
     "touch",
     "RP scenario"
-  ]
+  ],
+  "source_lf_sha256": {
+    "experiments/net-module/BitBuffer.h": "e0b9b1b6aafbb4c9d7753de51b692f00ad42386d1319b7022b32a07cc527d463",
+    "experiments/net-module/MtaBitStream.h": "5b7bc5f475cab7656a09d23c4396c5576adc370eb7979f7686eeb24b13c6f9f0",
+    "experiments/net-module/Protocol.h": "df3a27f4e746438987e266047883dc4544ea6a6b4f7a5fc70bf90ec7217df809",
+    "experiments/net-module/bitbuffer_tests.cpp": "763fa699bb831f43e6ef791cadfbbc59bd3d38ade1d101841fc51164af178728",
+    "experiments/net-module/BitStreamFactory.cpp": "05e1f037a6c9945a7e8135fda4c9b9a139885b67b8f745cff1b5060e17568809",
+    "experiments/net-module/ModuleRuntime.cpp": "e4dbcf1b28944fa28656f56ad80ea4f410eb30f8f4ce5ee95ab89387df1886a1",
+    "experiments/net-module/module_boundary_tests.cpp": "51dc1d25e6daa36677f58c0b54f63ed670fdf7846a1ffb50d75a84ee8325eb35",
+    "experiments/net-module/MtaBitStream.cpp": "8f36a7c3ca56333e2b3726f6ba82fe3e60a732a5c3b26837ab475afd23576fdd",
+    "experiments/net-module/mta_adapter_tests.cpp": "9cf1e320d64efde279d359d2d8c6a34eb5fe723e55e897aaf2fbcd9c76b826b7",
+    "experiments/net-module/OwnedNetServer.cpp": "e825f94addc1cd7664b23bae1f91e7908b06aa12bcc28a3fa8d0d27754b0264f",
+    "experiments/net-module/protocol_tests.cpp": "d41e242272520088cf14d2b68b32846b7d39c485c18fac8d83faa430d035a81e",
+    "experiments/net-module/server_module_tests.cpp": "0cadb7dfe105e004b46fe7c7cac81fa3f73a96488a03510cbdb0c2c483157769",
+    "experiments/net-module/CMakeLists.txt": "f903ff19cb0c02b99fecb44965e6d0ce9c74f18513bc52c01c9659d6c3836855",
+    "experiments/net-module/headless/PacketCodec.h": "4a10006c2c0a408f2ec403a40880a536ff87c75e696e23c60e2ef70073c9c82b",
+    "experiments/net-module/headless/SourceConstants.h": "942d134bdc84c13982c34fd9539c5ce321e805c0ca5964a9e1cc79793f111490",
+    "experiments/net-module/headless/codec_tests.cpp": "16567b4fd8f93b4bd4f6f1efa3d6d35d3fd1887f2dcb45daddc38e9112083606",
+    "experiments/net-module/headless/main.cpp": "eedbc241ba23d2def23a43ad1950d4e6d1115858aa3dbd06c2919fdb7d44e00b",
+    "experiments/net-module/headless/check_source_constants.py": "3212f6d9a1024dcb52125aa69af8f3ffac8bfa6f20bb05582e941264067e0599",
+    "Server/core/CServerImpl.cpp": "e1775a51f9f86112e976c41c359cfb66e42129353eac6e307cf63ca18ec2671d"
+  },
+  "source_lf_sha256_mode": "UTF-8 source bytes with CRLF normalized to LF; source_sha256 remains exact raw-file hash",
+  "source_hash_metadata_updated_utc": "2026-10-27T23:35:54.985197+00:00"
 }
