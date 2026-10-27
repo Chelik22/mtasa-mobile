@@ -29,5 +29,15 @@
     "primaryGeneratedProxyReferences": [],
     "primaryGeneratedProxyReleaseX64AdditionalDependencies": [],
     "proxyLimitation": "Primary generated project is a read-only cross-check of identical build definitions; it is not this worktree project inspection or a build result."
-  }
+  },
+  "helperValidation": {
+    "pythonSyntax": "passed",
+    "artifactMetadataContractTests": 5,
+    "artifactMetadataContractResult": "passed",
+    "targetProcessStarted": false,
+    "freshnessAndCompatibleManifestWorkflow": "implemented_not_run"
+  },
+  "postBaselineOneShotFreeMemoryMiB": 507,
+  "buildOwner": "root only; agent target launch disabled by latest instruction",
+  "updatedAtUtc": "2026-10-27T23:47:01.619123+00:00"
 }

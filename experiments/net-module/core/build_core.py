@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import time
 import xml.etree.ElementTree as ET
 
 PIN = "128f7012508c9319d752fb9e8232b5f06adf0130"
@@ -41,6 +42,16 @@ def available_mib():
     return memory.available // (1024 * 1024)
 
 
+def artifact_state(path):
+    if not path.is_file():
+        return None
+    return {"path": str(path), "bytes": path.stat().st_size, "mtimeNs": path.stat().st_mtime_ns, "sha256": sha(path)}
+
+
+def artifact_is_fresh(before, after, started_ns):
+    return after is not None and after["mtimeNs"] >= started_ns and (before is None or after["mtimeNs"] != before["mtimeNs"])
+
+
 def inspect_project(project):
     xml = ET.parse(project).getroot()
     files = []
@@ -65,11 +76,14 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--msbuild", type=Path, default=Path("C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/MSBuild.exe"))
     parser.add_argument("--inspect-only", action="store_true")
+    parser.add_argument("--rebuild-core", action="store_true", help="Explicitly rebuild this Core project only; not the whole solution")
     args = parser.parse_args()
     source = args.source.resolve()
     output = (args.output or source / "experiments/net-module/core/build").resolve()
     output.mkdir(parents=True, exist_ok=True)
     result_path = output / "result.json"
+    compatible_manifest = output / "core-build.run.json"
+    compatible_exit = output / "core-build.exitcode"
     record = {"status": "running", "startedAtUtc": utc(), "runnerPid": os.getpid(), "source": str(source), "expectedCompileRef": PIN, "configuration": "Release", "platform": "x64", "target": "Server/Core", "maxWorkers": 1, "environmentOverrides": {"_CL_": "/MP1"}, "baselineArtifactsImported": False, "serverRuntime": "not_run", "steps": []}
     lock = output / "active.lock"
     acquired = False
@@ -80,6 +94,8 @@ def main():
         with os.fdopen(descriptor, "w") as stream:
             json.dump({"runnerPid": os.getpid(), "startedAtUtc": utc()}, stream)
         save(result_path, record)
+        save(compatible_manifest, {"status": "not_ready", "runnerPid": os.getpid(), "startedUtc": utc()})
+        compatible_exit.write_text("not_run", encoding="ascii")
         if os.name != "nt":
             raise ValueError("This helper targets the installed Windows MSBuild toolchain")
         record["sourceHead"] = subprocess.check_output(["git", "-C", str(source), "rev-parse", "HEAD"], text=True).strip()
@@ -88,6 +104,9 @@ def main():
         dirty = subprocess.check_output(["git", "-C", str(source), "status", "--porcelain", "--untracked-files=all", "--", *INPUT_TREES], text=True).strip()
         if dirty:
             raise ValueError("Compile input trees must have no tracked/untracked modifications")
+        record["trackedDirty"] = subprocess.check_output(["git", "-C", str(source), "status", "--porcelain", "--untracked-files=no"], text=True).strip()
+        if record["trackedDirty"]:
+            raise ValueError("Commit tracked helper/source changes before producing a compatible build manifest")
         premake = source / "utils/premake5.exe"
         for tool in (premake, args.msbuild):
             if not tool.is_file():
@@ -100,7 +119,7 @@ def main():
             nonlocal active_process
             stdout_path = output / f"{name}.{os.getpid()}.stdout.log"
             stderr_path = output / f"{name}.{os.getpid()}.stderr.log"
-            entry = {"name": name, "command": list(map(str, command)), "startedAtUtc": utc(), "stdout": str(stdout_path), "stderr": str(stderr_path)}
+            entry = {"name": name, "command": list(map(str, command)), "startedAtUtc": utc(), "startedNs": time.time_ns(), "stdout": str(stdout_path), "stderr": str(stderr_path)}
             record["steps"].append(entry)
             with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
                 kernel = ctypes.windll.kernel32
@@ -118,6 +137,7 @@ def main():
             save(result_path, record)
             if code:
                 raise RuntimeError(f"{name} failed with exit {code}; inspect its logs")
+            return entry
 
         record["freeMemoryMiBBeforeGenerate"] = available_mib()
         if record["freeMemoryMiBBeforeGenerate"] < 2048:
@@ -143,12 +163,19 @@ def main():
         if record["freeMemoryMiBBeforeCompile"] < 2048:
             record["status"] = "deferred_memory"
             return 3
-        command = [str(args.msbuild), "Build/MTASA.sln", "/t:Server\\Core", "/p:Configuration=Release", "/p:Platform=x64", "/p:MultiProcessorCompilation=false", "/m:1", "/nr:false", "/v:minimal", "/nologo"]
-        step("compile-core", command)
         dll = source / "Bin/server/x64/core.dll"
-        if not dll.is_file():
+        record["artifactBefore"] = artifact_state(dll)
+        project_target = ["Build/Core.vcxproj", "/t:Rebuild"] if args.rebuild_core else ["Build/MTASA.sln", "/t:Server\\Core"]
+        command = [str(args.msbuild), *project_target, "/p:Configuration=Release", "/p:Platform=x64", "/p:MultiProcessorCompilation=false", "/m:1", "/nr:false", "/v:minimal", "/nologo"]
+        compile_step = step("compile-core", command)
+        record["artifactAfter"] = artifact_state(dll)
+        if record["artifactAfter"] is None:
             raise ValueError("Successful MSBuild did not produce the expected core.dll")
-        record["artifact"] = {"path": str(dll), "bytes": dll.stat().st_size, "sha256": sha(dll)}
+        record["freshProduction"] = artifact_is_fresh(record["artifactBefore"], record["artifactAfter"], compile_step["startedNs"])
+        if not record["freshProduction"]:
+            record.update(status="reused_artifact", reason="MSBuild exit 0 did not freshly produce core.dll; not H1 build readiness")
+            return 4
+        record["artifact"] = record["artifactAfter"]
         # Preserve actual compiler/linker read dependencies, beyond project declarations.
         paths, tlogs = set(), []
         for log in (source / "Build").rglob("*.read.*.tlog"):
@@ -167,6 +194,11 @@ def main():
         if not tlogs or not actual:
             raise ValueError("Core artifact exists but compiler/linker input trace is unavailable")
         record.update(status="passed", actualReadInputCount=len(actual), actualReadInputsSha256=sha(output / "actual-read-inputs.json"), tlogs=tlogs)
+        manifest = {"status": "passed", "source": str(source), "sourceSha": record["sourceHead"], "expectedCompileRef": PIN, "targets": "Server/Core", "configuration": "Release", "platform": "x64", "trackedDirty": record["trackedDirty"], "pid": compile_step["pid"], "runnerPid": os.getpid(), "startedUtc": compile_step["startedAtUtc"], "finishedUtc": utc(), "freshProduction": True, "artifactBefore": record["artifactBefore"], "artifact": record["artifact"], "projectSha256": record["project"]["sha256"], "actualReadInputsSha256": record["actualReadInputsSha256"], "command": command}
+        save(compatible_manifest, manifest)
+        compatible_exit.write_text("0", encoding="ascii")
+        record["compatibleManifest"] = str(compatible_manifest)
+        record["compatibleExitFile"] = str(compatible_exit)
         return 0
     except FileExistsError as error:
         record.update(status="already_active" if not acquired else "failed", error=str(error))
@@ -181,6 +213,8 @@ def main():
                 record.update(status="runner_interrupted_child_alive", activeChildPid=active_process.pid)
             save(result_path, record)
             save(output / f"result.{os.getpid()}.json", record)
+            if record["status"] != "passed":
+                compatible_exit.write_text("4" if record["status"] == "reused_artifact" else "not_run", encoding="ascii")
             if not active_process or active_process.poll() is not None:
                 lock.unlink()
         print(json.dumps({"status": record["status"], "result": str(result_path), "serverRuntime": "not_run"}))
