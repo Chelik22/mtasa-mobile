@@ -17,6 +17,7 @@
 #include "ErrorCodes.h"
 #include <clocale>
 #include <cstdio>
+#include <cstdlib>
 #include <signal.h>
 #ifdef WIN32
     #include <Mmsystem.h>
@@ -331,8 +332,22 @@ int CServerImpl::Run(int iArgumentCount, char* szArguments[])
     if (!g_bSilent)
         Print("MTA:BLUE Server for MTA:SA\n\n");
 
+    // Keep the stock module as default. The isolated protocol lab opts into a
+    // fixed local filename rather than accepting arbitrary paths from the environment.
+    const char* networkLibrary = szNetworkLibName;
+    if (const char* experimental = std::getenv("MTA_EXPERIMENTAL_NET_LIBRARY"))
+    {
+        if (std::strcmp(experimental, "net_experimental" MTA_LIB_EXTENSION) != 0)
+        {
+            Print("Invalid MTA_EXPERIMENTAL_NET_LIBRARY; expected net_experimental" MTA_LIB_EXTENSION "\n");
+            return 1;
+        }
+        networkLibrary = "net_experimental" MTA_LIB_EXTENSION;
+        Print("Experimental network module selected: %s\n", networkLibrary);
+    }
+
     // Load the network DLL
-    if (m_NetworkLibrary.Load(PathJoin(m_strServerPath, SERVER_BIN_PATH, szNetworkLibName)))
+    if (m_NetworkLibrary.Load(PathJoin(m_strServerPath, SERVER_BIN_PATH, networkLibrary)))
     {
         // Network module compatibility check
         typedef unsigned long (*PFNCHECKCOMPATIBILITY)(unsigned long, unsigned long*);
@@ -447,7 +462,7 @@ int CServerImpl::Run(int iArgumentCount, char* szArguments[])
     else
     {
         // Couldn't load it
-        Print("ERROR: Loading network library (%s) failed!\n", szNetworkLibName);
+        Print("ERROR: Loading network library (%s) failed!\n", networkLibrary);
         Print("Press Q to shut down the server!\n");
         WaitForKey('q');
         DestroyWindow();

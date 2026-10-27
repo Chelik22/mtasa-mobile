@@ -9,8 +9,14 @@ namespace
     template <class Action>
     void rejects(Action action)
     {
-        try { action(); }
-        catch (const std::exception&) { return; }
+        try
+        {
+            action();
+        }
+        catch (const std::exception&)
+        {
+            return;
+        }
         throw std::runtime_error("malformed selected MTA payload accepted");
     }
 
@@ -31,12 +37,14 @@ int main()
         MtaBitStream join;
         headless::write_join_data(join, "Headless_A");
         unsigned short net = 0, mta = 0, bit = 0;
-        unsigned char game = 0;
-        bool update = true;
-        require(join.Read(net) && net == MTA_DM_NETCODE_VERSION && join.Read(mta) && mta == MTA_DM_VERSION
-                    && join.Read(bit) && bit == static_cast<unsigned short>(MTA_DM_BITSTREAM_VERSION), "actual join reader version fields");
-        require(headless::read_string(join) == headless::version_string() && join.ReadBit(update) && !update && join.Read(game)
-                    && game == headless::source::game_version_us10, "actual join reader update/game fields");
+        unsigned char  game = 0;
+        bool           update = true;
+        require(join.Read(net) && net == MTA_DM_NETCODE_VERSION && join.Read(mta) && mta == MTA_DM_VERSION && join.Read(bit) &&
+                    bit == static_cast<unsigned short>(MTA_DM_BITSTREAM_VERSION),
+                "actual join reader version fields");
+        require(headless::read_string(join) == headless::version_string() && join.ReadBit(update) && !update && join.Read(game) &&
+                    game == headless::source::game_version_us10,
+                "actual join reader update/game fields");
         const auto nick = headless::read_characters(join, MAX_PLAYER_NICK_LENGTH);
         require(nick.substr(0, 10) == "Headless_A" && nick.substr(10).find_first_not_of('\0') == std::string::npos, "fixed nickname padding");
         require(headless::read_characters(join, 16) == std::string(16, '\0'), "empty password hash");
@@ -84,13 +92,13 @@ int main()
         MtaBitStream ack;
         headless::write_ack(ack, ElementID{123}, decoded);
         unsigned short event_size = 0;
-        ElementID actual_source;
-        unsigned int arguments = 0;
-        require(ack.ReadCompressed(event_size) && headless::read_characters(ack, event_size) == "headlesswitness:ack"
-                    && ack.Read(actual_source) && actual_source.Value() == 123 && ack.ReadCompressed(arguments) && arguments == 3,
+        ElementID      actual_source;
+        unsigned int   arguments = 0;
+        require(ack.ReadCompressed(event_size) && headless::read_characters(ack, event_size) == "headlesswitness:ack" && ack.Read(actual_source) &&
+                    actual_source.Value() == 123 && ack.ReadCompressed(arguments) && arguments == 3,
                 "ACK actual event envelope and own-player source");
-        require(headless::read_lua_value(ack).text == "token-1" && headless::read_lua_value(ack).text == "vehicle-1"
-                    && headless::read_lua_value(ack).element.Value() == 500 && ack.GetNumberOfUnreadBits() == 0,
+        require(headless::read_lua_value(ack).text == "token-1" && headless::read_lua_value(ack).text == "vehicle-1" &&
+                    headless::read_lua_value(ack).element.Value() == 500 && ack.GetNumberOfUnreadBits() == 0,
                 "ACK preserves actual element reference");
         std::cout << "PASS selected MTA packet codecs and malformed payloads; server/H1 NOT RUN\n";
         return 0;

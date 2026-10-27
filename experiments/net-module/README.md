@@ -1,6 +1,6 @@
-# Experimental MTA network module — serialization layer
+# Experimental MTA network module
 
-This is the first G3 implementation layer, not a replacement `net.dll` yet.
+This G3 work includes a serializer and an experimental `CNetServer` module.
 `MtaBitStream` implements the real public `NetBitStreamInterface` from the pinned
 MTA tree. Server handlers and Lua argument serializers can therefore use their
 existing API. Closed official `netc`/RakNet wire compatibility is not claimed.
@@ -14,7 +14,8 @@ ctest --test-dir experiments/net-module/build -C Release --output-on-failure
 ```
 
 The small target uses existing MTA headers, the standard library and native lock
-primitives. No crypto, GUI or closed networking binary is linked. The broad
+primitives plus pinned ENet. Session nonces use the OS random generator. No GUI
+or closed networking binary is linked. The broad
 `SharedUtil.hpp` implementation is deliberately avoided to keep this seam small.
 
 ## Owned format
@@ -56,9 +57,40 @@ server/client Lua execution, transport behavior and gameplay remain G3/H1 and
 later gates. Tests have a 15-second deadline so a broken native lock cannot hang
 an unattended test run indefinitely.
 
-Next: implement the opt-in CNetServer ABI with ENet delivery, thread-safe queues,
-prototype identity, source Lua support, honest unsupported HTTP services, and
-loader checks before attempting two real headless players.
+## Opt-in server module
+
+`net_experimental.dll` exports the real pinned `CNetServer` ABI. The core loader
+uses it only when `MTA_EXPERIMENTAL_NET_LIBRARY=net_experimental.dll`; an unset
+variable preserves the stock module, and other values fail startup. Copy the
+module only into the isolated lab's `x64` directory. The baseline source build
+does not include this loader change; it must use its own separately built core.
+
+The module binds only `127.0.0.1`, with at most 32 peers and four ENet channels.
+MTAX v1 uses a 32-byte little-endian header (see `Protocol.h`): magic/version,
+kind, MTA packet ID, reliability, ordering channel, exact bit extent, random
+server nonce, identity generation and per-(channel,reliability) sequence.
+Hello contains a prototype 32-hex install identity and printable version. These
+are not official serials or anti-cheat evidence. Reconnect gets a fresh nonce
+and generation; duplicate live identity and foreign-session frames are rejected.
+
+Incoming callbacks occur only in `DoPulse`, through the callback registered by
+MTA's real buffer. Connect/quit/timeout are local notifications with valid empty
+streams; clients cannot forge them. Plain source Lua buffers pass through the
+synchronous deobfuscation API. Compiled Lua and HTTP queue operations fail
+explicitly; official AC services are unavailable. This stage does not implement
+client Lua, HTTP resource delivery or a graphical client.
+
+Reliability 0 maps to ENet unsequenced, 1 to ENet unreliable sequenced, and 2–4
+currently to reliable ordered delivery. MTAX rejects stale sequenced messages
+and keeps sequence counters separate across all four channels/five modes.
+Modes 2/4 currently receive stronger ordering than MTA requests; priority is
+validated but sends are FIFO. Loss/reorder semantics, reliable-sequenced
+coalescing, bounded outgoing queues and priority scheduling remain G3 work.
+Do not claim the complete G3 contract from the component tests.
+
+`server_module_tests` loads the actual DLL and exercises ENet peers, native API
+calls and retained callback streams. It is a component test, not a running MTA
+server: CPlayer and server Lua execution must still be proved by B0/H1.
 
 ### Verified integration constraints for the next change
 

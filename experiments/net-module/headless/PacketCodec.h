@@ -22,8 +22,8 @@ namespace headless
     inline std::string version_string()
     {
         std::array<char, 64> text{};
-        std::snprintf(text.data(), text.size(), "%d.%d.%d-%d.%05d.%d", MTASA_VERSION_MAJOR, MTASA_VERSION_MINOR,
-                      MTASA_VERSION_MAINTENANCE, MTASA_VERSION_TYPE, MTASA_VERSION_BUILD, 0);
+        std::snprintf(text.data(), text.size(), "%d.%d.%d-%d.%05d.%d", MTASA_VERSION_MAJOR, MTASA_VERSION_MINOR, MTASA_VERSION_MAINTENANCE, MTASA_VERSION_TYPE,
+                      MTASA_VERSION_BUILD, 0);
         return text.data();
     }
 
@@ -63,23 +63,23 @@ namespace headless
 
     struct Joined
     {
-        ElementID player{INVALID_ELEMENT_ID};
-        ElementID root{INVALID_ELEMENT_ID};
-        std::string server_name;
+        ElementID     player{INVALID_ELEMENT_ID};
+        ElementID     root{INVALID_ELEMENT_ID};
+        std::string   server_name;
         unsigned char http_type = 0;
     };
 
     inline Joined read_joined(NetBitStreamInterface& stream)
     {
         // Server CPlayerJoinCompletePacket::Write is authoritative, including optional HTTP port.
-        Joined result;
+        Joined        result;
         unsigned char compatibility = 0, sample_rate = 0, quality = 0;
-        int checks = 0, http_connections = 0;
-        unsigned int bitrate = 0;
-        bool voice = false, fake_lag = false;
-        require(stream.Read(result.player) && stream.Read(compatibility) && stream.Read(result.root) && stream.Read(checks)
-                    && stream.ReadBit(voice) && stream.ReadBits(&sample_rate, 2) && stream.ReadBits(&quality, 4)
-                    && stream.ReadCompressed(bitrate) && stream.ReadBit(fake_lag) && stream.Read(http_connections) && stream.Read(result.http_type),
+        int           checks = 0, http_connections = 0;
+        unsigned int  bitrate = 0;
+        bool          voice = false, fake_lag = false;
+        require(stream.Read(result.player) && stream.Read(compatibility) && stream.Read(result.root) && stream.Read(checks) && stream.ReadBit(voice) &&
+                    stream.ReadBits(&sample_rate, 2) && stream.ReadBits(&quality, 4) && stream.ReadCompressed(bitrate) && stream.ReadBit(fake_lag) &&
+                    stream.Read(http_connections) && stream.Read(result.http_type),
                 "truncated joined-game header");
         require(result.player != INVALID_ELEMENT_ID && result.root != INVALID_ELEMENT_ID && compatibility != 0, "invalid joined-game element IDs");
         require(result.http_type <= HTTPDownloadType::HTTP_DOWNLOAD_ENABLED_URL, "unsupported HTTP download type");
@@ -98,8 +98,8 @@ namespace headless
     struct LuaValue
     {
         unsigned char type = source::lua_nil;
-        std::string text;
-        ElementID element{INVALID_ELEMENT_ID};
+        std::string   text;
+        ElementID     element{INVALID_ELEMENT_ID};
     };
 
     inline LuaValue read_lua_value(NetBitStreamInterface& stream)
@@ -160,15 +160,15 @@ namespace headless
 
     struct Probe
     {
-        ElementID source{INVALID_ELEMENT_ID};
+        ElementID   source{INVALID_ELEMENT_ID};
         std::string token, correlation;
-        ElementID vehicle{INVALID_ELEMENT_ID};
+        ElementID   vehicle{INVALID_ELEMENT_ID};
     };
 
     inline Probe read_probe(NetBitStreamInterface& stream)
     {
         // Event name was read by the dispatcher, per CLuaEventPacket::Write.
-        Probe result;
+        Probe        result;
         unsigned int count = 0;
         require(stream.Read(result.source) && stream.ReadCompressed(count) && count == 3, "invalid witness event envelope");
         const auto token = read_lua_value(stream);
@@ -199,12 +199,12 @@ namespace headless
 
     struct EntityPrefix
     {
-        unsigned int count = 0;
-        ElementID element{INVALID_ELEMENT_ID};
-        unsigned char type = 0;
-        unsigned short model = 0;
+        unsigned int         count = 0;
+        ElementID            element{INVALID_ELEMENT_ID};
+        unsigned char        type = 0;
+        unsigned short       model = 0;
         std::array<float, 3> position{};
-        bool vehicle_prefix = false;
+        bool                 vehicle_prefix = false;
     };
 
     inline float read_fixed_position(NetBitStreamInterface& stream)
@@ -219,22 +219,22 @@ namespace headless
     inline EntityPrefix read_entity_prefix(NetBitStreamInterface& stream)
     {
         // Only the FIRST entity's common prefix and vehicle position/model are decoded.
-        EntityPrefix result;
-        ElementID parent;
-        unsigned char interior = 0, context = 0;
+        EntityPrefix   result;
+        ElementID      parent;
+        unsigned char  interior = 0, context = 0;
         unsigned short dimension = 0, name_length = 0;
-        bool attached = false, collisions = false, propagation = false;
-        unsigned int custom_count = 0;
-        require(stream.ReadCompressed(result.count) && result.count > 0 && result.count <= MAX_SERVER_ELEMENTS
-                    && stream.Read(result.element) && stream.Read(result.type) && stream.Read(parent) && stream.Read(interior)
-                    && stream.ReadCompressed(dimension) && stream.ReadBit(attached), "truncated entity common prefix");
+        bool           attached = false, collisions = false, propagation = false;
+        unsigned int   custom_count = 0;
+        require(stream.ReadCompressed(result.count) && result.count > 0 && result.count <= MAX_SERVER_ELEMENTS && stream.Read(result.element) &&
+                    stream.Read(result.type) && stream.Read(parent) && stream.Read(interior) && stream.ReadCompressed(dimension) && stream.ReadBit(attached),
+                "truncated entity common prefix");
         if (attached)
         {
             ElementID target;
             require(stream.Read(target), "truncated attached target");
             read_fixed_position(stream);
             read_fixed_position(stream);
-            float z = 0;
+            float          z = 0;
             unsigned short rotation = 0;
             require(stream.Read(z) && stream.Read(rotation) && stream.Read(rotation) && stream.Read(rotation), "truncated attachment");
         }
@@ -255,8 +255,8 @@ namespace headless
             result.position[0] = read_fixed_position(stream);
             result.position[1] = read_fixed_position(stream);
             unsigned short rotation = 0;
-            require(stream.Read(result.position[2]) && stream.Read(rotation) && stream.Read(rotation) && stream.Read(rotation)
-                        && stream.Read(result.model), "truncated vehicle prefix");
+            require(stream.Read(result.position[2]) && stream.Read(rotation) && stream.Read(rotation) && stream.Read(rotation) && stream.Read(result.model),
+                    "truncated vehicle prefix");
             require(std::isfinite(result.position[2]), "invalid vehicle position");
             result.vehicle_prefix = true;
         }

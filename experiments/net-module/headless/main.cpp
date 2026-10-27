@@ -40,10 +40,10 @@ namespace
 
     struct Options
     {
-        std::string host = "127.0.0.1", identity, nickname;
+        std::string           host = "127.0.0.1", identity, nickname;
         std::filesystem::path commands;
-        unsigned short port = 22003;
-        unsigned duration = 60;
+        unsigned short        port = 22003;
+        unsigned              duration = 60;
     };
 
     unsigned parse_number(const std::string& text, unsigned maximum)
@@ -61,17 +61,24 @@ namespace
         {
             require(i + 1 < argc, "option requires a value");
             const std::string name = argv[i], value = argv[i + 1];
-            if (name == "--host") result.host = value;
-            else if (name == "--port") result.port = static_cast<unsigned short>(parse_number(value, 65535));
-            else if (name == "--identity") result.identity = value;
-            else if (name == "--nickname") result.nickname = value;
-            else if (name == "--duration") result.duration = parse_number(value, 3600);
-            else if (name == "--commands") result.commands = value;
-            else throw std::invalid_argument("unknown command-line option");
+            if (name == "--host")
+                result.host = value;
+            else if (name == "--port")
+                result.port = static_cast<unsigned short>(parse_number(value, 65535));
+            else if (name == "--identity")
+                result.identity = value;
+            else if (name == "--nickname")
+                result.nickname = value;
+            else if (name == "--duration")
+                result.duration = parse_number(value, 3600);
+            else if (name == "--commands")
+                result.commands = value;
+            else
+                throw std::invalid_argument("unknown command-line option");
         }
         require(experimental_net::valid_identity(result.identity), "identity must be exactly 32 uppercase hex characters");
-        require(!result.nickname.empty() && result.nickname.size() <= MAX_PLAYER_NICK_LENGTH
-                    && result.nickname.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") == std::string::npos,
+        require(!result.nickname.empty() && result.nickname.size() <= MAX_PLAYER_NICK_LENGTH &&
+                    result.nickname.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") == std::string::npos,
                 "nickname must be bounded ASCII letters/digits/_/-");
         return result;
     }
@@ -88,8 +95,11 @@ namespace
 
         int run()
         {
-            emit("client_start", {{"scope", "actual MTA protocol; no GTA or native world"}, {"identity", settings_.identity},
-                {"version", headless::version_string()}, {"host", settings_.host}, {"port", std::to_string(settings_.port)}});
+            emit("client_start", {{"scope", "actual MTA protocol; no GTA or native world"},
+                                  {"identity", settings_.identity},
+                                  {"version", headless::version_string()},
+                                  {"host", settings_.host},
+                                  {"port", std::to_string(settings_.port)}});
             connect();
             const auto deadline = Clock::now() + std::chrono::seconds(settings_.duration);
             while (!quit_ || peer_)
@@ -113,7 +123,8 @@ namespace
                     enet_peer_reset(peer_);
                     peer_ = nullptr;
                     state_ = "disconnected";
-                    if (reconnect_ && !quit_) connect();
+                    if (reconnect_ && !quit_)
+                        connect();
                 }
                 else if (peer_ && state_ != "initial_data_sent" && state_ != "disconnecting" && Clock::now() >= phase_deadline_)
                     throw std::runtime_error("connection/join phase timeout: " + state_);
@@ -164,10 +175,12 @@ namespace
             reconnect_ = reconnect;
             if (!peer_)
             {
-                if (reconnect && !quit_) connect();
+                if (reconnect && !quit_)
+                    connect();
                 return;
             }
-            if (state_ == "disconnecting") return;
+            if (state_ == "disconnecting")
+                return;
             state_ = "disconnecting";
             enet_peer_disconnect(peer_, 1);  // Owned server maps this to genuine PLAYER_QUIT, not timeout.
             enet_host_flush(host_.get());
@@ -177,7 +190,7 @@ namespace
 
         void send_frame(const Frame& frame)
         {
-            const auto bytes = experimental_net::encode_frame(frame);
+            const auto  bytes = experimental_net::encode_frame(frame);
             ENetPacket* packet = enet_packet_create(bytes.data(), bytes.size(), ENET_PACKET_FLAG_RELIABLE);
             require(packet != nullptr, "packet allocation failed");
             if (enet_peer_send(peer_, frame.ordering, packet) != 0)
@@ -230,7 +243,8 @@ namespace
                 state_ = "disconnected";
                 emit("enet_disconnected", {{"data", std::to_string(event.data)}, {"requested", expected ? "true" : "false"}});
                 require(expected, "unexpected server disconnect");
-                if (reconnect_ && !quit_) connect();
+                if (reconnect_ && !quit_)
+                    connect();
             }
             else if (event.type == ENET_EVENT_TYPE_RECEIVE)
             {
@@ -246,8 +260,9 @@ namespace
                     emit("owned_welcome", {{"nonce", std::to_string(nonce_)}, {"generation", std::to_string(generation_)}});
                     return;
                 }
-                require(frame.kind == FrameKind::packet && nonce_ && frame.nonce == nonce_ && frame.generation == generation_
-                            && event.channelID == frame.ordering, "foreign frame session/channel");
+                require(
+                    frame.kind == FrameKind::packet && nonce_ && frame.nonce == nonce_ && frame.generation == generation_ && event.channelID == frame.ordering,
+                    "foreign frame session/channel");
                 auto& last = receive_sequence_[frame.ordering][frame.reliability];
                 if (frame.reliability == 3)
                     require(frame.sequence == last + 1, "reliable-ordered sequence gap");
@@ -256,9 +271,13 @@ namespace
                     emit("stale_frame_dropped");
                     return;
                 }
-                if (frame.reliability != 0) last = frame.sequence;
-                emit("packet_received", {{"packet_id", std::to_string(frame.packet)}, {"bits", std::to_string(frame.bits)},
-                    {"ordering", std::to_string(frame.ordering)}, {"reliability", std::to_string(frame.reliability)}, {"sequence", std::to_string(frame.sequence)}});
+                if (frame.reliability != 0)
+                    last = frame.sequence;
+                emit("packet_received", {{"packet_id", std::to_string(frame.packet)},
+                                         {"bits", std::to_string(frame.bits)},
+                                         {"ordering", std::to_string(frame.ordering)},
+                                         {"reliability", std::to_string(frame.reliability)},
+                                         {"sequence", std::to_string(frame.sequence)}});
                 MtaBitStream body(frame.payload.data(), frame.payload.size(), frame.bits, static_cast<unsigned short>(MTA_DM_BITSTREAM_VERSION));
                 handle(frame.packet, body);
             }
@@ -294,8 +313,10 @@ namespace
                 const auto joined = headless::read_joined(body);
                 player_ = joined.player;
                 root_ = joined.root;
-                emit("joined_game_received", {{"player_id", std::to_string(player_.Value())}, {"root_id", std::to_string(root_.Value())},
-                    {"server_name", joined.server_name}, {"http_type", std::to_string(joined.http_type)}});
+                emit("joined_game_received", {{"player_id", std::to_string(player_.Value())},
+                                              {"root_id", std::to_string(root_.Value())},
+                                              {"server_name", joined.server_name},
+                                              {"http_type", std::to_string(joined.http_type)}});
                 rpc(headless::source::rpc_initial_data);
                 state_ = "initial_data_sent";
                 emit("initial_data_requested", {{"note", "actual server onPlayerJoin still requires independent witness evidence"}});
@@ -305,13 +326,18 @@ namespace
                 try
                 {
                     const auto prefix = headless::read_entity_prefix(body);
-                    if (prefix.vehicle_prefix) vehicles_[prefix.element.Value()] = prefix.model;
-                    emit("entity_prefix", {{"element_id", std::to_string(prefix.element.Value())}, {"type", std::to_string(prefix.type)},
-                        {"packet_count", std::to_string(prefix.count)}, {"vehicle_prefix", prefix.vehicle_prefix ? "true" : "false"},
-                        {"model", prefix.vehicle_prefix ? std::to_string(prefix.model) : "not_decoded"},
-                        {"position", prefix.vehicle_prefix ? std::to_string(prefix.position[0]) + "," + std::to_string(prefix.position[1]) + "," + std::to_string(prefix.position[2]) : "not_decoded"},
-                        {"remaining_bits", std::to_string(body.GetNumberOfUnreadBits())},
-                        {"scope", "first entity prefix only; remaining body/entities not decoded"}});
+                    if (prefix.vehicle_prefix)
+                        vehicles_[prefix.element.Value()] = prefix.model;
+                    emit("entity_prefix", {{"element_id", std::to_string(prefix.element.Value())},
+                                           {"type", std::to_string(prefix.type)},
+                                           {"packet_count", std::to_string(prefix.count)},
+                                           {"vehicle_prefix", prefix.vehicle_prefix ? "true" : "false"},
+                                           {"model", prefix.vehicle_prefix ? std::to_string(prefix.model) : "not_decoded"},
+                                           {"position", prefix.vehicle_prefix ? std::to_string(prefix.position[0]) + "," + std::to_string(prefix.position[1]) +
+                                                                                    "," + std::to_string(prefix.position[2])
+                                                                              : "not_decoded"},
+                                           {"remaining_bits", std::to_string(body.GetNumberOfUnreadBits())},
+                                           {"scope", "first entity prefix only; remaining body/entities not decoded"}});
                 }
                 catch (const std::exception& error)
                 {
@@ -345,15 +371,20 @@ namespace
                 require(probe.source == root_, "witness event source is not root");
                 require(acked_.count(probe.token) == 0, "duplicate witness token");
                 const auto known = vehicles_.find(probe.vehicle.Value());
-                emit("witness_probe_received", {{"token", probe.token}, {"correlation", probe.correlation},
-                    {"vehicle_id", std::to_string(probe.vehicle.Value())}, {"source_id", std::to_string(probe.source.Value())},
-                    {"entity_prefix_model", known == vehicles_.end() ? "not_observed" : std::to_string(known->second)}});
+                emit("witness_probe_received", {{"token", probe.token},
+                                                {"correlation", probe.correlation},
+                                                {"vehicle_id", std::to_string(probe.vehicle.Value())},
+                                                {"source_id", std::to_string(probe.source.Value())},
+                                                {"entity_prefix_model", known == vehicles_.end() ? "not_observed" : std::to_string(known->second)}});
                 MtaBitStream reply;
                 headless::write_ack(reply, player_, probe);
                 send_packet(PACKET_ID_LUA_EVENT, reply);
                 acked_.insert(probe.token);
-                emit("witness_ack_sent", {{"token", probe.token}, {"correlation", probe.correlation}, {"source_player", std::to_string(player_.Value())},
-                    {"vehicle_id", std::to_string(probe.vehicle.Value())}, {"scope", "element-reference roundtrip; no native world or server acceptance claim"}});
+                emit("witness_ack_sent", {{"token", probe.token},
+                                          {"correlation", probe.correlation},
+                                          {"source_player", std::to_string(player_.Value())},
+                                          {"vehicle_id", std::to_string(probe.vehicle.Value())},
+                                          {"scope", "element-reference roundtrip; no native world or server acceptance claim"}});
             }
             else if (id == PACKET_ID_SERVER_DISCONNECTED || id == PACKET_ID_DISCONNECT_MESSAGE)
                 throw std::runtime_error("server rejected/disconnected client; inspect packet_received and server logs");
@@ -363,7 +394,8 @@ namespace
 
         void poll_commands()
         {
-            if (quit_ || settings_.commands.empty() || !std::filesystem::exists(settings_.commands)) return;
+            if (quit_ || settings_.commands.empty() || !std::filesystem::exists(settings_.commands))
+                return;
             std::ifstream input(settings_.commands, std::ios::binary);
             require(input.good(), "cannot read command file");
             require(std::filesystem::file_size(settings_.commands) <= 65536, "command file exceeds bound");
@@ -374,32 +406,45 @@ namespace
             {
                 auto command = text.substr(command_offset_, newline - command_offset_);
                 command_offset_ = newline + 1;
-                if (!command.empty() && command.back() == '\r') command.pop_back();
-                if (command == "connect") connect();
-                else if (command == "disconnect") disconnect(false);
-                else if (command == "reconnect") disconnect(true);
-                else if (command == "quit") { quit_ = true; disconnect(false); }
-                else if (command == "status") emit("status", {{"player_id", std::to_string(player_.Value())}, {"root_id", std::to_string(root_.Value())},
-                    {"nonce", std::to_string(nonce_)}, {"generation", std::to_string(generation_)}});
-                else if (!command.empty()) emit("command_rejected", {{"command", command}});
-                if (quit_) break;
+                if (!command.empty() && command.back() == '\r')
+                    command.pop_back();
+                if (command == "connect")
+                    connect();
+                else if (command == "disconnect")
+                    disconnect(false);
+                else if (command == "reconnect")
+                    disconnect(true);
+                else if (command == "quit")
+                {
+                    quit_ = true;
+                    disconnect(false);
+                }
+                else if (command == "status")
+                    emit("status", {{"player_id", std::to_string(player_.Value())},
+                                    {"root_id", std::to_string(root_.Value())},
+                                    {"nonce", std::to_string(nonce_)},
+                                    {"generation", std::to_string(generation_)}});
+                else if (!command.empty())
+                    emit("command_rejected", {{"command", command}});
+                if (quit_)
+                    break;
                 newline = text.find('\n', command_offset_);
             }
         }
 
-        Options settings_;
+        Options                                                 settings_;
         std::unique_ptr<ENetHost, decltype(&enet_host_destroy)> host_;
-        ENetPeer* peer_ = nullptr;
-        Clock::time_point started_ = Clock::now(), phase_deadline_{};
-        std::string state_ = "disconnected";
-        std::uint64_t nonce_ = 0;
-        std::uint32_t generation_ = 0;
-        std::array<std::array<std::uint32_t, 5>, 4> send_sequence_{}, receive_sequence_{};
-        ElementID player_{INVALID_ELEMENT_ID}, root_{INVALID_ELEMENT_ID};
-        std::map<unsigned int, unsigned short> vehicles_;
-        std::set<std::string> acked_;
-        std::size_t command_offset_ = 0;
-        bool reconnect_ = false, quit_ = false, failed_ = false;
+        ENetPeer*                                               peer_ = nullptr;
+        Clock::time_point                                       started_ = Clock::now(), phase_deadline_{};
+        std::string                                             state_ = "disconnected";
+        std::uint64_t                                           nonce_ = 0;
+        std::uint32_t                                           generation_ = 0;
+        std::array<std::array<std::uint32_t, 5>, 4>             send_sequence_{}, receive_sequence_{};
+        ElementID                                               player_{INVALID_ELEMENT_ID}, root_{INVALID_ELEMENT_ID};
+        std::map<unsigned int, unsigned short>                  vehicles_;
+        std::set<std::string>                                   acked_;
+        std::size_t                                             command_offset_ = 0;
+        bool                                                    reconnect_ = false, quit_ = false, failed_ = false;
     };
 }  // namespace
 
@@ -416,7 +461,10 @@ int main(int argc, char** argv)
     {
         auto settings = options(argc, argv);
         require(enet_initialize() == 0, "ENet initialization failed");
-        struct Runtime { ~Runtime() { enet_deinitialize(); } } runtime;
+        struct Runtime
+        {
+            ~Runtime() { enet_deinitialize(); }
+        } runtime;
         Client client(std::move(settings));
         return client.run();
     }
