@@ -1,0 +1,55 @@
+{
+  "recorded_utc": "2026-10-27T22:15:34.515252+00:00",
+  "scope": "G3 serialization and real Win64/MSVC native shared-library boundary only; NOT CNetServer/server integration",
+  "mta_base": "e1ca4e5aa8175c7fb41b494fb67fa3d34a8e3599",
+  "owned_format": "mta-owned-bitbuffer-v1; NOT official RakNet/netc",
+  "build": {
+    "generator": "Visual Studio 18 2026",
+    "platform": "x64",
+    "configuration": "Release",
+    "parallel": 1,
+    "exit_code": 0
+  },
+  "ctest": {
+    "exit_code": 0,
+    "passed": 3,
+    "failed": 0,
+    "timeout_seconds": 15,
+    "last_test_log_sha256": "79596fe08a832144e4d706b02aa9fb2b4ef6145dbd8ef88d13327d9bdba6524f",
+    "raw_log": "Start testing: Oct 28 03:14 ��������� (����)\n----------------------------------------------------------\n1/3 Testing: bitbuffer_contract\n1/3 Test: bitbuffer_contract\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/bitbuffer_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"bitbuffer_contract\" start time: Oct 28 03:14 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS scalar/bit/varint golden vectors, malformed bounds, normalized values and aliasing; MTA integration NOT RUN\n<end of output>\nTest time =   0.17 sec\n----------------------------------------------------------\nTest Passed.\n\"bitbuffer_contract\" end time: Oct 28 03:14 ��������� (����)\n\"bitbuffer_contract\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n2/3 Testing: mta_bitstream_interface\n2/3 Test: mta_bitstream_interface\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/mta_adapter_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"mta_bitstream_interface\" start time: Oct 28 03:14 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS actual NetBitStreamInterface helpers and reference-count lifetime; cross-DLL/server integration NOT RUN\n<end of output>\nTest time =   0.08 sec\n----------------------------------------------------------\nTest Passed.\n\"mta_bitstream_interface\" end time: Oct 28 03:14 ��������� (����)\n\"mta_bitstream_interface\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n3/3 Testing: mta_bitstream_module_boundary\n3/3 Test: mta_bitstream_module_boundary\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/module_boundary_tests.exe\" \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/bitstream_boundary.dll\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"mta_bitstream_module_boundary\" start time: Oct 28 03:14 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS dynamically loaded MTA bitstream, host-inline refcount and DLL destruction; CNetServer NOT RUN\n<end of output>\nTest time =   0.11 sec\n----------------------------------------------------------\nTest Passed.\n\"mta_bitstream_module_boundary\" end time: Oct 28 03:14 ��������� (����)\n\"mta_bitstream_module_boundary\" time elapsed: 00:00:00\n----------------------------------------------------------\n\nEnd testing: Oct 28 03:14 ��������� (����)\n"
+  },
+  "review": {
+    "independent_reviewer": "mobile_adapter",
+    "findings_repaired": [
+      "alias lifetime and overlapping read",
+      "inconsistent vector magnitude/direction",
+      "exception-safe test thread lifetime using jthread"
+    ],
+    "re_review": "passed"
+  },
+  "source_sha256": {
+    "BitBuffer.h": "e0b9b1b6aafbb4c9d7753de51b692f00ad42386d1319b7022b32a07cc527d463",
+    "bitbuffer_tests.cpp": "763fa699bb831f43e6ef791cadfbbc59bd3d38ade1d101841fc51164af178728",
+    "BitStreamFactory.cpp": "05e1f037a6c9945a7e8135fda4c9b9a139885b67b8f745cff1b5060e17568809",
+    "CMakeLists.txt": "4d438a997ed5ee67a6971d684f0536996920f0331980103718a49848bb04c0f1",
+    "ModuleRuntime.cpp": "e4dbcf1b28944fa28656f56ad80ea4f410eb30f8f4ce5ee95ab89387df1886a1",
+    "module_boundary_tests.cpp": "51dc1d25e6daa36677f58c0b54f63ed670fdf7846a1ffb50d75a84ee8325eb35",
+    "MtaBitStream.cpp": "8f36a7c3ca56333e2b3726f6ba82fe3e60a732a5c3b26837ab475afd23576fdd",
+    "MtaBitStream.h": "7a65ae72f6adea4c0f251338819b0e587d4ea82d18c9357f61c058ec529f5126",
+    "mta_adapter_tests.cpp": "9cf1e320d64efde279d359d2d8c6a34eb5fe723e55e897aaf2fbcd9c76b826b7"
+  },
+  "output_sha256": {
+    "bitbuffer_tests.exe": "a66533d536249ae3bd7ae5a8b52511dbcbf1f9983dbb88d7bbff88a1edf87d03",
+    "mta_adapter_tests.exe": "544a4ab41e06fa0d27fbf5e502fba0e608420c3437629317827d2fed80501c5f",
+    "mta_bitstream.lib": "d1a77db43a527374011f9e706b4ed983764b7c3c701839535b2ef912881fc81f",
+    "module_boundary_tests.exe": "773bb2b36dfc85d37a373311958a519f7f1350f64381258509994075a42ef649",
+    "bitstream_boundary.dll": "7e757614bda722c3a2134cb5aeae22cbc6d782650c9d887a38f5e0778151fd71"
+  },
+  "not_run": [
+    "CNetServer module loader",
+    "actual MTA server",
+    "two real headless players",
+    "Win32/Android module-boundary execution",
+    "gameplay"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "scope": "Source package and Lua parse only; no MTA runtime executed",
+  "utc": "2026-10-27T21:43:06.619654+00:00",
+  "checks": {
+    "package": {
+      "passed": true,
+      "output": "PASS package: one source-only server.lua, no client.lua; B0/H1 NOT RUN"
+    },
+    "lua_5_1_syntax": {
+      "passed": true,
+      "method": "Temporary checker built from existing vendor/lua; luaL_loadfile without lua_pcall",
+      "output": "PASS Lua 5.1 syntax: experiments\\headless-witness\\server.lua"
+    },
+    "whitespace": {
+      "passed": true
+    }
+  },
+  "runtime": {
+    "B0": "not_run",
+    "H1": "not_run"
+  },
+  "source_sha256": {
+    "meta.xml": "0d39c55f54cc2688deefebf4f232e311c6646f43e96f3eae5964b88038679f18",
+    "server.lua": "04118913244505b35a8413251ee55e15f5ed48ef9be88e5352ddf27229960eb4",
+    "validate.py": "2bdb247303dce4fd56b8f380ae46c25642a262bdd227ac18bc0116c1f40de33e"
+  },
+  "source_sha256_mode": "UTF-8 file bytes normalized CRLF to LF"
+}
