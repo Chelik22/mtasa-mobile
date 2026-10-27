@@ -1,0 +1,99 @@
+{
+  "recordedAtUtc": "2026-10-27T22:04:17.7462293Z",
+  "baseCommit": "e1ca4e5aa8175c7fb41b494fb67fa3d34a8e3599",
+  "sourceHashes": {
+    "wire.hpp": "D79682855779D266B6CFAB78E87EA1A35CD07C05C318BDF1F8B7D51DDC23CB72",
+    "wire_tests.cpp": "A81A4D04431B8FD8DBB789A46DDC0EC3CDB3F85AFD6AFF2037E931C171357542",
+    "net_probe.cpp": "7C6B4519717ED3CB5AD8A78C3842AD4B70643F42B3BCA979E1A311D1523CBC17",
+    "CMakeLists.txt": "5003826734446F8AE343239B88198EEC87295D6A599949EAAD2D9FB00CCD27C6"
+  },
+  "buildScriptSha256": "EE6E2CA3A7387BB4007A1A540EBE1A4736B4FDEC51BF5AC81B1B28AE691A8DEA",
+  "tools": {
+    "ndk": "28.2.13676358 (r28c)",
+    "clang": "19.0.1",
+    "cmake": "cmake version 4.3.3",
+    "ninja": "1.10.2"
+  },
+  "enet": {
+    "commit": "2662c0de09e36f2a2030ccc2c528a3e4c9e8138a",
+    "archiveSha256": "37381831c5ccbb41c3c71e867203fee847670f67717f297f930290d18985ad5f",
+    "verifiedSourceFiles": 38,
+    "networkDownloads": false
+  },
+  "hostTestDefinitions": {
+    "comparisonToBase": "passed",
+    "names": [
+      "wire_contract",
+      "enet_three_process_loopback",
+      "smoke_failure_evidence"
+    ],
+    "hostRuntimeOnThisBranch": "not_run"
+  },
+  "negativeProvenance": {
+    "status": "passed",
+    "invalidCacheRejectedBeforeConfigure": true,
+    "staleSuccessReplacedWith": "failed",
+    "error": "ENet cache differs from pinned archive: LICENSE"
+  },
+  "androidBuild": {
+    "hostPythonDiscoveryRequired": false,
+    "nativeSdkNinja": true,
+    "ctestRegistered": false,
+    "parallelWorkers": 1,
+    "records": [
+      {
+        "abi": "arm64-v8a",
+        "apiLevel": 26,
+        "compile": "passed",
+        "elfInspection": "passed",
+        "runtime": "not_run",
+        "binaries": [
+          {
+            "name": "net_probe",
+            "sha256": "002D3E18C7237447AC5D322E6B4B6EF2595EEC1D8A6ABBB210A70B6389E3ECC2",
+            "bytes": 5845600,
+            "elfMachine": "AArch64",
+            "runtime": "not_run"
+          },
+          {
+            "name": "wire_tests",
+            "sha256": "5E33F94551630A75451BEDF36E715B899AE3DFD3EC02C82E77A0D21208E1D56A",
+            "bytes": 5510304,
+            "elfMachine": "AArch64",
+            "runtime": "not_run"
+          }
+        ],
+        "compileCommandsSha256": "C1A3537DEC38D93D6C575BC13DBFC13E121E9788C2E45C4B08E748A3250662A4"
+      },
+      {
+        "abi": "x86_64",
+        "apiLevel": 26,
+        "compile": "passed",
+        "elfInspection": "passed",
+        "runtime": "not_run",
+        "binaries": [
+          {
+            "name": "net_probe",
+            "sha256": "C1B5C7C8AF82A71EA2A5D4489588D9AD70C9F89E2BE1A1075E3C8C682B88DE9C",
+            "bytes": 5498248,
+            "elfMachine": "Advanced Micro Devices X86-64",
+            "runtime": "not_run"
+          },
+          {
+            "name": "wire_tests",
+            "sha256": "C7A1D70F4317560BE56B9DE4172D460E687FA709278CF685FA396EC52E60E52B",
+            "bytes": 5163016,
+            "elfMachine": "Advanced Micro Devices X86-64",
+            "runtime": "not_run"
+          }
+        ],
+        "compileCommandsSha256": "E5D2DF8157CE4CC1CFFD4EBA07EE27912759DEF06C708A6918388022F4E613CB"
+      }
+    ]
+  },
+  "androidRuntime": "not_run",
+  "hostAndroidInteraction": "not_run",
+  "gtaRuntime": "not_run",
+  "A1Gate": "not_run",
+  "A1Reason": "Cross-build is complete; actual Android-host packet exchange and Android wire test execution remain unperformed."
+}
