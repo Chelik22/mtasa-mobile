@@ -15,6 +15,8 @@ player, native game libraries, downloaded assets и production конфигур�
 3. В консоли сервера: `start headless-witness`, `witness status`.
    Все команды этого ресурса разрешены только консоли; даже ACL admin-player
    отклоняется. Resource не выдаёт ACL права и не запускает shell.
+   В закреплённом MTA консоль передаётся как элемент типа `console`
+   (`CRegisteredCommands`/`CConsoleClient`); legacy false/nil также принимаются.
 4. Сохранить полный server log. Строки после `[headlesswitness] ` содержат
    результат `toJSON(record, true)`. MTA может оборачивать объект в JSON array;
    parser должен учитывать фактический вывод, а не полагаться на порядок ключей.

@@ -11,6 +11,12 @@ local resourceName = getResourceName(getThisResource())
 local run = resourceName .. ":" .. tostring(getRealTime().timestamp) .. ":" .. tostring(getTickCount())
 local lifetime = 10000
 
+local function isConsoleInvocation(source)
+    -- CRegisteredCommands passes CConsoleClient as an element in this MTA tree.
+    -- Retain legacy false/nil calls while rejecting player and other elements.
+    return source == false or source == nil or (isElement(source) and getElementType(source) == "console")
+end
+
 local function emit(event, fields)
     fields = fields or {}
     fields.event = event
@@ -113,7 +119,7 @@ local function status()
 end
 
 addCommandHandler("witness", function(player, _, action)
-    if isElement(player) then
+    if not isConsoleInvocation(player) then
         emit("command_denied", { command = "witness", connection = identify(player) })
         return
     end
@@ -168,7 +174,7 @@ addEventHandler("onPlayerQuit", root, function()
 end)
 
 addCommandHandler("witnessb0", function(player)
-    if isElement(player) or enabled or isElement(vehicle) or #getElementsByType("player") ~= 0 then
+    if not isConsoleInvocation(player) or enabled or isElement(vehicle) or #getElementsByType("player") ~= 0 then
         emit("b0_rejected", { reason = "console_only_disabled_zero_players" })
         return
     end
@@ -182,7 +188,8 @@ addCommandHandler("witnessb0", function(player)
         checks.destroyed = not isElement(sample)
     end
     local passed = checks.created and checks.model and checks.position and checks.destroy_call and checks.destroyed
-    emit("b0_result", { passed = passed == true, checks = checks, version = getVersion(), players = #getElementsByType("player") })
+    emit("b0_result", { passed = passed == true, checks = checks, version = getVersion(), players = #getElementsByType("player"),
+        command_source = isElement(player) and getElementType(player) or "legacy_console" })
 end, true, false)
 
 addEventHandler("onResourceStart", resourceRoot, function()
