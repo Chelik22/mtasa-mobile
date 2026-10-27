@@ -59,3 +59,22 @@ an unattended test run indefinitely.
 Next: implement the opt-in CNetServer ABI with ENet delivery, thread-safe queues,
 prototype identity, source Lua support, honest unsupported HTTP services, and
 loader checks before attempting two real headless players.
+
+### Verified integration constraints for the next change
+
+1. `CNetServerBuffer::RegisterPacketHandler` installs its own callback in the real
+   module. Deliver only during the module's `DoPulse`; preserve that wrapper
+   rather than calling game handlers from a new socket thread.
+2. `CNetServerBuffer::ProcessPacket` calls `BitStream->AddRef()` before enqueueing
+   and similarly retains non-null `SNetExtraInfo`. Even connect notifications
+   therefore need an empty valid stream. The module owns its initial reference
+   and releases it after callback delivery; queued references survive separately.
+3. `CLuaMain::LoadScriptFromBuffer` always calls the real module's
+   `DeobfuscateScript`. Plain source can return the bounded input span unchanged
+   for this synchronous call; a blanket false implementation would reject every
+   source script. Compiled/obfuscated formats remain explicitly unsupported until
+   implemented. Inspect resource metadata callers before deciding GetScriptInfo.
+
+These facts were read in pinned `Server/mods/deathmatch/logic/net/CNetBuffer.cpp`
+and `logic/lua/CLuaMain.cpp`; they are implementation prerequisites, not evidence
+that the server has used the new module.
