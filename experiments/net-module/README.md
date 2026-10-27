@@ -48,9 +48,13 @@ would interpret it as `CRITICAL_SECTION`/`pthread_mutex_t`.
 
 Tests cover independent scalar/bit/varint golden bytes, malformed input and
 limits, normalized basis/rotation cases, real MTA ElementID/string/ISyncStructure
-helpers, and in-process reference-count lifetime. They do not prove cross-DLL
-execution, CNetServer loading, player creation, server/client Lua execution,
-transport behavior or gameplay. These remain G3/H1 and later gates.
+helpers, and reference-count lifetime. A separate shared factory library is
+dynamically loaded by a host executable: virtual/helper calls, host-inline
+AddRef/Release from two threads, final DLL destruction and unload are exercised.
+This is a real native module boundary, not CNetServer loading. Player creation,
+server/client Lua execution, transport behavior and gameplay remain G3/H1 and
+later gates. Tests have a 15-second deadline so a broken native lock cannot hang
+an unattended test run indefinitely.
 
 Next: implement the opt-in CNetServer ABI with ENet delivery, thread-safe queues,
 prototype identity, source Lua support, honest unsupported HTTP services, and
