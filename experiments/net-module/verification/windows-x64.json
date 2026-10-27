@@ -1,0 +1,49 @@
+{
+  "recorded_utc": "2026-10-27T22:04:32.968094+00:00",
+  "scope": "G3 serialization layer only; real public MTA interface, in-process helpers and refcount lifetime",
+  "mta_base": "e1ca4e5aa8175c7fb41b494fb67fa3d34a8e3599",
+  "owned_format": "mta-owned-bitbuffer-v1; NOT official RakNet/netc",
+  "build": {
+    "generator": "Visual Studio 18 2026",
+    "platform": "x64",
+    "configuration": "Release",
+    "parallel": 1,
+    "exit_code": 0
+  },
+  "ctest": {
+    "exit_code": 0,
+    "passed": 2,
+    "failed": 0,
+    "last_test_log_sha256": "17ee59a96a38cb47931c6daf8ffe3f5b1660e7affba8c24539848543f2e6bc94",
+    "raw_log": "Start testing: Oct 28 03:03 ��������� (����)\n----------------------------------------------------------\n1/2 Testing: bitbuffer_contract\n1/2 Test: bitbuffer_contract\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/bitbuffer_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"bitbuffer_contract\" start time: Oct 28 03:03 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS scalar/bit/varint golden vectors, malformed bounds, normalized values and aliasing; MTA integration NOT RUN\n<end of output>\nTest time =   0.17 sec\n----------------------------------------------------------\nTest Passed.\n\"bitbuffer_contract\" end time: Oct 28 03:03 ��������� (����)\n\"bitbuffer_contract\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n2/2 Testing: mta_bitstream_interface\n2/2 Test: mta_bitstream_interface\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/mta_adapter_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"mta_bitstream_interface\" start time: Oct 28 03:03 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS actual NetBitStreamInterface helpers and reference-count lifetime; cross-DLL/server integration NOT RUN\n<end of output>\nTest time =   0.07 sec\n----------------------------------------------------------\nTest Passed.\n\"mta_bitstream_interface\" end time: Oct 28 03:03 ��������� (����)\n\"mta_bitstream_interface\" time elapsed: 00:00:00\n----------------------------------------------------------\n\nEnd testing: Oct 28 03:03 ��������� (����)\n"
+  },
+  "review": {
+    "independent_reviewer": "mobile_adapter",
+    "findings_repaired": [
+      "alias lifetime and overlapping read",
+      "inconsistent vector magnitude/direction"
+    ],
+    "re_review": "passed"
+  },
+  "source_sha256": {
+    "BitBuffer.h": "e0b9b1b6aafbb4c9d7753de51b692f00ad42386d1319b7022b32a07cc527d463",
+    "bitbuffer_tests.cpp": "763fa699bb831f43e6ef791cadfbbc59bd3d38ade1d101841fc51164af178728",
+    "CMakeLists.txt": "e541bd456192e3d8863141ac7a3fb5beaa0295c32f2f0f29e314e204cb24f52b",
+    "ModuleRuntime.cpp": "e4dbcf1b28944fa28656f56ad80ea4f410eb30f8f4ce5ee95ab89387df1886a1",
+    "MtaBitStream.cpp": "8f36a7c3ca56333e2b3726f6ba82fe3e60a732a5c3b26837ab475afd23576fdd",
+    "MtaBitStream.h": "7a65ae72f6adea4c0f251338819b0e587d4ea82d18c9357f61c058ec529f5126",
+    "mta_adapter_tests.cpp": "9cf1e320d64efde279d359d2d8c6a34eb5fe723e55e897aaf2fbcd9c76b826b7"
+  },
+  "output_sha256": {
+    "bitbuffer_tests.exe": "a66533d536249ae3bd7ae5a8b52511dbcbf1f9983dbb88d7bbff88a1edf87d03",
+    "mta_adapter_tests.exe": "544a4ab41e06fa0d27fbf5e502fba0e608420c3437629317827d2fed80501c5f",
+    "mta_bitstream.lib": "d1a77db43a527374011f9e706b4ed983764b7c3c701839535b2ef912881fc81f"
+  },
+  "not_run": [
+    "CNetServer module loader",
+    "cross-DLL refcount",
+    "actual MTA server",
+    "two real headless players",
+    "gameplay"
+  ]
+}
