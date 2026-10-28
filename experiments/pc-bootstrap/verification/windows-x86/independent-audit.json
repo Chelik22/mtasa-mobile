@@ -1,0 +1,34 @@
+{
+  "schema": "pc-bootstrap-independent-audit-v1",
+  "auditedUtc": "2026-10-28T14:14:34.330423+00:00",
+  "sourceCommit": "58d3c62f7d7dd229b10e6836da61f49b76a4a7b0",
+  "receiptSha256": "e0f180ffc21ca36e2c77f8ddd269c47ea013e6ad457983f63e941799500f70ac",
+  "checks": {
+    "log:configure.stdout.log": true,
+    "log:configure.stderr.log": true,
+    "log:build.stdout.log": true,
+    "log:build.stderr.log": true,
+    "log:test.stdout.log": true,
+    "log:test.stderr.log": true,
+    "log:junit.xml": true,
+    "source:Shared/sdk/ExperimentalClientNetSelection.h": true,
+    "source:Client/core/CCore.cpp": true,
+    "source:Client/loader-proxy/main.cpp": true,
+    "source:experiments/pc-bootstrap/selection_tests.cpp": true,
+    "source:experiments/pc-bootstrap/CMakeLists.txt": true,
+    "source:Shared/sdk/ExperimentalLabPaths.h": true,
+    "artifact:bootstrap_release_tests.exe": true,
+    "artifact:bootstrap_debug_tests.exe": true,
+    "artifact:main.obj": true,
+    "junit": true,
+    "actualRunExitCodes": true,
+    "actualDLLHash": true,
+    "terminal": true
+  },
+  "terminalInventory": {
+    "tracked": [],
+    "probes": []
+  },
+  "status": "passed",
+  "scope": "Actual proxy I386 object and two real owned-DLL ABI contract tests; no full proxy/Core link, GTA or GUI execution"
+}
