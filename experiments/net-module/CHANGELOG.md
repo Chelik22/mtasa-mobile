@@ -11,6 +11,11 @@
 
 ### Added
 
+- Actual source-server H1 evidence: the owned DLL served two genuine CPlayer
+  clients, server Lua created one vehicle and accepted three token/reference
+  roundtrips, reconnect and zero-player/entity cleanup passed with clean exits.
+  Independent raw logs/input hashes/PID audit passed; gameplay remains untested.
+
 - An owned MTAX session envelope and opt-in CNetServer DLL over pinned ENet.
   Exact payload bit counts, nonce/generation checks and callback reference
   ownership keep MTA's existing packet API usable without pretending to speak

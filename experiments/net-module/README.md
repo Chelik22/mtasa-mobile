@@ -52,9 +52,10 @@ limits, normalized basis/rotation cases, real MTA ElementID/string/ISyncStructur
 helpers, and reference-count lifetime. A separate shared factory library is
 dynamically loaded by a host executable: virtual/helper calls, host-inline
 AddRef/Release from two threads, final DLL destruction and unload are exercised.
-This is a real native module boundary, not CNetServer loading. Player creation,
-server/client Lua execution, transport behavior and gameplay remain G3/H1 and
-later gates. Tests have a 15-second deadline so a broken native lock cannot hang
+The factory test is a real native module boundary, distinct from actual MTA
+server loading. Player creation and source server Lua are now separately proved
+by H1 below; client Lua and gameplay remain later gates. Factory tests have a
+15-second deadline so a broken native lock cannot hang
 an unattended test run indefinitely.
 
 ## Opt-in server module
@@ -92,7 +93,16 @@ Do not claim the complete G3 contract from the component tests.
 calls and retained callback streams. It is a component test, not a running MTA
 server: CPlayer and server Lua execution must still be proved by B0/H1.
 
-### Verified integration constraints for the next change
+Actual H1 run `20261028T000420Z-4d6737ba` now proves this module in the source-built
+MTA server: Core selected this DLL with no official net DLL present, source Lua
+created two real CPlayer elements and one model411 vehicle, three token/element
+reference roundtrips were accepted, reconnect preserved the vehicle and both
+clients received its deletion. Final players=0, all three processes exited0.
+Independent raw-log/input-hash/PID review passed.
+[Summary](headless/verification/windows-x64-h1.json). This does not prove client
+Lua, HTTP/cache, the remaining reliability/priority/queue contract or gameplay.
+
+### Validated integration contracts
 
 1. `CNetServerBuffer::RegisterPacketHandler` installs its own callback in the real
    module. Deliver only during the module's `DoPulse`; preserve that wrapper
@@ -108,5 +118,5 @@ server: CPlayer and server Lua execution must still be proved by B0/H1.
    implemented. Inspect resource metadata callers before deciding GetScriptInfo.
 
 These facts were read in pinned `Server/mods/deathmatch/logic/net/CNetBuffer.cpp`
-and `logic/lua/CLuaMain.cpp`; they are implementation prerequisites, not evidence
-that the server has used the new module.
+and `logic/lua/CLuaMain.cpp`. The separate H1 receipt above records actual server
+use; these source contracts explain the callback and script lifetime rules.

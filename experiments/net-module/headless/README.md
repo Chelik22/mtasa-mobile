@@ -5,6 +5,12 @@ MTA fork server. Это не GTA-клиент, не Lua VM и не реализ�
 До запуска на настоящем сервере H1 остаётся `not_run`, даже если codec tests PASS.
 Официальный `netc`/RakNet wire format здесь не поддерживается.
 
+Actual H1 run `20261028T000420Z-4d6737ba` прошёл на настоящем source-built MTA:
+player IDs10/11→13, один vehicle12/model411, три accepted Lua roundtrips,
+reconnect и очистка до нуля, все exits0. Независимый raw-log/hash/PID аудит PASS.
+[Evidence](verification/windows-x64-h1.json). GTA, client Lua VM и Android
+этим не проверены.
+
 ## Сборка
 
 Root CMake должен собрать `headless/main.cpp` с `mta_bitstream`, ENet и include
