@@ -1,0 +1,45 @@
+Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-pc-proxy-owned-net/experiments/pc-bootstrap/CMakeLists.txt
+  main.cpp
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\WString.hpp(42,17): warning C4996: '_vsnwprintf': This function or variable may be unsafe. Consider using _vsnwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\WString.hpp(359,12): warning C4996: 'wcsicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _wcsicmp. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\WString.hpp(399,12): warning C4996: 'wcsicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _wcsicmp. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\WString.hpp(409,12): warning C4996: 'wcsicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _wcsicmp. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.Misc.hpp(2073,44): warning C4191: reinterpret_cast: небезопасное преобразование "FARPROC" в "SharedUtil::IsWindows10OrGreater::RtlGetVersionFn" [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.Misc.hpp(2073,44): warning C4191:         Вызов этой функции через результирующий указатель может вызвать сбой программы [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.Misc.hpp(2540,18): warning C4996: 'mbstowcs': This function or variable may be unsafe. Consider using mbstowcs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.Misc.hpp(2545,35): warning C4996: 'mbstowcs': This function or variable may be unsafe. Consider using mbstowcs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.Misc.hpp(3191,5): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.File.hpp(901,5): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Shared\sdk\SharedUtil.Hash.hpp(112,13): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  (компиляция исходного файла "../../../mtasa-mobile-pc-proxy-owned-net/Client/loader-proxy/main.cpp")
+  
+D:\projects\astana\work\mtasa-mobile-pc-proxy-owned-net\Client\loader-proxy\main.cpp(958,13): warning C4996: 'wcsnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _wcsnicmp. See online help for details. [D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.vcxproj]
+  proxy_source.vcxproj -> D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\proxy_source.dir\Release\proxy_source.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-pc-proxy-owned-net/experiments/pc-bootstrap/CMakeLists.txt
+  selection_tests.cpp
+  bootstrap_debug_tests.vcxproj -> D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\Release\bootstrap_debug_tests.exe
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-pc-proxy-owned-net/experiments/pc-bootstrap/CMakeLists.txt
+  selection_tests.cpp
+  bootstrap_release_tests.vcxproj -> D:\projects\astana\work\mta-mobile-lab\pc-bootstrap-004\build\Release\bootstrap_release_tests.exe
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-pc-proxy-owned-net/experiments/pc-bootstrap/CMakeLists.txt

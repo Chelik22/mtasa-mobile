@@ -23,6 +23,9 @@ cmake --build <fresh ignored build> --config Release --parallel 1
 ctest --test-dir <fresh ignored build> -C Release --output-on-failure
 ```
 
-Native compile/runtime результата ещё нет: `not_run` до отдельного receipt.
+Actual Win32 proxy object compile и два native contract tests прошли: build0,
+CTest2/2, LoadLibrary настоящей owned DLL и отказ неправильного ABI.
+[Receipt](verification/windows-x86/receipt.json). Первые две компиляции выявили
+SDK-запреты tick API в lab helper; исправлено через standard chrono.
 Полный Core build, native userpaths isolation и игровой запуск — отдельные
 предпосылки, которые этот тест не заменяет.
