@@ -15,7 +15,9 @@
   `MTA_EXPERIMENTAL_CLIENT_NET_MODULE=netc_experimental`, preserving the stock
   default and SDK ABI check. Invalid overrides fail before loading; a missing
   compatibility export no longer causes a null function call in the error path.
-  Core build/game runtime verification is pending.
+  Independent source/native environment review passed. CMake's Debug postfix
+  matches the existing `_d.dll` loader. Core build/game runtime verification and
+  the Debug component build are pending.
 
 - Win32 CNet component with the real client SDK interface and undecorated cdecl
   exports. Native DLL/transport tests passed with I386/pointer_bits32, including
