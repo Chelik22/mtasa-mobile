@@ -1,0 +1,9 @@
+Test project D:/projects/astana/work/mta-mobile-lab/pc-bootstrap-004/build
+    Start 1: bootstrap_release_contract
+1/2 Test #1: bootstrap_release_contract .......   Passed    0.12 sec
+    Start 2: bootstrap_debug_contract
+2/2 Test #2: bootstrap_debug_contract .........   Passed    0.08 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.20 sec
