@@ -28,7 +28,11 @@
 #include "SharedUtil.Logging.h"
 
 #if __cplusplus >= 201703L  // C++17
-    #ifndef __GLIBCXX__
+    #if defined(_LIBCPP_VERSION)
+    // libc++ uses inline ABI namespaces; a manual std::filesystem declaration
+    // would introduce a second namespace and make filesystem lookups ambiguous.
+        #include <filesystem>
+    #elif !defined(__GLIBCXX__)
 namespace std
 {
     namespace filesystem
