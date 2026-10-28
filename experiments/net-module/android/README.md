@@ -22,6 +22,26 @@ cmake --build experiments/net-module/android/build/x86_64-api26 --parallel 1 --t
 
 После реальной сборки зафиксировать hashes и NDK llvm-readelf header/program headers/dynamic dependencies. До этого target build, ELF verification и Android runtime — not_run. Configure success не доказывает source compilation или runtime.
 
+### Persistent build runner: подготовлен без cold compile
+
+`Build-Android.ps1` использует только существующий frozen Ninja cache в этом worktree. Default — `plan_only`: проверяет source/dependency/graph hashes и профиль cache, не запускает Ninja, clang, readelf или Android. Его можно выполнить для preflight:
+
+```powershell
+& './experiments/net-module/android/Build-Android.ps1'
+```
+
+Actual build требует **сначала slot от root после HTTP standalone**, затем fresh free RAM не менее2048MiB. Script проверяет RAM перед Ninja dry-run и ещё раз перед настоящим `-j1` build. Этот gate не распределяет RAM между агентами и не заменяет согласование приоритета с root. До такого согласования следующая команда — только подготовленный план:
+
+```powershell
+pwsh -NoProfile -File 'D:/projects/astana/work/mtasa-mobile-android-headless/experiments/net-module/android/Build-Android.ps1' -Run
+```
+
+Запускать в persistent CLI session и следить за тем же native PID. `build-active.json` указывает current PID/path/start и attempt directory; `build/runs/<timestamp>/` содержит отдельные live stdout/stderr, exit files и result. Lock и process identity защищают от дубликата. Каждый step держит actual Process handle и drains до terminal; при ошибке metadata выполняется адресный cleanup собственного дерева. Наблюдение не ограничено60s, а timeout внешней оболочки не даёт оснований повторить запуск.
+
+Runner не вызывает configure. Dry-run отвергает запрос Ninja на CMake regeneration. Перед/после compile проверяются прежние source hashes,38 ENet hashes и полный file set, generated graph и cache. Executables проверяются llvm-readelf как ELF64/PIE x86_64 с `/system/bin/linker64`, без shared C++ runtime. SHA/mtime/freshness и tool/log hashes сохраняются; reuse старых executable не выдаётся за новое производство (`not_new_build`, script exit2). Cache/objects автоматически не удаляются.
+
+После actual ELF inspection Android runtime остаётся not_run: ни один полученный executable script на host не запускает. Native build/cleanup/ELF ветки runner пока **не выполнялись**; пройдены parser и настоящий preflight без `-Run`. Source review требуется до cold compile.
+
 ## Будущий actual ADB сценарий
 
 Следующие команды — план, **не выполнены**. Требуются reviewed binaries, owned Android native shell и отдельно запущенный source-built H1 server с experimental module/исходным Lua witness. Windows server сохраняет bind `127.0.0.1`; firewall/Windows settings и внешние interfaces не меняются. Для Android Emulator адрес `10.0.2.2` обращается к host loopback; это не адрес для физического телефона.
