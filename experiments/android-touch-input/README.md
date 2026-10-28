@@ -25,3 +25,5 @@ cmake --build '<ignored lab>/touch-android-arm64' --parallel 1
 ```
 
 Host tests не компилируют Android adapter. NDK build компилирует его с настоящим `<android/input.h>` и link dependency `android`; запуск ELF/AVD и доставка реальных MotionEvents — отдельные проверки. До actual evidence нельзя объявлять даже эти compile/test commands выполненными. Полный U1 требует movement+look/aim и drive traces уже в игре, UI scale/safe-area проверки, Android lifecycle/surface recovery и отсутствие stuck controls.
+
+Actual `touch-002`, source `7be7b6ac606ae5db9ecfec86ef898f450a8702db`: Win32 MSVC19.51 compile + portable CTest 1/1 PASS (0.38s); NDK28.2.13676358 ARM64/API28 singleworker build PASS. Captures, commands/PID/exit/guards, source/artifact SHA256 и ELF headers — в `verification/touch-002/`. Это compile proof native adapter **в static archive**; его native imports пока не проверены финальным executable link. Android test ELF не запускался, реальных AInputEvents/game/U1 runtime не было. Binary artifacts остаются в ignored lab.
