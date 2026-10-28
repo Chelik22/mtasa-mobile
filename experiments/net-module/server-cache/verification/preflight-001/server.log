@@ -1,0 +1,32 @@
+==================================================================
+= Multi Theft Auto: San Andreas v1.7-custom [64 bit]
+==================================================================
+= Server name      : MTA Mobile Gameplay Lab
+= Server IP address: 127.0.0.1
+= Server port      : 23803
+= 
+= Log file         : ..-server-001/mods/deathmatch/logs/server.log
+= Maximum players  : 2
+= HTTP port        : 23805
+= Voice Chat       : Disabled
+= Bandwidth saving : Medium
+==================================================================
+[2026-10-28 19:47:32] Owned protocol: network option tuning is not implemented
+[2026-10-28 19:47:32] Compacting accounts database 'internal.db' ...
+[2026-10-28 19:47:32] File 'settings.xml' not present, creating new node.
+[2026-10-28 19:47:32] ERROR: Resource 'mobile-world-fixture' client filename 'http-witness.txt' not allowed
+[2026-10-28 19:47:32] ERROR: Resource 'mobile-world-fixture' client filename 'client.lua' not allowed
+[2026-10-28 19:47:32] Loading of resource 'mobile-world-fixture' failed
+[2026-10-28 19:47:32] ERROR: Problem with resource: mobile-world-fixture; ERROR: Resource 'mobile-world-fixture' client filename 'client.lua' not allowed
+[2026-10-28 19:47:32] Resources: 1 loaded, 1 failed
+[2026-10-28 19:47:32] Compacting database 'registry.db' ...
+[2026-10-28 19:47:32] Starting resources...
+[2026-10-28 19:47:32] [mobilelab-spawn] resource_start players=0
+[2026-10-28 19:47:32] ERROR: Unable to start resource mobile-world-fixture; ERROR: Resource 'mobile-world-fixture' client filename 'client.lua' not allowed
+[2026-10-28 19:47:32] Server started and is ready to accept connections!
+[2026-10-28 19:47:32] To stop the server, type 'shutdown' or press Ctrl-C
+[2026-10-28 19:47:32] Type 'help' for a list of commands.
+[2026-10-28 19:47:57] SHUTDOWN: Got shutdown command from Console (No reason specified)
+[2026-10-28 19:47:57] Server stopped!
+[2026-10-28 19:47:57] Stopping resources....
+[2026-10-28 19:47:57] Closing SQLite3 database

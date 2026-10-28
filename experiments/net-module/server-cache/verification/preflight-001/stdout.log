@@ -1,0 +1,37 @@
+MTA:BLUE Server for MTA:SA
+
+Experimental network module selected: net_experimental.dll
+Please wait...
+==================================================================
+= Multi Theft Auto: San Andreas v1.7-custom [64 bit]
+==================================================================
+= Server name      : MTA Mobile Gameplay Lab
+= Server IP address: 127.0.0.1
+= Server port      : 23803
+= 
+= Log file         : ..-server-001/mods/deathmatch/logs/server.log
+= Maximum players  : 2
+= HTTP port        : 23805
+= Voice Chat       : Disabled
+= Bandwidth saving : Medium
+==================================================================
+[19:47:32] Owned protocol: network option tuning is not implemented
+[19:47:32] Compacting accounts database 'internal.db' ...
+[19:47:32] File 'settings.xml' not present, creating new node.
+[19:47:32] ERROR: Resource 'mobile-world-fixture' client filename 'http-witness.txt' not allowed
+[19:47:32] ERROR: Resource 'mobile-world-fixture' client filename 'client.lua' not allowed
+[19:47:32] Loading of resource 'mobile-world-fixture' failed
+[19:47:32] ERROR: Problem with resource: mobile-world-fixture; ERROR: Resource 'mobile-world-fixture' client filename 'client.lua' not allowed
+[19:47:32] Resources: 1 loaded, 1 failed
+[19:47:32] Compacting database 'registry.db' ...
+[19:47:32] Starting resources...
+[19:47:32] [mobilelab-spawn] resource_start players=0
+[19:47:32] ERROR: Unable to start resource mobile-world-fixture; ERROR: Resource 'mobile-world-fixture' client filename 'client.lua' not allowed
+[19:47:32] Server started and is ready to accept connections!
+[19:47:32] To stop the server, type 'shutdown' or press Ctrl-C
+[19:47:32] Type 'help' for a list of commands.
+shutdown 
+[19:47:57] SHUTDOWN: Got shutdown command from Console (No reason specified)
+[19:47:57] Server stopped!
+[19:47:57] Stopping resources....
+[19:47:57] Closing SQLite3 database

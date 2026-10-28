@@ -1,0 +1,30 @@
+{
+  "scope": "actual server Lua fixture/console and HTTP asset, zero game clients; G4 not_run",
+  "source_sha": "44cdd876b",
+  "driver_pid": 32664,
+  "started_utc": "2026-10-28T14:47:31.268495+00:00",
+  "commands": [
+    "shutdown"
+  ],
+  "server_pid": 38800,
+  "argv": [
+    "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-gameplay-server-001\\MTA Server64.exe",
+    "-t",
+    "-u",
+    "-D",
+    "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-gameplay-server-001",
+    "--config",
+    "mtaserver.conf",
+    "--ip",
+    "127.0.0.1",
+    "--port",
+    "23803",
+    "--httpport",
+    "23805",
+    "--novoice"
+  ],
+  "status": "failed",
+  "error": "TimeoutError('[mobilefixture] resource_start resource=mobile-world-fixture')",
+  "server_terminal": true,
+  "finished_utc": "2026-10-28T14:47:58.082027+00:00"
+}

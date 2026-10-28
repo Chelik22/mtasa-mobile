@@ -5,6 +5,7 @@
 #endif
 #include "MtaBitStream.h"
 #include "Protocol.h"
+#include "server-cache/CacheFilenamePolicy.h"
 #include <SharedUtil.Time.h>
 #include <net/CNetServer.h>
 #include <net/Packets.h>
@@ -61,6 +62,7 @@ namespace experimental_net
             StopNetwork();
             enet_deinitialize();
         }
+        bool ValidateHttpCacheFileName(const char* filename) override { return http_cache_filenames_.Allows(filename); }
         bool StartNetwork(const char* ip, unsigned short port, unsigned int players, const char*) override
         {
             std::lock_guard lock(mutex_);
@@ -503,17 +505,18 @@ namespace experimental_net
             if (ready)
                 deliver(packet, id, nullptr, 0, 0);
         }
-        std::recursive_mutex                 mutex_;
-        ENetHost*                            host_ = nullptr;
-        PPACKETHANDLER                       callback_ = nullptr;
-        std::map<NetServerPlayerID, Peer>    peers_;
-        std::map<std::string, std::uint32_t> generations_;
-        std::array<SPacketStat, 256>         packet_stats_{};
-        std::uint64_t                        sent_bytes_ = 0, received_bytes_ = 0, sent_packets_ = 0, received_packets_ = 0;
-        unsigned                             maximum_ = 0;
-        Clock::time_point                    started_ = Clock::now();
-        std::string                          log_, password_, requirement_;
-        DisabledHttp                         http_;
+        std::recursive_mutex                                 mutex_;
+        ENetHost*                                            host_ = nullptr;
+        PPACKETHANDLER                                       callback_ = nullptr;
+        std::map<NetServerPlayerID, Peer>                    peers_;
+        std::map<std::string, std::uint32_t>                 generations_;
+        std::array<SPacketStat, 256>                         packet_stats_{};
+        std::uint64_t                                        sent_bytes_ = 0, received_bytes_ = 0, sent_packets_ = 0, received_packets_ = 0;
+        unsigned                                             maximum_ = 0;
+        Clock::time_point                                    started_ = Clock::now();
+        std::string                                          log_, password_, requirement_;
+        DisabledHttp                                         http_;
+        const experimental_server_cache::CacheFilenamePolicy http_cache_filenames_ = experimental_server_cache::CacheFilenamePolicy::FromEnvironment();
     };
 }  // namespace experimental_net
 
