@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Исправлена область client-only guard в Windows SDK file routing: server TUs
+  не должны ссылаться на lab namespace. Добавлен compile-only test настоящего
+  `SharedUtil.File.hpp` без `MTA_CLIENT`; helper-only executable эту ошибку не ловил.
 - **Отдельное пространство PC lab paths.** Добавлен явный режим с файловыми
   MTA settings и локальными app/game/data путями, чтобы подготовка собственного
   клиента не меняла установленные игры, реестр и системные repair. Простой copy
