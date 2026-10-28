@@ -34,6 +34,15 @@ try {
     Remove-Item -LiteralPath (Join-Path $fixture 'sdk/.ignored.hpp')
     Remove-Item -LiteralPath (Join-Path $fixture 'sdk/header.h')
     Must-Fail { Assert-ExactIncludeTree -RepositoryRoot $fixture -Roots @('sdk') -ExpectedFiles @('sdk/header.h') } 'file set changed'
+    New-Item -ItemType Directory -Path (Join-Path $fixture 'module/android/build') -Force | Out-Null
+    [IO.File]::WriteAllText((Join-Path $fixture 'module/main.cpp'), '// pinned')
+    [IO.File]::WriteAllText((Join-Path $fixture 'module/android/tool.ps1'), '# reviewed tooling')
+    [IO.File]::WriteAllText((Join-Path $fixture 'module/android/build/generated'), 'ignored build output')
+    $moduleExpected = @('module/main.cpp', 'module/android/tool.ps1')
+    Assert-ExactIncludeTree -RepositoryRoot $fixture -Roots @('module') -ExpectedFiles $moduleExpected -ExcludePrefixes @('module/android/build')
+    Require $true 'Reviewed tooling with generated build exclusion failed.'
+    [IO.File]::WriteAllText((Join-Path $fixture 'module/android/log.h'), '// could shadow an NDK header')
+    Must-Fail { Assert-ExactIncludeTree -RepositoryRoot $fixture -Roots @('module') -ExpectedFiles $moduleExpected -ExcludePrefixes @('module/android/build') } 'nontracked/ignored'
     Write-Output "Frozen input filesystem checks passed: $checks. No Ninja/compiler/Android executable was invoked."
 } finally {
     $resolved = [IO.Path]::GetFullPath($fixture)
