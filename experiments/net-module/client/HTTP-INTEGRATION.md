@@ -29,7 +29,7 @@ Lua fileOpen/read. Its explicit callback must approve canonical path and the exa
 retained bytes; absent policy fails closed. Only `rb` with validation is supported.
 Write/resource-create and private cache semantics remain unsupported. Snapshot
 retention prevents a later path replacement from changing an already approved
-read; it does not replace sandbox/path policy. It is not yet instantiated by CNet.
+read; it does not replace sandbox/path policy.
 The prepared approved-policy CNet path now allocates this component and binds
 `ValidateReadSnapshot` to its retained bytes. This wiring is not yet compiled or
 executed as a configured native DLL. HTTP-OFF CNet regression passed separately;
