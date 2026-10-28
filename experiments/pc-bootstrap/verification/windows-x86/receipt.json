@@ -106,5 +106,13 @@
     "Core code reviewed; full Core compile not_run",
     "No GTA, proxy initialization, client Lua or gameplay executed",
     "Debug selector branch tested using Release-built test process; Debug transport DLL not built"
-  ]
+  ],
+  "source_lf_sha256": {
+    "Shared/sdk/ExperimentalClientNetSelection.h": "fcd160345c3b035bdd47023ff49abad672edeab2d53ebab2cf42ee418a807d45",
+    "Client/core/CCore.cpp": "d8931269647d4999d21c19bb4491e095510aeedacd66bc804df9400565d85980",
+    "Client/loader-proxy/main.cpp": "9f0baa21b5bb96f0a83486da7bf3043ad498e97e26a0f652ea8396fc3a15b572",
+    "experiments/pc-bootstrap/selection_tests.cpp": "e418ece1f17e21d6f2ba2e94f40336c3f766805335c8459a57f093d78f037a4d",
+    "experiments/pc-bootstrap/CMakeLists.txt": "ee2b5bd932569c8029cda06a8515bb3da5b98f4bca45a0c4cc2bef8b9ec49049",
+    "Shared/sdk/ExperimentalLabPaths.h": "3fc9b8a67a1377a9681372f5f06e082d26479cfc1dba9fd9dabac2b47ae21e84"
+  }
 }
