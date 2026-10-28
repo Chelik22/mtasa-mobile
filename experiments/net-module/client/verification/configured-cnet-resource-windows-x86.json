@@ -1,0 +1,79 @@
+{
+  "scope": "Configured native I386 CNet HTTP, approved file snapshot and callback Shutdown/Release",
+  "sourceCommit": "bbeb766dd77f8ac57704be420ac1318bbf9bca44",
+  "run": {
+    "source": "bbeb766dd77f8ac57704be420ac1318bbf9bca44",
+    "scope": "Configured real CNet HTTP/file/Shutdown integration only; Core/game/Lua not_run",
+    "buildExit": 0,
+    "testExit": 0,
+    "startedUtc": "2026-10-28T11:51:00.2700469Z",
+    "status": "terminal",
+    "physicalFreeMiB": 4261.0,
+    "pid": 36060,
+    "finishedUtc": "2026-10-28T11:51:22.0587131Z"
+  },
+  "artifacts": {
+    "netc_experimental.dll": {
+      "sha256": "3a8ce8334a35bf19d82582027345aff800735a6a4e3bb4880e9f9156c6c082f7",
+      "bytes": 619008,
+      "capture": "D:/projects/astana/work/mta-mobile-lab/configured-cnet-test-002/artifacts/netc_experimental.dll",
+      "peMachine": "I386"
+    },
+    "configured_client_http_tests.exe": {
+      "sha256": "f3b8329511e0fd4696063fc9bebd02986790a8c9bfb5930f3910c35fb8a0b280",
+      "bytes": 67584,
+      "capture": "D:/projects/astana/work/mta-mobile-lab/configured-cnet-test-002/artifacts/configured_client_http_tests.exe",
+      "peMachine": "I386"
+    }
+  },
+  "source_sha256": {
+    "experiments/net-module/CMakeLists.txt": "1ec246c903cce00d402f19de919e928ef86a2d0a29e4309d43cb3fdd7e020d9b",
+    "experiments/net-module/client/OwnedNetClient.cpp": "787c26469a979c9261b4a8b91fadcb929f21d074943292bbaf66e6b0c412f0b8",
+    "experiments/net-module/client/ClientModule.h": "54e2b426572732a0ff2d9f700a6082267b31d366b28168278be6243e2b545341",
+    "experiments/net-module/client/ClientResourceConfig.h": "3d01578bcadd2f33151735f457c3c7cbe61878280b9cd6d56090a143f109344f",
+    "experiments/net-module/client/HttpManagerSlot.h": "1db1f6bf96e45a6c9c219cff5d80fc34e95d2a81163248fa85ef07496f20dc0e",
+    "experiments/net-module/client/ApprovedReadFile.h": "51d1da1ce97febf57f76c52f30c320b9fc78a68e7ba42799cbacbf5b210c6f40",
+    "experiments/net-module/client/configured_client_http_tests.cpp": "53d9231cd687b2c31f6c5d966989d20b08fcd4f4b3eb8e54b75e41ad7208d95a",
+    "experiments/net-module/client/configured_http_fixture.py": "f8580b48362fa7d2b33f98f9bd1186c744c175e43135a577e418e9039127475c",
+    "experiments/net-module/http/CMakeLists.txt": "631138ad92e512255a6a7db8e4b4d47fa0aff8f8ce2688d4d38b4c643bbea010",
+    "experiments/net-module/http/FixtureContentPolicy.h": "a512d30dc1d47e7583a6b0809d8b42ed39ed372fa0153113eaab007cc9bcba21",
+    "experiments/net-module/http/FixtureContentPolicy.cpp": "64810e3afb637af3df848147e3cdcd3b39251b14b740e6247f30ae6a21005a8d",
+    "experiments/net-module/http/HttpManager.h": "400e386e1fb2a1cf3ab7a416ded1790134f825747a4a95e92b4e7964523fa698",
+    "experiments/net-module/http/HttpManager.cpp": "5242b53c65182b430970943a42f6b81aa93302c9de0433b90be721d2b0fcd6ce"
+  },
+  "logs": {
+    "run.json": {
+      "sha256": "b536d404cc311cb89cf8fc495158e0dbf0c64e21c92e34e5af7efd7c93da7f26",
+      "text": "{\r\n  \"source\": \"bbeb766dd77f8ac57704be420ac1318bbf9bca44\",\r\n  \"scope\": \"Configured real CNet HTTP/file/Shutdown integration only; Core/game/Lua not_run\",\r\n  \"buildExit\": 0,\r\n  \"testExit\": 0,\r\n  \"startedUtc\": \"2026-10-28T11:51:00.2700469Z\",\r\n  \"status\": \"terminal\",\r\n  \"physicalFreeMiB\": 4261.0,\r\n  \"pid\": 36060,\r\n  \"finishedUtc\": \"2026-10-28T11:51:22.0587131Z\"\r\n}\r\n"
+    },
+    "build.stdout.log": {
+      "sha256": "cb46cc1a4058a33b9704b1bf2976f33ecc9fa03e12252bcd42cef5157c478a97",
+      "text": "Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework\r\n\r\n  Checking File Globs\r\n  1>Checking Build System\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/CMakeLists.txt\r\n  mta_bitstream.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\mta_bitstream.lib\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-worktree/experiments/mobile-net/build/_deps/enet-src/CMakeLists.txt\r\n  enet.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\_deps\\enet-build\\Release\\enet.lib\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/http/CMakeLists.txt\r\n  mta_owned_http.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\http\\Release\\mta_owned_http.lib\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/CMakeLists.txt\r\n  OwnedNetClient.cpp\r\n     Создается библиотека D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32/Release/netc_experimental.lib и объект D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32/Release/netc_experimental.exp\r\n  netc_experimental.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\netc_experimental.dll\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/CMakeLists.txt\r\n  configured_client_http_tests.cpp\r\n  configured_client_http_tests.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\configured_client_http_tests.exe\r\n"
+    },
+    "build.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": null
+    },
+    "test.stdout.log": {
+      "sha256": "401a46dc4da5a7425d8754ea1f2568cb0d6d1923dd05ebcae53207c02c1c52fb",
+      "text": "Test project D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32\n    Start 9: configured_cnet_http_resource\n1/1 Test #9: configured_cnet_http_resource ....   Passed    1.17 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   1.18 sec\n"
+    },
+    "test.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": null
+    },
+    "ctest.xml": {
+      "sha256": "2c6ce7042b47cee8ca5661b999ce49c5568cee434ae1d4ac756e7df137eb998d",
+      "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<testsuite name=\"(empty)\"\r\n\ttests=\"1\"\r\n\tfailures=\"0\"\r\n\tdisabled=\"0\"\r\n\tskipped=\"0\"\r\n\thostname=\"\"\r\n\ttime=\"1\"\r\n\ttimestamp=\"2026-10-28T16:51:20\"\r\n\t>\r\n\t<testcase name=\"configured_cnet_http_resource\" classname=\"configured_cnet_http_resource\" time=\"1.17019\" status=\"run\">\r\n\t\t<properties/>\r\n\t\t<system-out>PASS configured real CNet DLL HTTP/file/snapshot/Shutdown/Release I38632; Core/player/Lua/G4 NOT RUN\r\nPASS actual configured DLL + localhost HTTP requests=2; rawSHA256=93836a5f97aac07ae953d84d77cac98124ae8d5c6e05c17a52a62aebfaa731f8; Core/Lua/G4 NOT RUN\r\n</system-out>\r\n\t</testcase>\r\n</testsuite>\r\n"
+    }
+  },
+  "manifest_sha256": "b8d2e187f4783f64faf562e0b5717940b9908253f7b5d4a1c67ff2c261cc4f4d",
+  "generated_header_sha256": "88d02fc38250a30b4c012406c03d63dd3934a11f1583b0ee028a0a7add70bee5",
+  "passed": 1,
+  "failed": 0,
+  "independentAudit": "passed: 13 source and 6 log hashes, manifest/header decode, I386 artifacts, two actual requests, named CTest and terminal PID",
+  "Core": "not_run",
+  "GTA": "not_run",
+  "clientLua": "not_run",
+  "G4": "not_run"
+}

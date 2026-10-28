@@ -1,0 +1,328 @@
+#ifdef _WIN32
+    #include <windows.h>
+    #include <bcrypt.h>
+#else
+    #error "Fixture policy proof currently targets the Win32 component"
+#endif
+#include "FixtureContentPolicy.h"
+#include <algorithm>
+#include <array>
+#include <stdexcept>
+#include <cstring>
+
+namespace experimental_http
+{
+    namespace
+    {
+        std::string utf8(const std::filesystem::path& path)
+        {
+            const auto value = path.generic_u8string();
+            return std::string(reinterpret_cast<const char*>(value.data()), value.size());
+        }
+        bool relative_key(const std::filesystem::path& path)
+        {
+            if (path.empty() || path.is_absolute() || path.has_root_path())
+                return false;
+            for (const auto& component : path)
+                if (component == "." || component == "..")
+                    return false;
+            return true;
+        }
+        bool within(const std::filesystem::path& path, const std::filesystem::path& root)
+        {
+            const auto relative = path.lexically_relative(root);
+            return relative == "." || relative_key(relative);
+        }
+        bool portable_segments(const std::filesystem::path& path, const std::string& raw)
+        {
+            for (const unsigned char byte : raw)
+                if (byte < 32 || byte == 127 || std::strchr("\\:<>\"|?*", byte))
+                    return false;
+            for (const auto& component : path)
+            {
+                const auto& name = component.native();
+                if (name.empty() || name.back() == L'.' || name.back() == L' ')
+                    return false;
+                auto base = name.substr(0, name.find(L'.'));
+                while (!base.empty() && base.back() == L' ')
+                    base.pop_back();
+                for (auto& byte : base)
+                    if (byte >= L'a' && byte <= L'z')
+                        byte -= L'a' - L'A';
+                if (base == L"CON" || base == L"PRN" || base == L"AUX" || base == L"NUL" || base == L"CONIN$" || base == L"CONOUT$")
+                    return false;
+                if (base.size() == 4 && (base.starts_with(L"COM") || base.starts_with(L"LPT")) && base[3] >= L'1' && base[3] <= L'9')
+                    return false;
+            }
+            return true;
+        }
+        bool fail(std::string& error, const char* reason)
+        {
+            error = reason;
+            return false;
+        }
+        struct Algorithm
+        {
+            BCRYPT_ALG_HANDLE value = nullptr;
+            ~Algorithm()
+            {
+                if (value)
+                    BCryptCloseAlgorithmProvider(value, 0);
+            }
+        };
+        struct Hash
+        {
+            BCRYPT_HASH_HANDLE value = nullptr;
+            ~Hash()
+            {
+                if (value)
+                    BCryptDestroyHash(value);
+            }
+        };
+        class Digest
+        {
+            Algorithm                  algorithm_;
+            std::vector<unsigned char> object_;
+            Hash                       hash_;
+
+        public:
+            Digest()
+            {
+                if (BCryptOpenAlgorithmProvider(&algorithm_.value, BCRYPT_SHA256_ALGORITHM, nullptr, 0) < 0)
+                    throw std::runtime_error("BCrypt SHA256 provider failed");
+                DWORD object_size = 0, result_size = 0;
+                if (BCryptGetProperty(algorithm_.value, BCRYPT_OBJECT_LENGTH, reinterpret_cast<PUCHAR>(&object_size), sizeof(object_size), &result_size, 0) <
+                        0 ||
+                    !object_size || object_size > 1024 * 1024)
+                    throw std::runtime_error("BCrypt SHA256 object size failed");
+                object_.resize(object_size);
+                if (BCryptCreateHash(algorithm_.value, &hash_.value, object_.data(), object_size, nullptr, 0, 0) < 0)
+                    throw std::runtime_error("BCrypt SHA256 hash creation failed");
+            }
+            void update(std::span<const unsigned char> bytes)
+            {
+                while (!bytes.empty())
+                {
+                    const auto count = std::min<size_t>(bytes.size(), 16384);
+                    if (BCryptHashData(hash_.value, const_cast<PUCHAR>(bytes.data()), static_cast<ULONG>(count), 0) < 0)
+                        throw std::runtime_error("BCrypt SHA256 update failed");
+                    bytes = bytes.subspan(count);
+                }
+            }
+            std::string finish()
+            {
+                std::array<unsigned char, 32> bytes{};
+                if (BCryptFinishHash(hash_.value, bytes.data(), static_cast<ULONG>(bytes.size()), 0) < 0)
+                    throw std::runtime_error("BCrypt SHA256 finish failed");
+                std::string result;
+                const char  digits[] = "0123456789abcdef";
+                for (const auto byte : bytes)
+                {
+                    result += digits[byte >> 4];
+                    result += digits[byte & 15];
+                }
+                return result;
+            }
+        };
+        struct File
+        {
+            HANDLE value = INVALID_HANDLE_VALUE;
+            ~File()
+            {
+                if (value != INVALID_HANDLE_VALUE)
+                    CloseHandle(value);
+            }
+        };
+        struct Inspection
+        {
+            std::string                  sha256, source;
+            std::array<unsigned char, 8> prefix{};
+            size_t                       prefix_size = 0;
+        };
+        Inspection inspect(const std::filesystem::path& path, size_t bytes, FixtureFormat format)
+        {
+            File file;
+            // Refuse reparse points and concurrent writers during the actual hash.
+            file.value = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                                     FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
+            if (file.value == INVALID_HANDLE_VALUE)
+                throw std::runtime_error("Cannot open fixture temporary for a stable read");
+            BY_HANDLE_FILE_INFORMATION info{};
+            LARGE_INTEGER              size{};
+            if (!GetFileInformationByHandle(file.value, &info) || (info.dwFileAttributes & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)) ||
+                GetFileType(file.value) != FILE_TYPE_DISK || !GetFileSizeEx(file.value, &size) || size.QuadPart < 0 ||
+                static_cast<unsigned long long>(size.QuadPart) != bytes)
+                throw std::runtime_error("Fixture temporary type/size changed");
+            Digest     digest;
+            Inspection result;
+            if (format == FixtureFormat::LuaSourceUtf8)
+                result.source.reserve(bytes);
+            std::array<unsigned char, 16384> buffer;
+            size_t                           read = 0;
+            while (read < bytes)
+            {
+                DWORD count = 0;
+                if (!ReadFile(file.value, buffer.data(), static_cast<DWORD>(std::min(buffer.size(), bytes - read)), &count, nullptr) || !count)
+                    throw std::runtime_error("Fixture temporary read failed/truncated");
+                if (!read)
+                {
+                    result.prefix_size = std::min<size_t>(count, result.prefix.size());
+                    std::copy_n(buffer.data(), result.prefix_size, result.prefix.data());
+                }
+                digest.update(std::span<const unsigned char>(buffer.data(), count));
+                if (format == FixtureFormat::LuaSourceUtf8)
+                    result.source.append(reinterpret_cast<const char*>(buffer.data()), count);
+                read += count;
+            }
+            result.sha256 = digest.finish();
+            return result;
+        }
+        bool validate_content(const FixtureEntry& entry, std::string_view sha256, std::span<const unsigned char> prefix, std::string_view source,
+                              std::string& error)
+        {
+            if (sha256 != entry.raw_sha256)
+                return fail(error, "Fixture raw SHA256 does not match the trusted manifest");
+            const size_t offset = prefix.size() >= 3 && prefix[0] == 0xef && prefix[1] == 0xbb && prefix[2] == 0xbf ? 3 : 0;
+            if ((prefix.size() >= 2 && prefix[0] == 'M' && prefix[1] == 'Z') ||
+                (prefix.size() >= 4 && prefix[0] == 0x7f && prefix[1] == 'E' && prefix[2] == 'L' && prefix[3] == 'F'))
+                return fail(error, "Native executable magic is outside fixture asset policy");
+            if (prefix.size() >= offset + 4 && prefix[offset] == 0x1b && prefix[offset + 1] == 'L' && prefix[offset + 2] == 'u' && prefix[offset + 3] == 'a')
+                return fail(error, "Compiled Lua is outside fixture policy");
+            if (entry.format == FixtureFormat::LuaSourceUtf8)
+            {
+                if (prefix.size() > offset && prefix[offset] == 0x1b)
+                    return fail(error, "Source Lua cannot begin with an ESC chunk marker");
+                if (source.find('\0') != std::string_view::npos)
+                    return fail(error, "Source Lua contains NUL bytes");
+                if (!source.empty() && !MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, source.data(), static_cast<int>(source.size()), nullptr, 0))
+                    return fail(error, "Source Lua is not valid UTF8");
+            }
+            return true;
+        }
+    }
+
+    FixtureContentPolicy::FixtureContentPolicy(std::filesystem::path cache_root, std::vector<FixtureEntry> entries)
+        : root_(std::filesystem::canonical(cache_root))
+    {
+        if (!std::filesystem::is_directory(root_) || entries.empty() || entries.size() > 128)
+            throw std::invalid_argument("An existing fixture cache root and 1..128 manifest entries are required");
+        for (auto& entry : entries)
+        {
+            const auto path = std::filesystem::u8path(entry.destination_relative);
+            if (!relative_key(path) || !portable_segments(path, entry.destination_relative) || path.filename().empty() ||
+                utf8(path.lexically_normal()) != entry.destination_relative || entry.destination_relative.size() > 4096 ||
+                entry.destination_relative.find_first_of("\\:") != std::string::npos || entry.url.size() > 8192 ||
+                !(entry.url.starts_with("http://") || entry.url.starts_with("https://")) || entry.raw_sha256.size() != 64 ||
+                entry.max_bytes > 256 * 1024 * 1024 || (entry.format != FixtureFormat::LuaSourceUtf8 && entry.format != FixtureFormat::BinaryAsset) ||
+                (entry.format == FixtureFormat::LuaSourceUtf8 && entry.max_bytes > 1024 * 1024))
+                throw std::invalid_argument("Invalid fixture manifest entry/path/URL/bound/format");
+            for (char& byte : entry.raw_sha256)
+            {
+                if (byte >= 'A' && byte <= 'F')
+                    byte += 'a' - 'A';
+                if (!((byte >= '0' && byte <= '9') || (byte >= 'a' && byte <= 'f')))
+                    throw std::invalid_argument("Invalid fixture SHA256");
+            }
+            auto       key = entry.destination_relative;
+            const auto wide_key = path.native();
+            for (const auto& [existing, ignored] : entries_)
+            {
+                const auto wide_existing = std::filesystem::u8path(existing).native();
+                const auto compared = CompareStringOrdinal(wide_key.c_str(), static_cast<int>(wide_key.size()), wide_existing.c_str(),
+                                                           static_cast<int>(wide_existing.size()), TRUE);
+                if (!compared)
+                    throw std::invalid_argument("Cannot compare fixture manifest Windows path keys");
+                if (compared == CSTR_EQUAL)
+                    throw std::invalid_argument("Case-insensitive duplicate fixture manifest path");
+            }
+            if (!entries_.emplace(std::move(key), std::move(entry)).second)
+                throw std::invalid_argument("Duplicate fixture manifest path");
+        }
+    }
+
+    const FixtureEntry* FixtureContentPolicy::entry_for_path(const std::filesystem::path& canonical_path, std::string& error) const
+    {
+        if (!canonical_path.is_absolute() || canonical_path != canonical_path.lexically_normal())
+        {
+            fail(error, "Fixture path must be absolute and canonical");
+            return nullptr;
+        }
+        const auto relative = canonical_path.lexically_relative(root_);
+        if (!relative_key(relative))
+        {
+            fail(error, "Fixture destination escapes the configured cache root");
+            return nullptr;
+        }
+        const auto found = entries_.find(utf8(relative));
+        if (found == entries_.end())
+        {
+            fail(error, "Fixture destination is absent from the trusted manifest");
+            return nullptr;
+        }
+        return &found->second;
+    }
+
+    bool FixtureContentPolicy::ValidateReadSnapshot(const std::filesystem::path& canonical_path, std::span<const unsigned char> bytes, std::string& error) const
+    {
+        error.clear();
+        try
+        {
+            const auto* entry = entry_for_path(canonical_path, error);
+            if (!entry)
+                return false;
+            if (bytes.size() > entry->max_bytes)
+                return fail(error, "Fixture read snapshot exceeds its manifest bound");
+            Digest digest;
+            digest.update(bytes);
+            const auto source = entry->format == FixtureFormat::LuaSourceUtf8 && !bytes.empty()
+                                    ? std::string_view(reinterpret_cast<const char*>(bytes.data()), bytes.size())
+                                    : std::string_view{};
+            // Deliberately no filesystem I/O here: validate the retained bytes,
+            // even if the caller's already-opened path has since changed.
+            return validate_content(*entry, digest.finish(), bytes.first(std::min<size_t>(8, bytes.size())), source, error);
+        }
+        catch (const std::exception& exception)
+        {
+            error = exception.what();
+            return false;
+        }
+    }
+
+    bool FixtureContentPolicy::operator()(const FileValidationContext& context, std::string& error) const
+    {
+        error.clear();
+        try
+        {
+            if (!context.destination.is_absolute() || !context.temporary.is_absolute())
+                return fail(error, "Fixture context paths must be absolute");
+            const auto  destination = context.destination.lexically_normal();
+            const auto* matched = entry_for_path(destination, error);
+            if (!matched)
+                return false;
+            const auto& entry = *matched;
+            if (context.url != entry.url || context.effective_url != entry.url)
+                return fail(error, "Fixture requested/effective URL does not match the manifest");
+            if (context.http_status < 200 || context.http_status > 299)
+                return fail(error, "Fixture did not receive a successful HTTP status");
+            if (context.bytes_received > entry.max_bytes)
+                return fail(error, "Fixture response exceeds its manifest bound");
+            const auto parent = std::filesystem::weakly_canonical(destination.parent_path());
+            if (!within(parent, root_))
+                return fail(error, "Fixture destination parent resolves outside the cache root");
+            if (parent != destination.parent_path())
+                return fail(error, "Fixture destination parent must not use a filesystem alias");
+            if (std::filesystem::is_symlink(std::filesystem::symlink_status(context.temporary)))
+                return fail(error, "Fixture temporary cannot be a symlink");
+            const auto temporary = std::filesystem::canonical(context.temporary);
+            if (temporary.parent_path() != parent || temporary.filename() == destination.filename())
+                return fail(error, "Fixture temporary is not a distinct adjacent file");
+            const auto actual = inspect(temporary, context.bytes_received, entry.format);
+            return validate_content(entry, actual.sha256, std::span<const unsigned char>(actual.prefix.data(), actual.prefix_size), actual.source, error);
+        }
+        catch (const std::exception& exception)
+        {
+            error = exception.what();
+            return false;
+        }
+    }
+}

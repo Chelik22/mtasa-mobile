@@ -1,0 +1,233 @@
+Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  adler32.c
+  compress.c
+  crc32.c
+  deflate.c
+  gzclose.c
+  gzlib.c
+  gzread.c
+  gzwrite.c
+  infback.c
+  inffast.c
+  inflate.c
+  inftrees.c
+  trees.c
+  uncompr.c
+  zutil.c
+  Создание кода...
+  owned_http_zlib.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\owned_http_zlib.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  altsvc.c
+  asyn-ares.c
+  asyn-base.c
+  asyn-thrdd.c
+  bufq.c
+  bufref.c
+  cf-dns.c
+  cf-h1-proxy.c
+  cf-h2-proxy.c
+  cf-haproxy.c
+  cf-https-connect.c
+  cf-ip-happy.c
+  cf-socket.c
+  cfilters.c
+  conncache.c
+  connect.c
+  content_encoding.c
+  cookie.c
+  cshutdn.c
+  curl_addrinfo.c
+  Создание кода...
+  Компиляция...
+  curl_endian.c
+  curl_fnmatch.c
+  curl_fopen.c
+  curl_get_line.c
+  curl_gethostname.c
+  curl_gssapi.c
+  curl_memrchr.c
+  curl_ntlm_core.c
+  curl_range.c
+  curl_sasl.c
+  curl_sha512_256.c
+  curl_share.c
+  curl_sspi.c
+  curl_threads.c
+  curl_trc.c
+  base64.c
+  basename.c
+  dynbuf.c
+  fopen.c
+  inet_ntop.c
+  Создание кода...
+  Компиляция...
+  inet_pton.c
+  multibyte.c
+  nonblock.c
+  snprintf.c
+  strcopy.c
+  strdup.c
+  strerr.c
+  strparse.c
+  timediff.c
+  timeval.c
+  version_win32.c
+  wait.c
+  warnless.c
+  winapi.c
+  cw-out.c
+  cw-pause.c
+  dict.c
+  dllmain.c
+  dnscache.c
+  doh.c
+  Создание кода...
+  Компиляция...
+  dynhds.c
+  easy.c
+  easygetopt.c
+  easyoptions.c
+  escape.c
+  fake_addrinfo.c
+  file.c
+  fileinfo.c
+  formdata.c
+  ftp.c
+  ftplistparser.c
+  getenv.c
+  getinfo.c
+  gopher.c
+  hash.c
+  headers.c
+  hmac.c
+  hostip.c
+  hostip4.c
+  hostip6.c
+  Создание кода...
+  Компиляция...
+  hsts.c
+  http.c
+  http1.c
+  http2.c
+  http_aws_sigv4.c
+  http_chunks.c
+  http_digest.c
+  http_negotiate.c
+  http_ntlm.c
+  http_proxy.c
+  httpsrr.c
+  idn.c
+  if2ip.c
+  imap.c
+  ldap.c
+  llist.c
+  macos.c
+  md4.c
+  md5.c
+  memdebug.c
+  Создание кода...
+  Компиляция...
+  mime.c
+  mprintf.c
+  mqtt.c
+  multi.c
+  multi_ev.c
+  multi_ntfy.c
+  netrc.c
+  noproxy.c
+  openldap.c
+  parsedate.c
+  pingpong.c
+  pop3.c
+  progress.c
+  protocol.c
+  psl.c
+  rand.c
+  ratelimit.c
+  request.c
+  rtsp.c
+  select.c
+  Создание кода...
+  Компиляция...
+  sendf.c
+  setopt.c
+  sha256.c
+  slist.c
+  smb.c
+  smtp.c
+  socketpair.c
+  socks.c
+  socks_gssapi.c
+  socks_sspi.c
+  splay.c
+  strcase.c
+  strequal.c
+  strerror.c
+  system_win32.c
+  telnet.c
+  tftp.c
+  thrdpool.c
+  thrdqueue.c
+  transfer.c
+  Создание кода...
+  Компиляция...
+  uint-bset.c
+  uint-hash.c
+  uint-spbset.c
+  uint-table.c
+  url.c
+  urlapi.c
+  cleartext.c
+  cram.c
+  digest.c
+  digest_sspi.c
+  gsasl.c
+  krb5_gssapi.c
+  krb5_sspi.c
+  ntlm.c
+  ntlm_sspi.c
+  oauth2.c
+  spnego_gssapi.c
+  spnego_sspi.c
+  vauth.c
+  version.c
+  Создание кода...
+  Компиляция...
+  curl_ngtcp2.c
+  curl_quiche.c
+  vquic-tls.c
+  vquic.c
+  libssh.c
+  libssh2.c
+  vssh.c
+  apple.c
+  cipher_suite.c
+  gtls.c
+  hostcheck.c
+  keylog.c
+  mbedtls.c
+  openssl.c
+  rustls.c
+  schannel.c
+  schannel_verify.c
+  vtls.c
+  vtls_scache.c
+  vtls_spack.c
+  Создание кода...
+  Компиляция...
+  wolfssl.c
+  x509asn1.c
+  ws.c
+  Создание кода...
+  owned_http_curl.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\owned_http_curl.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  HttpManager.cpp
+  mta_owned_http.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\mta_owned_http.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  http_integration_tests.cpp
+  http_integration_tests.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\http_integration_tests.exe
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt

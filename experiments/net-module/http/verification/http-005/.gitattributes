@@ -1,0 +1,2 @@
+# Preserve exact native evidence bytes and the receipt's raw digests.
+* -text -whitespace

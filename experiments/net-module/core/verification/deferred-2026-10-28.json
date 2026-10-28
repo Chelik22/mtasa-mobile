@@ -1,0 +1,43 @@
+{
+  "recordedAtUtc": "2026-10-27T23:30:54.892538+00:00",
+  "expectedCompileRef": "128f7012508c9319d752fb9e8232b5f06adf0130",
+  "sourceHead": "128f7012508c9319d752fb9e8232b5f06adf0130",
+  "status": "deferred_memory",
+  "coreBuild": "not_run",
+  "projectGeneration": "not_run",
+  "freeMemoryMiBBeforeGenerate": 1669,
+  "laterOneShotFreeMemoryMiB": 560,
+  "minimumFreeMemoryMiB": 2048,
+  "buildChildrenStarted": false,
+  "baselineArtifactsImported": false,
+  "serverRuntime": "not_run",
+  "buildDefinitionHashes": {
+    "premake5.lua": "f0395fc18c700b01bcb15afcde930abc9e4ae294aab19265d929463794b59a64",
+    "Server/core/premake5.lua": "fe2ddf68f020ce6445925fdc6a284335a579662231f4655df832a6590c4e8b11"
+  },
+  "sourceInspection": {
+    "coreCppFiles": 9,
+    "coreKind": "SharedLib",
+    "coreTarget": "Bin/server/x64/core.dll",
+    "language": "C++23",
+    "toolset": "v145",
+    "runtime": "static /MT",
+    "defaultMP": "overridden by _CL_=/MP1",
+    "coreDeclaredWindowsLinks": [],
+    "buildDefinitionsIdenticalToPrimary": true,
+    "ownGeneratedProjectInspection": "not_run",
+    "primaryGeneratedProxyReferences": [],
+    "primaryGeneratedProxyReleaseX64AdditionalDependencies": [],
+    "proxyLimitation": "Primary generated project is a read-only cross-check of identical build definitions; it is not this worktree project inspection or a build result."
+  },
+  "helperValidation": {
+    "pythonSyntax": "passed",
+    "artifactMetadataContractTests": 5,
+    "artifactMetadataContractResult": "passed",
+    "targetProcessStarted": false,
+    "freshnessAndCompatibleManifestWorkflow": "implemented_not_run"
+  },
+  "postBaselineOneShotFreeMemoryMiB": 507,
+  "buildOwner": "root only; agent target launch disabled by latest instruction",
+  "updatedAtUtc": "2026-10-27T23:47:01.619123+00:00"
+}

@@ -1,0 +1,213 @@
+{
+  "recordedAtUtc": "2026-10-28T11:12:09.7630904Z",
+  "actualBuild": {
+    "status": "built_fresh",
+    "build": "passed",
+    "elf": "passed",
+    "runtime": "not_run",
+    "hostTraffic": "not_run",
+    "downloads": false,
+    "workers": 1,
+    "steps": [
+      {
+        "name": "plan",
+        "executable": "C:\\Android\\cmake\\3.22.1\\bin\\ninja.exe",
+        "arguments": [
+          "-C",
+          "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\build\\x86_64-api26-libcxx",
+          "-j",
+          "1",
+          "-n",
+          "headless_client",
+          "headless_codec_tests",
+          "protocol_tests"
+        ],
+        "pid": 42900,
+        "exitCode": 0,
+        "status": "passed",
+        "stdout": "plan.stdout.log",
+        "stderr": "plan.stderr.log",
+        "startedUtc": "2026-10-28T11:06:03.3533273Z",
+        "priority": "Normal",
+        "finishedUtc": "2026-10-28T11:06:03.9258168Z",
+        "stdoutSha256": "1DF027949617139B94B58C3AB0766B96C71F919E37581E4107CF296A2A925EE2",
+        "stderrSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      {
+        "name": "build",
+        "executable": "C:\\Android\\cmake\\3.22.1\\bin\\ninja.exe",
+        "arguments": [
+          "-C",
+          "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\build\\x86_64-api26-libcxx",
+          "-j",
+          "1",
+          "headless_client",
+          "headless_codec_tests",
+          "protocol_tests"
+        ],
+        "pid": 44028,
+        "exitCode": 0,
+        "status": "passed",
+        "stdout": "build.stdout.log",
+        "stderr": "build.stderr.log",
+        "startedUtc": "2026-10-28T11:06:04.8352191Z",
+        "priority": "Normal",
+        "finishedUtc": "2026-10-28T11:07:17.6093526Z",
+        "stdoutSha256": "87D6A80CE01CE7050DCF279C705670B22DBFA1C3772C987FE68E74C0DB060F65",
+        "stderrSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      {
+        "name": "elf-headless_client",
+        "executable": "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "arguments": [
+          "-h",
+          "-l",
+          "-d",
+          "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\build\\x86_64-api26-libcxx\\headless_client"
+        ],
+        "pid": 47976,
+        "exitCode": 0,
+        "status": "passed",
+        "stdout": "elf-headless_client.stdout.log",
+        "stderr": "elf-headless_client.stderr.log",
+        "startedUtc": "2026-10-28T11:07:20.2706914Z",
+        "priority": "Normal",
+        "finishedUtc": "2026-10-28T11:07:20.5712859Z",
+        "stdoutSha256": "8F94F3C4D1933C1E6069D8F5232DC2989EE28AAD78D7AAFC10255E3041B6F3E0",
+        "stderrSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      {
+        "name": "elf-headless_codec_tests",
+        "executable": "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "arguments": [
+          "-h",
+          "-l",
+          "-d",
+          "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\build\\x86_64-api26-libcxx\\headless_codec_tests"
+        ],
+        "pid": 43312,
+        "exitCode": 0,
+        "status": "passed",
+        "stdout": "elf-headless_codec_tests.stdout.log",
+        "stderr": "elf-headless_codec_tests.stderr.log",
+        "startedUtc": "2026-10-28T11:07:20.6592296Z",
+        "priority": "Normal",
+        "finishedUtc": "2026-10-28T11:07:21.0343616Z",
+        "stdoutSha256": "973EAD84B3FA11412052603D79E453787589D28C1A2B143E70BCF6D5E0BF0600",
+        "stderrSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      },
+      {
+        "name": "elf-protocol_tests",
+        "executable": "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "arguments": [
+          "-h",
+          "-l",
+          "-d",
+          "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\build\\x86_64-api26-libcxx\\protocol_tests"
+        ],
+        "pid": 45972,
+        "exitCode": 0,
+        "status": "passed",
+        "stdout": "elf-protocol_tests.stdout.log",
+        "stderr": "elf-protocol_tests.stderr.log",
+        "startedUtc": "2026-10-28T11:07:21.1207027Z",
+        "priority": "Normal",
+        "finishedUtc": "2026-10-28T11:07:21.283623Z",
+        "stdoutSha256": "10EB430AE39048B6B717EB573489686888D384FE69D735B11832E714088C3760",
+        "stderrSha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+      }
+    ],
+    "activeProcess": null,
+    "artifacts": [
+      {
+        "name": "headless_client",
+        "sha256": "AA4371952C340A39FEC5E1F8B8CEF15972E8462E0F4BC79C0FB0EF79EEF2A092",
+        "bytes": 7568120,
+        "modifiedUtc": "2026-10-28T11:07:17.4549471Z",
+        "freshlyProduced": true,
+        "runtime": "not_run",
+        "elf": "passed"
+      },
+      {
+        "name": "headless_codec_tests",
+        "sha256": "849C727ACD2689C009DEE1150F9C9079A578CB12EA1BAB4AA155BDCA867F8E74",
+        "bytes": 5457024,
+        "modifiedUtc": "2026-10-28T11:07:03.083911Z",
+        "freshlyProduced": true,
+        "runtime": "not_run",
+        "elf": "passed"
+      },
+      {
+        "name": "protocol_tests",
+        "sha256": "BAA7A60BE29F9F023CB3E756C6178C7FA75974395F060B5B30FADB5ED37E7E69",
+        "bytes": 5176144,
+        "modifiedUtc": "2026-10-28T11:07:06.0931539Z",
+        "freshlyProduced": true,
+        "runtime": "not_run",
+        "elf": "passed"
+      }
+    ],
+    "startedUtc": "2026-10-28T11:05:59.7620833Z",
+    "attemptRoot": "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\build\\x86_64-api26-libcxx\\runs\\20261028T1105596748241Z",
+    "driverPid": 32572,
+    "driverStartedUtc": "2026-10-28T11:05:56.6842833Z",
+    "includeInputFileCount": 180,
+    "sourceHead": "1a8c507a0d3ad06bc395e64368e49f96e83e33df",
+    "configuredSourceHead": "09ab4991447b6853f11eaa8c5e9dfda4bf79c030",
+    "sourceHashes": {
+      "MtaBitStream.cpp": "73928214AD909CEC0C02429066539C2490014D449A38BA5B72C4969C7E09DB0C",
+      "MtaBitStream.h": "CA0D542FA32C223D663DD6486685859B267336E8D6DDC7875D56B0A175456EA1",
+      "ModuleRuntime.cpp": "BD77E7873A1D29F3E6D10CE8FF6433B93C9ADDE7164AA9EFFE77AF2FB0327669",
+      "BitBuffer.h": "8F404FE100007A3897FA3A51C35A33C7A18B40EEB5B19DAB7D09E559A6C57015",
+      "Protocol.h": "A7FEDA46D6DE7D1838B97E6C99705CB3D9EABEB7265E6BE90DAF233FAEAF1150",
+      "headless/main.cpp": "E7398BC7FB475D676ED2DCBD278202ABD483506419A878FB3125FDA3B4E10A7A",
+      "headless/PacketCodec.h": "3E3F8412D6264EA93FE8EE0A226DD00A9B7578CB085BAEECD27A37191C34E9BE",
+      "headless/SourceConstants.h": "9E5A4C8B420B612014E29B63158077A8C9743C205D19054B90D3644C51B4CEC6",
+      "headless/codec_tests.cpp": "63D95DAAF993F87C829873DA775238EF091DDBCE3862A1467C8AD4223B014F8B",
+      "protocol_tests.cpp": "DAB038C4070AF4794193EFC65F39F2D392D91CBC11AC87FF3A9E4F81FD1F9E77"
+    },
+    "cmakeSha256": "A7387A6FF4B777A071BE8504506C086B9BAE2DC23A7814AF5FF57D44CFD68BAF",
+    "dependencyManifestSha256": "765C89288CE5F033BCD7643F8B1688C2B304568E2EACF104EA19658507D6E30D",
+    "enetCommit": "2662c0de09e36f2a2030ccc2c528a3e4c9e8138a",
+    "enetArchiveSha256": "37381831c5ccbb41c3c71e867203fee847670f67717f297f930290d18985ad5f",
+    "verifiedEnetFiles": 38,
+    "graphSha256": "C111BE8621D9A755F09D15CBFE2E7F8C77F97491DFA0CD56E0B6E69F5AB5CDD9",
+    "runnerSha256": "14BB004E80D1B339F5D61F244DDD5CAA8312F08CFE494D60E1C5B7E21F94C7EC",
+    "frozenInputsHelperSha256": "049183C0B5FB05A3B9CEEF2EA55C21D70DA5E51D1FFC81A222BDE248EE19BEA2",
+    "ninjaInputClosureSha256": {
+      "build.ninja": "C111BE8621D9A755F09D15CBFE2E7F8C77F97491DFA0CD56E0B6E69F5AB5CDD9",
+      "CMakeFiles/rules.ninja": "7405A70FAC4A9EE88609B5A767C6C609772EFC4790367A1483DC5FAC8E11BC3D"
+    },
+    "configureSnapshotSha256": "745F0866FEC8E2BBFC110B616308561B914C5F1B60262AF0066EF8047BD7F16A",
+    "configureSnapshotPath": "D:\\projects\\astana\\work\\mtasa-mobile-android-headless\\experiments\\net-module\\android\\verification\\configure-libcxx-2026-10-28.json",
+    "requestedPriority": "Normal",
+    "cacheSha256": "EC282D097C25CF0BE81046F339B51731C17256E12C4B12314C2FA893C7EDFBDD",
+    "toolchainSha256": "DBAD92D9DCFEA0D32B7C5E5F82F5072D878DED5D46A5D3F1F581EA108CA7FE89",
+    "ndkSourcePropertiesSha256": "C00AA236FDB205E9BE9EDD9E2169763E48ACA52735EFFF4E16F34205D49783B5",
+    "ninjaSha256": "D5D6705439AAC3162FF6CFB1509246CDBBECAF9D10D7C846713AF2C07D8D7EE8",
+    "readelfSha256": "2646E382D8B2559B5C4AE91E9A98E187ED9BD59F23936054D424049EF795BA5E",
+    "freeMemoryMiB": 4404.0,
+    "requiredFreeMemoryMiB": 2048,
+    "freeMemoryAfterPlanMiB": 4342.0,
+    "buildStartedUtc": "2026-10-28T11:06:04.820233Z",
+    "finishedUtc": "2026-10-28T11:07:21.2952955Z"
+  },
+  "translationUnits": 14,
+  "completedNinjaTasks": 19,
+  "noObjectsCopied": true,
+  "oldFailedAttemptPreserved": true,
+  "buildNinjaLogSha256": "120426F437A1F8377EB9356FE6542FA3E30207129806F6A89A50DB176E0DDA46",
+  "sdkFilesystemHeaderSha256": "B44C6FAF1F2DF5CB991EB9C81637D4FD78D700215B6532D6E735FEE251C0EC08",
+  "sourceRuntime": "not_run",
+  "androidHostH1Interaction": "not_run",
+  "frameworkBoot": "not_run_in_this_task",
+  "gameExecution": "not_run",
+  "abi": "x86_64",
+  "api": 26,
+  "stl": "c++_static",
+  "elfDynamicLibraries": [
+    "libm.so",
+    "libdl.so",
+    "libc.so"
+  ]
+}

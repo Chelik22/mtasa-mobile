@@ -1,0 +1,107 @@
+{
+  "recorded_utc": "2026-10-27T23:21:28.033216+00:00",
+  "scope": "G3 actual Win64 CNetServer DLL component and selected headless packet codecs; NOT actual MTA server/player/Lua runtime",
+  "base_commit_before_uncommitted_module_changes": "128f7012508c9319d752fb9e8232b5f06adf0130",
+  "mta_upstream": "a84e0c77c66f596b0c72def1c857253568208a2b",
+  "build": {
+    "generator": "Visual Studio 18 2026",
+    "platform": "x64",
+    "configuration": "Release",
+    "parallel": 1,
+    "exit_code": 0,
+    "incremental_rebuilt_targets": [
+      "net_experimental",
+      "server_module_tests"
+    ]
+  },
+  "dependency": {
+    "enet_commit": "2662c0de09e36f2a2030ccc2c528a3e4c9e8138a",
+    "archive_sha256": "37381831c5ccbb41c3c71e867203fee847670f67717f297f930290d18985ad5f",
+    "cached_files_revalidated_now": 38,
+    "network_downloads": false
+  },
+  "ctest": {
+    "exit_code": 0,
+    "passed": 7,
+    "failed": 0,
+    "last_test_log_sha256": "093fe5fd0a463f7183086a1df5cf64169a4a1f9652b2cb2cf217e34507041d60",
+    "raw_log": "Start testing: Oct 28 04:17 ��������� (����)\n----------------------------------------------------------\n1/7 Testing: bitbuffer_contract\n1/7 Test: bitbuffer_contract\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/bitbuffer_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"bitbuffer_contract\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS scalar/bit/varint golden vectors, malformed bounds, normalized values and aliasing; MTA integration NOT RUN\n<end of output>\nTest time =   0.39 sec\n----------------------------------------------------------\nTest Passed.\n\"bitbuffer_contract\" end time: Oct 28 04:17 ��������� (����)\n\"bitbuffer_contract\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n2/7 Testing: mta_bitstream_interface\n2/7 Test: mta_bitstream_interface\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/mta_adapter_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"mta_bitstream_interface\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS actual NetBitStreamInterface helpers and reference-count lifetime; cross-DLL/server integration NOT RUN\n<end of output>\nTest time =   0.17 sec\n----------------------------------------------------------\nTest Passed.\n\"mta_bitstream_interface\" end time: Oct 28 04:17 ��������� (����)\n\"mta_bitstream_interface\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n3/7 Testing: mta_bitstream_module_boundary\n3/7 Test: mta_bitstream_module_boundary\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/module_boundary_tests.exe\" \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/bitstream_boundary.dll\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"mta_bitstream_module_boundary\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS dynamically loaded MTA bitstream, host-inline refcount and DLL destruction; CNetServer NOT RUN\n<end of output>\nTest time =   0.31 sec\n----------------------------------------------------------\nTest Passed.\n\"mta_bitstream_module_boundary\" end time: Oct 28 04:17 ��������� (����)\n\"mta_bitstream_module_boundary\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n4/7 Testing: owned_protocol_frame\n4/7 Test: owned_protocol_frame\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/protocol_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"owned_protocol_frame\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS owned frame golden/malformed/session shape/hello bounds; transport and MTA join NOT RUN\n<end of output>\nTest time =   0.23 sec\n----------------------------------------------------------\nTest Passed.\n\"owned_protocol_frame\" end time: Oct 28 04:17 ��������� (����)\n\"owned_protocol_frame\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n5/7 Testing: owned_cnetserver_module\n5/7 Test: owned_cnetserver_module\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/server_module_tests.exe\" \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/net_experimental.dll\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"owned_cnetserver_module\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS actual CNetServer DLL/ENet ABI, plain Lua buffer, callback lifetime, exact bits, identity, per-channel sequences, quit/reconnect/stale rejection; MTA CPlayer NOT RUN\n<end of output>\nTest time =   0.89 sec\n----------------------------------------------------------\nTest Passed.\n\"owned_cnetserver_module\" end time: Oct 28 04:17 ��������� (����)\n\"owned_cnetserver_module\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n6/7 Testing: headless_selected_packet_codecs\n6/7 Test: headless_selected_packet_codecs\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/headless_codec_tests.exe\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"headless_selected_packet_codecs\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS selected MTA packet codecs and malformed payloads; server/H1 NOT RUN\n<end of output>\nTest time =   0.20 sec\n----------------------------------------------------------\nTest Passed.\n\"headless_selected_packet_codecs\" end time: Oct 28 04:17 ��������� (����)\n\"headless_selected_packet_codecs\" time elapsed: 00:00:00\n----------------------------------------------------------\n\n7/7 Testing: headless_source_constants\n7/7 Test: headless_source_constants\nCommand: \"C:/Users/jasda/AppData/Local/Programs/Python/Python314/python.exe\" \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/headless/check_source_constants.py\" \"--check\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build\n\"headless_source_constants\" start time: Oct 28 04:17 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS source-derived enum values; no server/client runtime executed\n<end of output>\nTest time =   0.86 sec\n----------------------------------------------------------\nTest Passed.\n\"headless_source_constants\" end time: Oct 28 04:17 ��������� (����)\n\"headless_source_constants\" time elapsed: 00:00:00\n----------------------------------------------------------\n\nEnd testing: Oct 28 04:17 ��������� (����)\n"
+  },
+  "source_sha256": {
+    "experiments/net-module/BitBuffer.h": "e0b9b1b6aafbb4c9d7753de51b692f00ad42386d1319b7022b32a07cc527d463",
+    "experiments/net-module/MtaBitStream.h": "5b7bc5f475cab7656a09d23c4396c5576adc370eb7979f7686eeb24b13c6f9f0",
+    "experiments/net-module/Protocol.h": "df3a27f4e746438987e266047883dc4544ea6a6b4f7a5fc70bf90ec7217df809",
+    "experiments/net-module/bitbuffer_tests.cpp": "763fa699bb831f43e6ef791cadfbbc59bd3d38ade1d101841fc51164af178728",
+    "experiments/net-module/BitStreamFactory.cpp": "05e1f037a6c9945a7e8135fda4c9b9a139885b67b8f745cff1b5060e17568809",
+    "experiments/net-module/ModuleRuntime.cpp": "e4dbcf1b28944fa28656f56ad80ea4f410eb30f8f4ce5ee95ab89387df1886a1",
+    "experiments/net-module/module_boundary_tests.cpp": "51dc1d25e6daa36677f58c0b54f63ed670fdf7846a1ffb50d75a84ee8325eb35",
+    "experiments/net-module/MtaBitStream.cpp": "8f36a7c3ca56333e2b3726f6ba82fe3e60a732a5c3b26837ab475afd23576fdd",
+    "experiments/net-module/mta_adapter_tests.cpp": "9cf1e320d64efde279d359d2d8c6a34eb5fe723e55e897aaf2fbcd9c76b826b7",
+    "experiments/net-module/OwnedNetServer.cpp": "e825f94addc1cd7664b23bae1f91e7908b06aa12bcc28a3fa8d0d27754b0264f",
+    "experiments/net-module/protocol_tests.cpp": "d41e242272520088cf14d2b68b32846b7d39c485c18fac8d83faa430d035a81e",
+    "experiments/net-module/server_module_tests.cpp": "0cadb7dfe105e004b46fe7c7cac81fa3f73a96488a03510cbdb0c2c483157769",
+    "experiments/net-module/CMakeLists.txt": "f903ff19cb0c02b99fecb44965e6d0ce9c74f18513bc52c01c9659d6c3836855",
+    "experiments/net-module/headless/PacketCodec.h": "3e3f8412d6264ea93fe8ee0a226dd00a9b7578cb085baeecd27a37191c34e9be",
+    "experiments/net-module/headless/SourceConstants.h": "9e5a4c8b420b612014e29b63158077a8c9743c205d19054b90d3644c51b4cec6",
+    "experiments/net-module/headless/codec_tests.cpp": "63d95daaf993f87c829873da775238ef091ddbce3862a1467c8ad4223b014f8b",
+    "experiments/net-module/headless/main.cpp": "e7398bc7fb475d676ed2dcbd278202abd483506419a878fb3125fda3b4e10a7a",
+    "experiments/net-module/headless/check_source_constants.py": "2fe47261174eb23e846a86c0f58754bec69765c7587f50824291a1e7cd48241d",
+    "Server/core/CServerImpl.cpp": "f22f31a07a954c634562aeedb127751b1099112c843e824507a3e7e926a6d83e"
+  },
+  "output_sha256": {
+    "bitbuffer_tests.exe": "a66533d536249ae3bd7ae5a8b52511dbcbf1f9983dbb88d7bbff88a1edf87d03",
+    "mta_adapter_tests.exe": "6e700d904ae8742550ba202b81fd966c33b172261476da708a01ba73ab89c803",
+    "module_boundary_tests.exe": "0090d50c18e662c708d03c2aee8105d2f920965720188cb699934275cd225676",
+    "bitstream_boundary.dll": "5c9fba42c79559f2c4de71c241807fa72ab3f8bced633cce784fb5ece8997b1f",
+    "protocol_tests.exe": "d37d222f6889ce4b47af86d8e4088415f0a15d7b8b539f16295e5cae181e968f",
+    "net_experimental.dll": "58ae2741e6b7037866737d65187b005337d7302e9b155add2af35bf4bdb1ee2f",
+    "server_module_tests.exe": "71744cc72d4c203f2c80dfbe423374e941f205f4878ec7f2d2e54e9497dae7bc",
+    "headless_client.exe": "bbc5fe763121ba0a3328399661bad1ab0039a0b6c78f13924b86c6d9ebc9d375",
+    "headless_codec_tests.exe": "6775103ba134cd8a9b719529047fe55d1ff592a4341bc24a46903a40de90a464"
+  },
+  "review": {
+    "independent_reviewer": "network_audit",
+    "repaired": [
+      "occupied UDP endpoint overwrite/native event guard",
+      "quit-before-next-join callback order",
+      "bounded identity generation history",
+      "compiled Lua after optional UTF-8 BOM rejected, plain BOM source preserved"
+    ],
+    "source_re_review": "passed; network_audit reviewed both module and lab BOM boundary",
+    "runtime_by_coordinator": "7/7 CTest passed"
+  },
+  "not_run": [
+    "actual source-built MTA server loading experimental DLL",
+    "actual server Lua via experimental module",
+    "two real CPlayer and H1 witness",
+    "full five-mode reliability/loss/reorder/priority/queue contract",
+    "HTTP resource downloading/client Lua",
+    "PC gameplay",
+    "Android runtime/gameplay",
+    "touch",
+    "RP scenario"
+  ],
+  "source_lf_sha256": {
+    "experiments/net-module/BitBuffer.h": "e0b9b1b6aafbb4c9d7753de51b692f00ad42386d1319b7022b32a07cc527d463",
+    "experiments/net-module/MtaBitStream.h": "5b7bc5f475cab7656a09d23c4396c5576adc370eb7979f7686eeb24b13c6f9f0",
+    "experiments/net-module/Protocol.h": "df3a27f4e746438987e266047883dc4544ea6a6b4f7a5fc70bf90ec7217df809",
+    "experiments/net-module/bitbuffer_tests.cpp": "763fa699bb831f43e6ef791cadfbbc59bd3d38ade1d101841fc51164af178728",
+    "experiments/net-module/BitStreamFactory.cpp": "05e1f037a6c9945a7e8135fda4c9b9a139885b67b8f745cff1b5060e17568809",
+    "experiments/net-module/ModuleRuntime.cpp": "e4dbcf1b28944fa28656f56ad80ea4f410eb30f8f4ce5ee95ab89387df1886a1",
+    "experiments/net-module/module_boundary_tests.cpp": "51dc1d25e6daa36677f58c0b54f63ed670fdf7846a1ffb50d75a84ee8325eb35",
+    "experiments/net-module/MtaBitStream.cpp": "8f36a7c3ca56333e2b3726f6ba82fe3e60a732a5c3b26837ab475afd23576fdd",
+    "experiments/net-module/mta_adapter_tests.cpp": "9cf1e320d64efde279d359d2d8c6a34eb5fe723e55e897aaf2fbcd9c76b826b7",
+    "experiments/net-module/OwnedNetServer.cpp": "e825f94addc1cd7664b23bae1f91e7908b06aa12bcc28a3fa8d0d27754b0264f",
+    "experiments/net-module/protocol_tests.cpp": "d41e242272520088cf14d2b68b32846b7d39c485c18fac8d83faa430d035a81e",
+    "experiments/net-module/server_module_tests.cpp": "0cadb7dfe105e004b46fe7c7cac81fa3f73a96488a03510cbdb0c2c483157769",
+    "experiments/net-module/CMakeLists.txt": "f903ff19cb0c02b99fecb44965e6d0ce9c74f18513bc52c01c9659d6c3836855",
+    "experiments/net-module/headless/PacketCodec.h": "4a10006c2c0a408f2ec403a40880a536ff87c75e696e23c60e2ef70073c9c82b",
+    "experiments/net-module/headless/SourceConstants.h": "942d134bdc84c13982c34fd9539c5ce321e805c0ca5964a9e1cc79793f111490",
+    "experiments/net-module/headless/codec_tests.cpp": "16567b4fd8f93b4bd4f6f1efa3d6d35d3fd1887f2dcb45daddc38e9112083606",
+    "experiments/net-module/headless/main.cpp": "eedbc241ba23d2def23a43ad1950d4e6d1115858aa3dbd06c2919fdb7d44e00b",
+    "experiments/net-module/headless/check_source_constants.py": "3212f6d9a1024dcb52125aa69af8f3ffac8bfa6f20bb05582e941264067e0599",
+    "Server/core/CServerImpl.cpp": "e1775a51f9f86112e976c41c359cfb66e42129353eac6e307cf63ca18ec2671d"
+  },
+  "source_lf_sha256_mode": "UTF-8 source bytes with CRLF normalized to LF; source_sha256 remains exact raw-file hash",
+  "source_hash_metadata_updated_utc": "2026-10-27T23:35:54.985197+00:00"
+}

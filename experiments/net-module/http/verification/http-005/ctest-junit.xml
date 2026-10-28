@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="3"
+	timestamp="2026-10-28T15:17:57"
+	>
+	<testcase name="real_localhost_http" classname="real_localhost_http" time="3.49543" status="run">
+		<properties/>
+		<system-out>PASS real curl HTTP methods/options/status/files/retry/callback lifecycle; pointer_bits=32; MTA/game/client Lua/G4 NOT RUN
+PASS real localhost HTTP fixture; MTA/game/client Lua/G4 NOT RUN
+</system-out>
+	</testcase>
+</testsuite>

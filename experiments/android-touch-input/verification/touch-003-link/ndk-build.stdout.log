@@ -1,0 +1,6 @@
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/projects/astana/work/mta-mobile-lab/android-touch-input/runs/touch-002/android-arm64
+[0/1] Re-running CMake...
+[1/2] Building CXX object CMakeFiles/input_state_tests.dir/input_state_tests.cpp.o
+[2/2] Linking CXX executable input_state_tests

@@ -1,0 +1,11 @@
+test_callable_claim_rejected (test_inventory.InventoryTests.test_callable_claim_rejected) ... ok
+test_candidate_only_matches (test_inventory.InventoryTests.test_candidate_only_matches) ... ok
+test_changed_binary_rejected (test_inventory.InventoryTests.test_changed_binary_rejected) ... ok
+test_changed_dump_rejected (test_inventory.InventoryTests.test_changed_dump_rejected) ... ok
+test_wrong_export_rejected (test_inventory.InventoryTests.test_wrong_export_rejected) ... ok
+test_wrong_machine_rejected_even_with_matching_digest (test_inventory.InventoryTests.test_wrong_machine_rejected_even_with_matching_digest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.051s
+
+OK

@@ -1,0 +1,87 @@
+# Android native H1 protocol client
+
+Отдельный CMake project собирает **те же** `headless/main.cpp`, `MtaBitStream.cpp`, `ModuleRuntime.cpp`, `headless/codec_tests.cpp` и `protocol_tests.cpp`, что использует настоящий Windows H1. Protocol/codec не копируются. Это подготовка Android→host MTAX/ENet и MTA packet interaction; GTA, client Lua VM и native world сюда не входят.
+
+Профиль фиксирован: Android x86_64, API26, `c++_static`, установленный NDK r28c. `ModuleRuntime` выбирает существующую pthread-ветку. Нет Windows DLL/server targets, host Python discovery, CTest runtime или downloader. Cached ENet сверяется с единственным repository manifest из `experiments/mobile-net/android/verification/dependency.json`: все38 hashes pinned archive2662c0de09e36f2a2030ccc2c528a3e4c9e8138a. Отсутствующий/изменённый cache — configure failure, не повод скачать замену.
+
+## Configure отдельно от cold build
+
+```powershell
+& './experiments/net-module/android/Configure-Android.ps1'
+```
+
+Defaults соответствуют уже установленным local tools/cache; для другого checkout передай `EnetSource`, `NdkRoot`, `Cmake`, `Ninja`, `OutputRoot`. Configure сохраняет собственный CMake PID/start, аргументы, source SHA/hashes и live stdout/stderr в ignored `android/build/x86_64-api26`. При активном recorded PID повторный запуск отвергается. Tiny NDK/compiler/function probes во время configure допустимы; три application targets эта команда не собирает и не запускает.
+
+Проверка generated constants на host: `python experiments/net-module/headless/check_source_constants.py --check`. Сам Android CMake project не требует Python; константы используются из того же checkout.
+
+**Cold compile пока не разрешён:** G1 MSBuild имеет приоритет по RAM. После отдельного согласования build выполняется одной командой с одним worker:
+
+```powershell
+cmake --build experiments/net-module/android/build/x86_64-api26 --parallel 1 --target headless_client headless_codec_tests protocol_tests
+```
+
+После реальной сборки зафиксировать hashes и NDK llvm-readelf header/program headers/dynamic dependencies. До этого target build, ELF verification и Android runtime — not_run. Configure success не доказывает source compilation или runtime.
+
+### Persistent build runner: подготовлен без cold compile
+
+`Build-Android.ps1` использует только существующий frozen Ninja cache в этом worktree. Default — `plan_only`: проверяет source/dependency/graph hashes и профиль cache, не запускает Ninja, clang, readelf или Android. Его можно выполнить для preflight:
+
+```powershell
+& './experiments/net-module/android/Build-Android.ps1'
+```
+
+Actual build требует **сначала slot от root после HTTP standalone**, затем fresh free RAM не менее2048MiB. Script проверяет RAM перед Ninja dry-run и ещё раз перед настоящим `-j1` build. Этот gate не распределяет RAM между агентами и не заменяет согласование приоритета с root. До такого согласования следующая команда — только подготовленный план:
+
+```powershell
+pwsh -NoProfile -File 'D:/projects/astana/work/mtasa-mobile-android-headless/experiments/net-module/android/Build-Android.ps1' -Run
+```
+
+Запускать в persistent CLI session и следить за тем же native PID. `build-active.json` указывает current PID/path/start и attempt directory; `build/runs/<timestamp>/` содержит отдельные live stdout/stderr, exit files и result. Lock и process identity защищают от дубликата. Каждый step держит actual Process handle и drains до terminal; при ошибке metadata выполняется адресный cleanup собственного дерева. Наблюдение не ограничено60s, а timeout внешней оболочки не даёт оснований повторить запуск.
+
+Runner не вызывает configure. Dry-run отвергает запрос Ninja на CMake regeneration. Перед/после compile проверяются прежние source hashes,38 ENet hashes и полный file set, generated graph и cache. Executables проверяются llvm-readelf как ELF64/PIE x86_64 с `/system/bin/linker64`, без shared C++ runtime. SHA/mtime/freshness и tool/log hashes сохраняются; reuse старых executable не выдаётся за новое производство (`not_new_build`, script exit2). Cache/objects автоматически не удаляются.
+
+Freeze включает полный literal `include/subninja` closure (`build.ninja` и `CMakeFiles/rules.ninja` в текущем graph), CMakeCache и compile_commands. File set include roots `Shared/sdk`, `Server/sdk` и `experiments/net-module` сверяется с frozen Git tree физическим обходом, включая ignored/untracked files. Собственный Android tooling берётся из reviewed current HEAD; исключён только generated `android/build/`, поскольку даже `android/log.h` мог бы shadow NDK header через module include directory. Поэтому дополнительный `Shared/sdk/vector` или `android/log.h` отвергается до Ninja. Девять filesystem regression checks подтвердили original closure, rejection изменения только rules.ninja и добавления/удаления include files; fixtures находятся только внутри ignored android/build. Native tools в этих tests не запускались.
+
+После actual ELF inspection Android runtime остаётся not_run: ни один полученный executable script на host не запускает. Native build/cleanup/ELF ветки runner пока **не выполнялись**; пройдены parser и настоящий preflight без `-Run`. Source review требуется до cold compile.
+
+## Будущий actual ADB сценарий
+
+Следующие команды — план, **не выполнены**. Требуются reviewed binaries, owned Android native shell и отдельно запущенный source-built H1 server с experimental module/исходным Lua witness. Windows server сохраняет bind `127.0.0.1`; firewall/Windows settings и внешние interfaces не меняются. Для Android Emulator адрес `10.0.2.2` обращается к host loopback; это не адрес для физического телефона.
+
+```powershell
+$adb = 'C:/platform-tools/adb.exe'
+$serial = 'emulator-5580'
+& $adb -s $serial shell mkdir -p /data/local/tmp/mta-h1
+& $adb -s $serial push ./experiments/net-module/android/build/x86_64-api26/headless_client /data/local/tmp/mta-h1/headless_client
+& $adb -s $serial push ./experiments/net-module/android/build/x86_64-api26/headless_codec_tests /data/local/tmp/mta-h1/headless_codec_tests
+& $adb -s $serial push ./experiments/net-module/android/build/x86_64-api26/protocol_tests /data/local/tmp/mta-h1/protocol_tests
+& $adb -s $serial shell chmod 700 /data/local/tmp/mta-h1/headless_client /data/local/tmp/mta-h1/headless_codec_tests /data/local/tmp/mta-h1/protocol_tests
+& $adb -s $serial shell /data/local/tmp/mta-h1/headless_codec_tests
+& $adb -s $serial shell /data/local/tmp/mta-h1/protocol_tests
+```
+
+До старта клиента передать новый пустой command file (не переиспользовать и не обнулять работающий). Подставить **порт из конкретного изолированного H1 runtime receipt**:
+
+```text
+adb -s emulator-5580 shell /data/local/tmp/mta-h1/headless_client --host 10.0.2.2 --port <H1_UDP_PORT> --identity CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC --nickname H1_Android --duration 180 --commands /data/local/tmp/mta-h1/android.commands
+```
+
+Процесс CLI должен иметь собственные PID/log/exit и наблюдаться до terminal. Второй endpoint — уже проверенный Windows H1 client с другим identity/nickname. В командный файл через ADB добавляются полные строки `status`, `disconnect`, `connect`, `reconnect`, `quit`; append-only/64KiB contract прежнего клиента сохраняется. Клиент автоматически использует настоящий MTA join/packet flow и Lua event codec. Native CLI может работать до `boot_completed`, но это не закрывает Android framework/game gate.
+
+Для принятия результата нужны actual source-server player/ElementID receipts, прежний Lua witness vehicle assertions/roundtrips, reconnect и cleanup обоих endpoints; отдельно stdout/exit codec binaries. Один Android client, codec PASS или transport handshake не заменяют этот сценарий. Полный CLI orchestration adapter к private H1 runner ещё предстоит подготовить; существующий Windows runner нельзя объявлять совместимым с ADB без испытания.
+
+## Текущий статус
+
+Source/constants check и PowerShell parser выполнены. Actual configure PID47300 завершился exit0, Clang19.0.1/NDKr28c; проверены38 ENet hashes и точный source file set. Ninja graph содержит14 translation units и три заданных application targets. Их executable files отсутствуют: cold build, ELF verification и все Android/host executions not_run. [Configure snapshot](verification/configure-2026-10-28.json) содержит actual source/hash/PID/log evidence; никаких AVD/APK/GTA binaries в Git нет.
+
+Изменения этого subproject обратимы удалением отдельного Android entry point; host CMake и application sources не меняются.
+
+## Первый actual cold build и libc++ fix
+
+Ninja16872 завершился exit1: `SharedUtil.Misc.h` для libc++ ошибочно выбирал MSVC forward declaration `namespace std::filesystem`, конфликтующий с inline ABI namespace NDK. `ModuleRuntime.cpp`, `MtaBitStream.cpp` и static archive были собраны; application executables и ELF checks — нет. [Failed receipt](verification/build-x86_64-attempt1-2026-10-28.json) сохранён. Старый configure/cache/objects не переписываются и не переносятся.
+
+Root отдельно разрешил единственный SDK header fix: libc++ включает настоящий `<filesystem>`, MSVC/GCC branches сохраняются. После independent review новый configure выполняется в **новом** `build/x86_64-api26-libcxx`; его snapshot также отдельный. Runner принимает `-BuildRoot`, `-ConfigureSnapshot` и `-Priority Normal`; actual retained PID/path/start проверяются до смены priority. High и добавление workers недоступны. Native streams используют unbuffered file writes, чтобы короткий Ninja progress был виден до terminal.
+
+После independent review выполнены отдельный configure6432 exit0 и новый Ninja44028 `-j1`/Normal exit0:14TU/19tasks. Все3 application executables freshly produced, отдельные llvm-readelf processes завершились0. ELF64/PIE/x86_64 с `/system/bin/linker64`, dynamic libraries только libc/libdl/libm; shared libc++ отсутствует. [Configure receipt](verification/configure-libcxx-2026-10-28.json), [build/ELF receipt](verification/build-libcxx-x86_64-2026-10-28.json).
+
+Старый failed receipt не повышается в passed и его cache/objects не копировались. Android execution, native codec execution и Android↔host H1 interaction остаются **not_run**; AVD в этой задаче не запускался. Следующий A1 сценарий требует отдельного плана/review и реального ADB/серверных Lua receipts.

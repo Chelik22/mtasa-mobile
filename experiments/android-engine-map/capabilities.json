@@ -1,0 +1,203 @@
+{
+  "schema": "mta-android-engine-static-candidates-v1",
+  "runtime": "not_run",
+  "mta_source_sha": "817dd26bbbec3c46e865780ea3642acabe71012a",
+  "apk": {
+    "sha256": "348750d29d2e463768a2c806dc01c331f2b88fce1646fba8e7485e6c3ff6ff50",
+    "signature_provenance": "unverified"
+  },
+  "library": {
+    "member": "lib/arm64-v8a/libGame.so",
+    "bytes": 8943088,
+    "sha256": "4c6a7445e30b27afdda781302e4db9bac89c28fc1181b68b1eef16f84d6a282e",
+    "elf_class": 64,
+    "endian": "little",
+    "elf_type": 3,
+    "machine": 183
+  },
+  "symbol_dump": {
+    "sha256": "cd896756e44910d5546961b0ca7b0693e3d9179c7e5fa3cca734fa8a5ce6c759",
+    "kind": "provided readelf header/dynamic/symbol dump"
+  },
+  "required_before_engine_calls": [
+    "exact binary identity",
+    "available compatible ARM64 execution environment (native or documented emulator translation)",
+    "calling ABI including return/aggregate types",
+    "object layouts and lifetime",
+    "game thread and tick phase",
+    "model streaming and ownership",
+    "input event and lifecycle semantics"
+  ],
+  "capabilities": [
+    {
+      "name": "player_position_read",
+      "state": "candidate_only",
+      "callable": false,
+      "symbols": [
+        {
+          "mangled": "_Z13FindPlayerPedi",
+          "dump_line": 14863
+        },
+        {
+          "mangled": "_ZN6CPools6GetPedEi",
+          "dump_line": 15917
+        },
+        {
+          "mangled": "_ZN6CPools9GetPedRefEP4CPed",
+          "dump_line": 2951
+        },
+        {
+          "mangled": "_ZN10CPlaceable9GetMatrixEv",
+          "dump_line": 970
+        }
+      ]
+    },
+    {
+      "name": "player_position_write",
+      "state": "candidate_only",
+      "callable": false,
+      "symbols": [
+        {
+          "mangled": "_ZN10CPlaceable9SetMatrixERK7CMatrix",
+          "dump_line": 11983
+        },
+        {
+          "mangled": "_ZN4CPed8TeleportE7CVectorh",
+          "dump_line": 1344
+        },
+        {
+          "mangled": "_ZN7CEntity14UpdateRwMatrixEv",
+          "dump_line": 11787
+        },
+        {
+          "mangled": "_ZN7CEntity13UpdateRwFrameEv",
+          "dump_line": 20592
+        }
+      ]
+    },
+    {
+      "name": "vehicle_create",
+      "state": "candidate_only",
+      "callable": false,
+      "symbols": [
+        {
+          "mangled": "_ZN8CCarCtrl18CreateCarForScriptEi7CVectorh",
+          "dump_line": 17494
+        },
+        {
+          "mangled": "_ZN10CStreaming12RequestModelEii",
+          "dump_line": 8698
+        },
+        {
+          "mangled": "_ZN10CStreaming22LoadAllRequestedModelsEb",
+          "dump_line": 22359
+        },
+        {
+          "mangled": "_ZN11CAutomobileC1Eihh",
+          "dump_line": 9087
+        }
+      ]
+    },
+    {
+      "name": "vehicle_destroy",
+      "state": "candidate_only",
+      "callable": false,
+      "symbols": [
+        {
+          "mangled": "_ZN6CPools10GetVehicleEi",
+          "dump_line": 2615
+        },
+        {
+          "mangled": "_ZN6CPools13GetVehicleRefEP8CVehicle",
+          "dump_line": 14850
+        },
+        {
+          "mangled": "_ZN6CWorld3AddEP7CEntity",
+          "dump_line": 8114
+        },
+        {
+          "mangled": "_ZN6CWorld6RemoveEP7CEntity",
+          "dump_line": 10438
+        },
+        {
+          "mangled": "_ZN8CVehicleD0Ev",
+          "dump_line": 7164
+        },
+        {
+          "mangled": "_ZN8CVehicleD1Ev",
+          "dump_line": 11395
+        },
+        {
+          "mangled": "_ZN8CVehicleD2Ev",
+          "dump_line": 15866
+        }
+      ]
+    },
+    {
+      "name": "world_tick",
+      "state": "candidate_only",
+      "callable": false,
+      "symbols": [
+        {
+          "mangled": "_ZN5CGame7ProcessEv",
+          "dump_line": 12120
+        },
+        {
+          "mangled": "_ZN6CWorld7ProcessEv",
+          "dump_line": 4754
+        },
+        {
+          "mangled": "_ZN6CTimer6UpdateEv",
+          "dump_line": 15187
+        },
+        {
+          "mangled": "_ZN4CPad6UpdateEs",
+          "dump_line": 16265
+        }
+      ]
+    },
+    {
+      "name": "touch_lifecycle",
+      "state": "candidate_only",
+      "callable": false,
+      "symbols": [
+        {
+          "mangled": "_Z14AND_TouchEventiiii",
+          "dump_line": 3009
+        },
+        {
+          "mangled": "_ZN15CTouchInterface6UpdateEv",
+          "dump_line": 4904
+        },
+        {
+          "mangled": "_ZN15CTouchInterface5ClearEv",
+          "dump_line": 2301
+        },
+        {
+          "mangled": "_ZN15CTouchInterface13GetTouchDeltaEi",
+          "dump_line": 5117
+        },
+        {
+          "mangled": "Java_com_rockstargames_oswrapper_GameNative_implOnTouchStart",
+          "dump_line": 14564
+        },
+        {
+          "mangled": "Java_com_rockstargames_oswrapper_GameNative_implOnTouchMove",
+          "dump_line": 7094
+        },
+        {
+          "mangled": "Java_com_rockstargames_oswrapper_GameNative_implOnTouchEnd",
+          "dump_line": 22036
+        },
+        {
+          "mangled": "Java_com_rockstargames_oswrapper_GameNative_implOnPause",
+          "dump_line": 5277
+        },
+        {
+          "mangled": "Java_com_rockstargames_oswrapper_GameNative_implOnResume",
+          "dump_line": 12116
+        }
+      ]
+    }
+  ]
+}

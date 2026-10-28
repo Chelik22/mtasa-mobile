@@ -19,7 +19,19 @@
    не создаётся. `mobilefixture cleanup` удаляет активную машину.
 
 `mobilefixture status` печатает текущее состояние. Ресурс использует только
-стандартный автомобиль 411 и не скачивает ассеты. Не запускать в production RP.
+стандартный автомобиль 411 и небольшой `http-witness.txt`. Не запускать в production RP.
+
+`client.lua` имеет `cache=false` и передаётся пакетами MTA. Отдельный `<file>`
+нужен для G4 HTTP download: запускать с пустым изолированным cache, сохранить
+реальный HTTP request/response и hash файла. Клиент пишет `http_asset_read` после
+fileOpen/read/close и проверки содержимого; при ошибке не посылает ready.
+Одна эта запись без HTTP evidence не доказывает скачивание. Серверный Lua не менялся.
+
+Перед запуском сгенерировать manifest из фактических байтов checkout:
+`python content_manifest.py --http-base http://127.0.0.1:22005`.
+`--destination-prefix` должен совпадать с путём ресурса относительно отдельного
+client cache root. Генератор описывает только `<file>` entries, не packet-delivered
+client.lua. JSON с URL/raw SHA256/size — вход явной lab policy, не evidence скачивания.
 
 ## Что именно сравнивать
 

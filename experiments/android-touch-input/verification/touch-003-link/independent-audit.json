@@ -1,0 +1,10 @@
+{
+  "verdict": "passed",
+  "scope": "source review; 8 frozen source hashes; 6 raw stage logs; 4 artifacts; I386 host/ELF64 AArch64 headers",
+  "receipt_sha256": "a8c39e5794789b29abe612c0815f30d86d9e2cba2a896f86bfb4af460fcc09f9",
+  "execution": "no repeat tests; Android event delivery/game/U1 not_run",
+  "notes": [
+    "README later added result links; frozen source blob matches receipt"
+  ],
+  "captures": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-003-link\\root-audited-artifacts"
+}

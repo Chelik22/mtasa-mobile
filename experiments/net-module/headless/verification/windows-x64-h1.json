@@ -1,0 +1,103 @@
+{
+  "recorded_utc": "2026-10-28T00:18:08.612729+00:00",
+  "scope": "Actual Windows x64 MTA server + owned CNetServer + two independent protocol CLI processes; NOT GTA/native gameplay",
+  "H1": "passed",
+  "run_id": "20261028T000420Z-4d6737ba",
+  "source": {
+    "upstream": "a84e0c77c66f596b0c72def1c857253568208a2b",
+    "core": "f0ee760ecd441dd02540b5e58597d6206a5c846f",
+    "server_module": "1dcd866b2",
+    "headless_codec": "128f70125",
+    "witness": "7ccf8e118"
+  },
+  "lifecycle": {
+    "run": "headless-witness:1793145861:379177",
+    "correlation": "headless-witness:1793145861:379177:vehicle:1",
+    "vehicle_wire_id": 12,
+    "root_wire_id": 1,
+    "joins": 3,
+    "quits": 3,
+    "server_acks": 3,
+    "stage": "final",
+    "scope": "actual CPlayer/Lua/element-reference lifecycle; no GTA/native gameplay"
+  },
+  "client_summary": {
+    "a": {
+      "playerIDs": [
+        "10",
+        "13"
+      ],
+      "sessions": [
+        {
+          "nonce": "12612464566687268396",
+          "generation": "1"
+        },
+        {
+          "nonce": "12618463251560350311",
+          "generation": "2"
+        }
+      ],
+      "removedIDs": [
+        "12"
+      ]
+    },
+    "b": {
+      "playerIDs": [
+        "11"
+      ],
+      "sessions": [
+        {
+          "nonce": "1050867297956496732",
+          "generation": "1"
+        }
+      ],
+      "removedIDs": [
+        "12"
+      ]
+    }
+  },
+  "official_net_dll_present": false,
+  "loader_selection": "Experimental network module selected: net_experimental.dll",
+  "process_exit_codes": {
+    "server": 0,
+    "a": 0,
+    "b": 0
+  },
+  "process_active_at_audit": {
+    "runner": false,
+    "core_build": false,
+    "server": false,
+    "a": false,
+    "b": false
+  },
+  "artifact_sha256": {
+    "core.dll": "317b6516e7dfa27ecee73fb65044d7e1c72a4778fc4cc45d11b119626c5b1184",
+    "net_experimental.dll": "58ae2741e6b7037866737d65187b005337d7302e9b155add2af35bf4bdb1ee2f",
+    "headless_client.exe": "bbc5fe763121ba0a3328399661bad1ab0039a0b6c78f13924b86c6d9ebc9d375"
+  },
+  "raw_log_sha256": {
+    "server.log": "cd150972f439e918facbbcf2a89818f31e600e7f8b4b70e1809e2ca2bfd5a3e4",
+    "server.stdout.log": "60ad23a6d25bf59548dda13b8ff750d80ab232e6d96642983fca811d0201f0df",
+    "server.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "a.stdout.jsonl": "5ef759ae42e2ad134bf5bb88624c1b7e185d1406ab232a1c98b348096aeb47d3",
+    "a.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "b.stdout.jsonl": "e5096e5c05b8047eabd8c6ac9ee6a7e0e9671a4feecb05d45797b90f573dff36",
+    "b.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "a.commands": "bc8e6e448dd8a5b24458964a028b2393bc0ddb12ab2cce06a8bb1bafc00963f7",
+    "b.commands": "617e39ced7311b0238669b0a7412448f3d40ec0a87dd11ec230a0ce13ac772c1"
+  },
+  "result_sha256": "60d5002329430a497d713f4d99c247fd799ddef8f687f780fd0e7f939b0edc9c",
+  "independent_review": {
+    "reviewer": "network_audit",
+    "status": "passed"
+  },
+  "full_evidence": "https://github.com/Chelik22/mta-mobile-campaign/blob/campaign/bootstrap/verification/h1-server-lua-2026-10-28.json",
+  "not_proven": [
+    "full G3 HTTP/cache/reliability-priority-queue contract",
+    "PC game client/render/physics",
+    "client Lua VM/resource download",
+    "Android game backend",
+    "touch controls",
+    "RP gameplay"
+  ]
+}

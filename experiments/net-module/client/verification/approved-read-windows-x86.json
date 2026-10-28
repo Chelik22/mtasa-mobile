@@ -1,0 +1,41 @@
+{
+  "scope": "Actual Win32 SDK approved read snapshot component only",
+  "run": {
+    "finishedUtc": "2026-10-28T10:05:26.0278975Z",
+    "testExit": 0,
+    "scope": "Win32 SDK approved read snapshot component; CNet/game not_run",
+    "status": "terminal",
+    "startedUtc": "2026-10-28T10:04:46.5297429Z",
+    "pid": 44616,
+    "source": "3967079cdf74f692b9b02dd0de2fa3adcd05d3d1",
+    "configureExit": 0,
+    "buildExit": 0
+  },
+  "source_sha256": {
+    "experiments/net-module/CMakeLists.txt": "652123c2e4ed8c562126be8e75b16b30a33e795151fdc2a96f58b7cc76691909",
+    "experiments/net-module/client/ApprovedReadFile.h": "51d1da1ce97febf57f76c52f30c320b9fc78a68e7ba42799cbacbf5b210c6f40",
+    "experiments/net-module/client/approved_read_file_tests.cpp": "35c8cadd5d2906c6ec9572d9c642cf49c623f3b30e367b16cc74b07b7fa0b166",
+    "experiments/net-module/client/ClientModule.h": "54e2b426572732a0ff2d9f700a6082267b31d366b28168278be6243e2b545341",
+    "Client/sdk/net/CNet.h": "97a9484e2485702bb4dfbed34535244a006120be4cd35851eb68f7f614cae194"
+  },
+  "log_sha256": {
+    "configure.stdout.log": "393edc18f6a518a16609b726759a5d8626e323de09e445cef8cc7c473821f21c",
+    "configure.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.stdout.log": "aab900f1fa8923ffcdb301ef5f95729f269abdcd2363bf515a9fdbb79d19841d",
+    "build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test.stdout.log": "5e3d8255fc3a95f1bb46218dbfcfd0f8f3fb8bd3e9e476cfc9886500c2648adc",
+    "test.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ctest.xml": "0bc8c5844753d77cbec7f640f076ec84c173ea197ae034587e828ee5c1ba7fbf"
+  },
+  "executable_sha256": "f99ee717d73e6875b2d9cfdbbaa20b738f4e7e84d7b70d3dee6e0e0fc3847387",
+  "pe_machine": "I386",
+  "test_name": "approved_resource_read_snapshot",
+  "passed": 1,
+  "failed": 0,
+  "native_output": "PASS approved SDK file snapshot; CNet/game/Lua integration NOT RUN\n",
+  "limitations": [
+    "not wired into CNet",
+    "read-only; no write/protected cache semantics",
+    "client Lua/GTA/gameplay not_run"
+  ]
+}

@@ -20,6 +20,7 @@ namespace experimental_net
         static_assert(sizeof(float) == 4 && sizeof(double) == 8 && std::numeric_limits<float>::is_iec559);
         explicit MtaBitStream(unsigned short version = static_cast<unsigned short>(eBitStreamVersion::Latest)) : buffer_(version) {}
         MtaBitStream(const void* data, std::size_t bytes, unsigned short version) : buffer_(data, bytes, bytes * 8, version) {}
+        MtaBitStream(const void* data, std::size_t bytes, std::size_t bits, unsigned short version) : buffer_(data, bytes, bits, version) {}
         ~MtaBitStream() override = default;
         using NetBitStreamInterface::Read;
         using NetBitStreamInterface::ReadBit;
