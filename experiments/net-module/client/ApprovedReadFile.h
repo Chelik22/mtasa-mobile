@@ -20,12 +20,13 @@ namespace experimental_client
     class ApprovedReadFile final : public CBinaryFileInterface
     {
     public:
+        static constexpr std::size_t max_supported_bytes = 64 * 1024 * 1024;
         using Validator = std::function<bool(const std::filesystem::path&, std::span<const unsigned char>)>;
-        explicit ApprovedReadFile(Validator validator, std::size_t max_bytes = 64 * 1024 * 1024) : validator_(std::move(validator)), max_bytes_(max_bytes) {}
+        explicit ApprovedReadFile(Validator validator, std::size_t max_bytes = max_supported_bytes) : validator_(std::move(validator)), max_bytes_(max_bytes) {}
         bool FOpen(const char* filename, const char* mode, bool validate) override
         {
             FClose();
-            if (!filename || !mode || std::strcmp(mode, "rb") || !validate || !validator_ || max_bytes_ > static_cast<std::size_t>(INT_MAX))
+            if (!filename || !mode || std::strcmp(mode, "rb") || !validate || !validator_ || max_bytes_ > max_supported_bytes)
                 return false;
             try
             {

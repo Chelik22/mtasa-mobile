@@ -4,6 +4,10 @@
 
 ### Fixed
 
+- Enforce the prepared read-only file backend's 64 MiB hard cap even when a caller
+  requests a larger configured limit; independent review found the missing cap.
+  Added a negative configured-limit assertion; native execution is pending.
+
 - Reject binary Lua after an optional UTF-8 BOM, matching CLuaMain's later BOM
   stripping. Checking only the raw first byte allowed compiled chunks through
   a module that explicitly supports source scripts only. BOM-prefixed source

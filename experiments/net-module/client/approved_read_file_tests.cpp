@@ -58,6 +58,8 @@ int main()
         require(reader.FTell() == -1 && reader.FEof(), "failed reopen closes old snapshot");
         experimental_client::ApprovedReadFile without_policy({});
         require(!without_policy.FOpen(filename.c_str(), "rb", true), "missing policy never accepts content");
+        experimental_client::ApprovedReadFile oversized_limit([](const auto&, auto) { return true; }, 128 * 1024 * 1024);
+        require(!oversized_limit.FOpen(filename.c_str(), "rb", true), "configured limit cannot raise the hard allocation bound");
         std::cout << "PASS approved SDK file snapshot; CNet/game/Lua integration NOT RUN\n";
         return 0;
     }
