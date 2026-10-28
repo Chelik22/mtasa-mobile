@@ -5,6 +5,8 @@
     #include <windows.h>
 #endif
 #include <MtaBitStream.h>
+// CNet's packet statistics expose the SDK's TIMEUS type directly.
+#include <SharedUtil.Time.h>
 #include <net/CNet.h>
 #ifdef _WIN32
     #define EXPERIMENTAL_CLIENT_CALL __cdecl
