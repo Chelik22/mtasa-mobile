@@ -1,0 +1,15 @@
+{
+  "adapter-imports.readelf.log": "236ebb615933d8e1f5304f869aeae4e58293d3d6ddf77aee9884fcfb46ff53fc",
+  "host-build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "host-build.stdout.log": "d27ec2c2fefb9d45dc580e443c93d10961baeaf68d048e397a084ab335d57bcb",
+  "host-junit.xml": "f9e617f950d10ccde267d7dd8f8efbc00b206f3e6c6520b04883eb824ec3dfdc",
+  "host-tests.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "host-tests.stdout.log": "a1a967e12ec4bc8a73a751bdc175bce0f7560ad002ad3eab639cb9935fbb2fdf",
+  "input_state_tests.readelf.log": "72c945f1a8ebddb48222c1811b9e22848c6acb0e284ea79bd99c6d13d0734270",
+  "libandroid_input_adapter.a.readelf.log": "7a38d4c3586fec40e96c286a55bdbf58be9a147a24c679691403ee168a9310bf",
+  "libandroid_input_state.a.readelf.log": "e6ece80685c2494639eb872b36f2c3bf448599935a59b9037213ad1a6e3183fd",
+  "link-check.json": "fb311348877018cef319d36f67d7e79e059c9f6c5efb0e39fe9b7d15f6ea21df",
+  "ndk-build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "ndk-build.stdout.log": "9d670f933bc2d9ab3e994d0e209aa0c5dbaafe763064ae9bbb5cf4c96dfb6556",
+  "receipt.json": "a8c39e5794789b29abe612c0815f30d86d9e2cba2a896f86bfb4af460fcc09f9"
+}

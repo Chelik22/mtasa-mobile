@@ -1,0 +1,122 @@
+{
+  "schema": "mta-touch-build-v1",
+  "source_sha": "d442d6d61f6eb065264e4937f0ec4e68dd98c13e",
+  "started_utc": "2026-10-28T13:59:50.931138+00:00",
+  "state": "passed",
+  "runtime": "not_run",
+  "game_runtime": "not_run",
+  "stages": [
+    {
+      "name": "host-build",
+      "command": [
+        "C:/Program Files/CMake/bin/cmake.exe",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\host",
+        "--config",
+        "Release",
+        "--parallel",
+        "1",
+        "--",
+        "/m:1",
+        "/nr:false",
+        "/p:MultiProcessorCompilation=false"
+      ],
+      "memory": {
+        "free_physical_mib": 5287,
+        "free_commit_mib": 56017
+      },
+      "started_utc": "2026-10-28T13:59:51.155654+00:00",
+      "pid": 27572,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:00:50.743558+00:00",
+      "stdout.log_sha256": "d27ec2c2fefb9d45dc580e443c93d10961baeaf68d048e397a084ab335d57bcb",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host-tests",
+      "command": [
+        "C:/Program Files/CMake/bin/ctest.exe",
+        "--test-dir",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\host",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--parallel",
+        "1",
+        "--no-tests=error",
+        "--output-junit",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-003-link\\host-junit.xml"
+      ],
+      "memory": {
+        "free_physical_mib": 4145,
+        "free_commit_mib": 54588
+      },
+      "started_utc": "2026-10-28T14:00:50.745245+00:00",
+      "pid": 30892,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:00:50.896998+00:00",
+      "stdout.log_sha256": "a1a967e12ec4bc8a73a751bdc175bce0f7560ad002ad3eab639cb9935fbb2fdf",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ndk-build",
+      "command": [
+        "C:/Program Files/CMake/bin/cmake.exe",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\android-arm64",
+        "--parallel",
+        "1"
+      ],
+      "memory": {
+        "free_physical_mib": 4133,
+        "free_commit_mib": 54578
+      },
+      "started_utc": "2026-10-28T14:00:50.898972+00:00",
+      "pid": 4608,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:01:29.144005+00:00",
+      "stdout.log_sha256": "9d670f933bc2d9ab3e994d0e209aa0c5dbaafe763064ae9bbb5cf4c96dfb6556",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_sha256": {
+    "experiments\\android-touch-input\\.gitattributes": "5fca4adfb3db8fa0d064530e533ce349f9f3b7ec4078370cfc8d256618d209ae",
+    "experiments\\android-touch-input\\AndroidInputAdapter.cpp": "f4948480a3254ca697317454315e2deb4492e26abecd09a7b0380a4066607e47",
+    "experiments\\android-touch-input\\AndroidInputAdapter.h": "a51e12b2eb360279dffb0795ee77e54ee91010345fc300cda235641cbd1af2e5",
+    "experiments\\android-touch-input\\AndroidInputState.cpp": "2f2edae5d8cdf25cd1d1dc07690c1a013d264a6ab5c11e306c1bf5817b382e5d",
+    "experiments\\android-touch-input\\AndroidInputState.h": "3702007f1624b272b5550e750593854bf0dba936c68391ee9f0aa7a44e9cbec8",
+    "experiments\\android-touch-input\\CMakeLists.txt": "310aa2da1af7726ae4d9f41fd82b0d305c4216b73c23e881be183869235d3ba7",
+    "experiments\\android-touch-input\\input_state_tests.cpp": "ba7ae480f69ce6d55a4a320a6836ebbb20aa5ddff299eb38221b89e4627ba139",
+    "experiments\\android-touch-input\\README.md": "6b599f9c5432ec717fb3cd07ddf807b0ccb00f5fc70281affe05f738713856c8"
+  },
+  "cache_reused_from": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002",
+  "artifacts": {
+    "host-tests": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\host\\Release\\input_state_tests.exe",
+      "bytes": 27136,
+      "sha256": "cdac4bc8472edeec29a4a482e598237d130f257a805212095ea36fe16b1bab45"
+    },
+    "android-tests": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\android-arm64\\input_state_tests",
+      "bytes": 5453064,
+      "sha256": "c141852251e6844890ec3d3f27cd486b43bc4ae1047d8cfdcb3a355b669ad5c0"
+    },
+    "android-state": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\android-arm64\\libandroid_input_state.a",
+      "bytes": 96822,
+      "sha256": "c8b921941fc38f9f772b9e5e4d181c00d8e1857151ebe62df6cac98a7eb2cda6"
+    },
+    "android-adapter": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\android-arm64\\libandroid_input_adapter.a",
+      "bytes": 65396,
+      "sha256": "7dedcdd0cee7ee4328b14acf92bf822c4ccfc957dc49869a10cd047a1b266158"
+    }
+  },
+  "host_tests": "passed",
+  "ndk_compile": "passed",
+  "android_event_delivery": "not_run",
+  "ended_utc": "2026-10-28T14:01:29.352302+00:00"
+}
