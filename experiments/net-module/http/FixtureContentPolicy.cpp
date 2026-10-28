@@ -79,6 +79,51 @@ namespace experimental_http
                     BCryptDestroyHash(value);
             }
         };
+        class Digest
+        {
+            Algorithm                  algorithm_;
+            std::vector<unsigned char> object_;
+            Hash                       hash_;
+
+        public:
+            Digest()
+            {
+                if (BCryptOpenAlgorithmProvider(&algorithm_.value, BCRYPT_SHA256_ALGORITHM, nullptr, 0) < 0)
+                    throw std::runtime_error("BCrypt SHA256 provider failed");
+                DWORD object_size = 0, result_size = 0;
+                if (BCryptGetProperty(algorithm_.value, BCRYPT_OBJECT_LENGTH, reinterpret_cast<PUCHAR>(&object_size), sizeof(object_size), &result_size, 0) <
+                        0 ||
+                    !object_size || object_size > 1024 * 1024)
+                    throw std::runtime_error("BCrypt SHA256 object size failed");
+                object_.resize(object_size);
+                if (BCryptCreateHash(algorithm_.value, &hash_.value, object_.data(), object_size, nullptr, 0, 0) < 0)
+                    throw std::runtime_error("BCrypt SHA256 hash creation failed");
+            }
+            void update(std::span<const unsigned char> bytes)
+            {
+                while (!bytes.empty())
+                {
+                    const auto count = std::min<size_t>(bytes.size(), 16384);
+                    if (BCryptHashData(hash_.value, const_cast<PUCHAR>(bytes.data()), static_cast<ULONG>(count), 0) < 0)
+                        throw std::runtime_error("BCrypt SHA256 update failed");
+                    bytes = bytes.subspan(count);
+                }
+            }
+            std::string finish()
+            {
+                std::array<unsigned char, 32> bytes{};
+                if (BCryptFinishHash(hash_.value, bytes.data(), static_cast<ULONG>(bytes.size()), 0) < 0)
+                    throw std::runtime_error("BCrypt SHA256 finish failed");
+                std::string result;
+                const char  digits[] = "0123456789abcdef";
+                for (const auto byte : bytes)
+                {
+                    result += digits[byte >> 4];
+                    result += digits[byte & 15];
+                }
+                return result;
+            }
+        };
         struct File
         {
             HANDLE value = INVALID_HANDLE_VALUE;
@@ -108,17 +153,7 @@ namespace experimental_http
                 GetFileType(file.value) != FILE_TYPE_DISK || !GetFileSizeEx(file.value, &size) || size.QuadPart < 0 ||
                 static_cast<unsigned long long>(size.QuadPart) != bytes)
                 throw std::runtime_error("Fixture temporary type/size changed");
-            Algorithm algorithm;
-            if (BCryptOpenAlgorithmProvider(&algorithm.value, BCRYPT_SHA256_ALGORITHM, nullptr, 0) < 0)
-                throw std::runtime_error("BCrypt SHA256 provider failed");
-            DWORD object_size = 0, result_size = 0;
-            if (BCryptGetProperty(algorithm.value, BCRYPT_OBJECT_LENGTH, reinterpret_cast<PUCHAR>(&object_size), sizeof(object_size), &result_size, 0) < 0 ||
-                !object_size || object_size > 1024 * 1024)
-                throw std::runtime_error("BCrypt SHA256 object size failed");
-            std::vector<unsigned char> object(object_size);
-            Hash                       hash;
-            if (BCryptCreateHash(algorithm.value, &hash.value, object.data(), object_size, nullptr, 0, 0) < 0)
-                throw std::runtime_error("BCrypt SHA256 hash creation failed");
+            Digest     digest;
             Inspection result;
             if (format == FixtureFormat::LuaSourceUtf8)
                 result.source.reserve(bytes);
@@ -134,22 +169,35 @@ namespace experimental_http
                     result.prefix_size = std::min<size_t>(count, result.prefix.size());
                     std::copy_n(buffer.data(), result.prefix_size, result.prefix.data());
                 }
-                if (BCryptHashData(hash.value, buffer.data(), count, 0) < 0)
-                    throw std::runtime_error("BCrypt SHA256 update failed");
+                digest.update(std::span<const unsigned char>(buffer.data(), count));
                 if (format == FixtureFormat::LuaSourceUtf8)
                     result.source.append(reinterpret_cast<const char*>(buffer.data()), count);
                 read += count;
             }
-            std::array<unsigned char, 32> digest{};
-            if (BCryptFinishHash(hash.value, digest.data(), static_cast<ULONG>(digest.size()), 0) < 0)
-                throw std::runtime_error("BCrypt SHA256 finish failed");
-            const char digits[] = "0123456789abcdef";
-            for (const auto byte : digest)
-            {
-                result.sha256 += digits[byte >> 4];
-                result.sha256 += digits[byte & 15];
-            }
+            result.sha256 = digest.finish();
             return result;
+        }
+        bool validate_content(const FixtureEntry& entry, std::string_view sha256, std::span<const unsigned char> prefix, std::string_view source,
+                              std::string& error)
+        {
+            if (sha256 != entry.raw_sha256)
+                return fail(error, "Fixture raw SHA256 does not match the trusted manifest");
+            const size_t offset = prefix.size() >= 3 && prefix[0] == 0xef && prefix[1] == 0xbb && prefix[2] == 0xbf ? 3 : 0;
+            if ((prefix.size() >= 2 && prefix[0] == 'M' && prefix[1] == 'Z') ||
+                (prefix.size() >= 4 && prefix[0] == 0x7f && prefix[1] == 'E' && prefix[2] == 'L' && prefix[3] == 'F'))
+                return fail(error, "Native executable magic is outside fixture asset policy");
+            if (prefix.size() >= offset + 4 && prefix[offset] == 0x1b && prefix[offset + 1] == 'L' && prefix[offset + 2] == 'u' && prefix[offset + 3] == 'a')
+                return fail(error, "Compiled Lua is outside fixture policy");
+            if (entry.format == FixtureFormat::LuaSourceUtf8)
+            {
+                if (prefix.size() > offset && prefix[offset] == 0x1b)
+                    return fail(error, "Source Lua cannot begin with an ESC chunk marker");
+                if (source.find('\0') != std::string_view::npos)
+                    return fail(error, "Source Lua contains NUL bytes");
+                if (!source.empty() && !MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, source.data(), static_cast<int>(source.size()), nullptr, 0))
+                    return fail(error, "Source Lua is not valid UTF8");
+            }
+            return true;
         }
     }
 
@@ -192,6 +240,54 @@ namespace experimental_http
         }
     }
 
+    const FixtureEntry* FixtureContentPolicy::entry_for_path(const std::filesystem::path& canonical_path, std::string& error) const
+    {
+        if (!canonical_path.is_absolute() || canonical_path != canonical_path.lexically_normal())
+        {
+            fail(error, "Fixture path must be absolute and canonical");
+            return nullptr;
+        }
+        const auto relative = canonical_path.lexically_relative(root_);
+        if (!relative_key(relative))
+        {
+            fail(error, "Fixture destination escapes the configured cache root");
+            return nullptr;
+        }
+        const auto found = entries_.find(utf8(relative));
+        if (found == entries_.end())
+        {
+            fail(error, "Fixture destination is absent from the trusted manifest");
+            return nullptr;
+        }
+        return &found->second;
+    }
+
+    bool FixtureContentPolicy::ValidateReadSnapshot(const std::filesystem::path& canonical_path, std::span<const unsigned char> bytes, std::string& error) const
+    {
+        error.clear();
+        try
+        {
+            const auto* entry = entry_for_path(canonical_path, error);
+            if (!entry)
+                return false;
+            if (bytes.size() > entry->max_bytes)
+                return fail(error, "Fixture read snapshot exceeds its manifest bound");
+            Digest digest;
+            digest.update(bytes);
+            const auto source = entry->format == FixtureFormat::LuaSourceUtf8 && !bytes.empty()
+                                    ? std::string_view(reinterpret_cast<const char*>(bytes.data()), bytes.size())
+                                    : std::string_view{};
+            // Deliberately no filesystem I/O here: validate the retained bytes,
+            // even if the caller's already-opened path has since changed.
+            return validate_content(*entry, digest.finish(), bytes.first(std::min<size_t>(8, bytes.size())), source, error);
+        }
+        catch (const std::exception& exception)
+        {
+            error = exception.what();
+            return false;
+        }
+    }
+
     bool FixtureContentPolicy::operator()(const FileValidationContext& context, std::string& error) const
     {
         error.clear();
@@ -199,14 +295,11 @@ namespace experimental_http
         {
             if (!context.destination.is_absolute() || !context.temporary.is_absolute())
                 return fail(error, "Fixture context paths must be absolute");
-            const auto destination = context.destination.lexically_normal();
-            const auto relative = destination.lexically_relative(root_);
-            if (!relative_key(relative))
-                return fail(error, "Fixture destination escapes the configured cache root");
-            const auto found = entries_.find(utf8(relative));
-            if (found == entries_.end())
-                return fail(error, "Fixture destination is absent from the trusted manifest");
-            const auto& entry = found->second;
+            const auto  destination = context.destination.lexically_normal();
+            const auto* matched = entry_for_path(destination, error);
+            if (!matched)
+                return false;
+            const auto& entry = *matched;
             if (context.url != entry.url || context.effective_url != entry.url)
                 return fail(error, "Fixture requested/effective URL does not match the manifest");
             if (context.http_status < 200 || context.http_status > 299)
@@ -224,27 +317,7 @@ namespace experimental_http
             if (temporary.parent_path() != parent || temporary.filename() == destination.filename())
                 return fail(error, "Fixture temporary is not a distinct adjacent file");
             const auto actual = inspect(temporary, context.bytes_received, entry.format);
-            if (actual.sha256 != entry.raw_sha256)
-                return fail(error, "Fixture raw SHA256 does not match the trusted manifest");
-            const auto&  prefix = actual.prefix;
-            const size_t offset = actual.prefix_size >= 3 && prefix[0] == 0xef && prefix[1] == 0xbb && prefix[2] == 0xbf ? 3 : 0;
-            if ((actual.prefix_size >= 2 && prefix[0] == 'M' && prefix[1] == 'Z') ||
-                (actual.prefix_size >= 4 && prefix[0] == 0x7f && prefix[1] == 'E' && prefix[2] == 'L' && prefix[3] == 'F'))
-                return fail(error, "Native executable magic is outside fixture asset policy");
-            if (actual.prefix_size >= offset + 4 && prefix[offset] == 0x1b && prefix[offset + 1] == 'L' && prefix[offset + 2] == 'u' &&
-                prefix[offset + 3] == 'a')
-                return fail(error, "Compiled Lua is outside fixture policy");
-            if (entry.format == FixtureFormat::LuaSourceUtf8)
-            {
-                if (actual.prefix_size > offset && prefix[offset] == 0x1b)
-                    return fail(error, "Source Lua cannot begin with an ESC chunk marker");
-                if (actual.source.find('\0') != std::string::npos)
-                    return fail(error, "Source Lua contains NUL bytes");
-                if (!actual.source.empty() &&
-                    !MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, actual.source.data(), static_cast<int>(actual.source.size()), nullptr, 0))
-                    return fail(error, "Source Lua is not valid UTF8");
-            }
-            return true;
+            return validate_content(entry, actual.sha256, std::span<const unsigned char>(actual.prefix.data(), actual.prefix_size), actual.source, error);
         }
         catch (const std::exception& exception)
         {
