@@ -1,5 +1,9 @@
 # Changes
 
+- Track reused archives, receipt, vendor contents and inventory for configure
+  invalidation, so later builds repeat the hash/source guards before consuming
+  changed borrowed inputs. Independent review found the configure-only gap.
+
 - Added optional reuse of the locally built HTTP005 Release curl/zlib archives.
   Configure verifies recorded artifact hashes and the complete unchanged vendor
   input set; other configurations retain source compilation. Positive configure
