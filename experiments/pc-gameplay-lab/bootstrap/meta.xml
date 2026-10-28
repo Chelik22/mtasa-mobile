@@ -1,0 +1,4 @@
+<meta>
+    <info author="MTA Mobile campaign" name="Isolated gameplay spawn" version="0.1.0" type="script" />
+    <script src="server.lua" type="server" />
+</meta>
