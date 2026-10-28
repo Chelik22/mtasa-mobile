@@ -19,6 +19,11 @@
 
 ### Added
 
+- Wired approved CNet binary-file allocations to the tested read-only snapshot
+  component and shared immutable manifest policy. The default/no-policy and
+  shutdown paths still return explicit failure objects. Configured native CNet
+  build/runtime remains pending; HTTP-OFF transport regression passed 1/1.
+
 - Prepared build-time trusted manifest configuration and per-CNet immutable cache
   root policy binding. Generated typed entries avoid a runtime JSON parser;
   missing/invalid roots fail initialization in approved builds. Generator Python

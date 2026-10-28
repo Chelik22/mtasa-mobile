@@ -2,6 +2,7 @@
 #ifdef MTA_WITH_CLIENT_HTTP
     #include "HttpManagerSlot.h"
     #include "ClientResourceConfig.h"
+    #include "ApprovedReadFile.h"
 #endif
 #include <Protocol.h>
 #include <net/Packets.h>
@@ -588,6 +589,19 @@ namespace experimental_client
         CBinaryFileInterface* AllocateBinaryFile() override
         {
             std::lock_guard lock(mutex_);
+#ifdef MTA_WITH_CLIENT_HTTP
+            if (!shutdown_ && resource_policy_)
+            {
+                // The file object retains its policy and validates the same
+                // captured bytes it exposes to Lua, never a reopened path.
+                return new ApprovedReadFile(
+                    [policy = resource_policy_](const auto& path, auto bytes)
+                    {
+                        std::string diagnostic;
+                        return policy->ValidateReadSnapshot(path, bytes, diagnostic);
+                    });
+            }
+#endif
             error("Protected binary cache unsupported; FOpen will fail", unsupported_error);
             return new UnsupportedFile;
         }

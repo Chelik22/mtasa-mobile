@@ -30,6 +30,10 @@ retained bytes; absent policy fails closed. Only `rb` with validation is support
 Write/resource-create and private cache semantics remain unsupported. Snapshot
 retention prevents a later path replacement from changing an already approved
 read; it does not replace sandbox/path policy. It is not yet instantiated by CNet.
+The prepared approved-policy CNet path now allocates this component and binds
+`ValidateReadSnapshot` to its retained bytes. This wiring is not yet compiled or
+executed as a configured native DLL. HTTP-OFF CNet regression passed separately;
+that result does not exercise the approved allocation path.
 Actual Win32 build and `approved_resource_read_snapshot` CTest passed 1/1;
 [receipt](verification/approved-read-windows-x86.json). This proves the file
 component's stated behaviors, not fileOpen execution inside client Lua.
