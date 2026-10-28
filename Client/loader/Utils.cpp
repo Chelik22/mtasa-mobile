@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "Utils.h"
+#include "ExperimentalClientNetSelection.h"
 #include "ExperimentalLabPaths.h"
 #include "Main.h"
 #include "Dialogs.h"
@@ -1353,11 +1354,17 @@ void FreeLibraryHandle()
 /////////////////////////////////////////////////////////////////////
 void UpdateMTAVersionApplicationSetting(bool bQuiet)
 {
-#ifdef MTA_DEBUG
-    SString strFilename = "netc_d.dll";
-#else
-    SString strFilename = "netc.dll";
-#endif
+    // Version metadata is queried before proxy/Core startup. It must select the
+    // same owned module, without falling back to an installed stock network DLL.
+    const auto selection = experimental_client_net::ReadSelection();
+    if (selection == experimental_client_net::Selection::Invalid)
+    {
+        AddReportLog(3211, "Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE in version metadata query");
+        if (!bQuiet)
+            DisplayErrorMessageBox("Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE; expected netc_experimental", _E("CL38"), "netc-experimental-invalid");
+        return;
+    }
+    const SString strFilename = ToUTF8(std::wstring(experimental_client_net::ModuleFilename(selection)));
 
     //
     // Determine NetRev number
