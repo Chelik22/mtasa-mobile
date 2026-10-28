@@ -20,5 +20,17 @@ settings — `<lab>/app/mods/deathmatch`. `CResource` добавляет
 DLL из configured service test имеет другой manifest и автоматически сюда
 не подходит. HTTP/server/cache/client Lua должны проверяться в actual G4.
 
+Подготовка свежего сервера без переноса БД и логов H1:
+
+```powershell
+python experiments/pc-gameplay-lab/prepare_server.py --h1-plan <verified h1-plan-001.json> --destination <fresh lab server directory>
+```
+
+Native inputs берутся только из восьми явных hash-verified H1 entries. Новые
+config/ACL привязывают сервер к loopback; команду `mobilefixture` получает только
+Console. Для запуска нужен `MTA_EXPERIMENTAL_NET_LIBRARY=net_experimental.dll`;
+штатная CLI сервера — `-t -u -D <runtime> --config mtaserver.conf --ip 127.0.0.1
+--port 23803 --httpport 23805 --novoice`. Сначала убедиться, что порты свободны.
+
 Подготовка ресурса не означает, что GTA, spawn path с игроком или G4 уже
 исполнялись. Production server/RP/DB в этот сценарий не входят.

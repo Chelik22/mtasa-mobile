@@ -1,0 +1,21 @@
+<acl>
+    <group name="Everyone">
+        <acl name="Default" />
+        <object name="user.*" />
+        <object name="resource.*" />
+    </group>
+    <group name="Console">
+        <acl name="LabConsole" />
+        <object name="user.Console" />
+    </group>
+    <group name="Admin" />
+    <acl name="Default">
+        <right name="command.shutdown" access="false" />
+        <right name="command.mobilefixture" access="false" />
+        <right name="function.executeCommandHandler" access="false" />
+    </acl>
+    <acl name="LabConsole">
+        <right name="command.shutdown" access="true" />
+        <right name="command.mobilefixture" access="true" />
+    </acl>
+</acl>

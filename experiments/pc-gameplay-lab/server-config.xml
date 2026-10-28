@@ -1,0 +1,24 @@
+<config>
+    <servername>MTA Mobile Gameplay Lab</servername>
+    <serverip>127.0.0.1</serverip>
+    <serverport>23803</serverport>
+    <maxplayers>2</maxplayers>
+    <httpserver>1</httpserver>
+    <httpport>23805</httpport>
+    <httpthreadcount>1</httpthreadcount>
+    <httpdownloadurl></httpdownloadurl>
+    <ase>0</ase>
+    <donotbroadcastlan>1</donotbroadcastlan>
+    <voice>0</voice>
+    <password></password>
+    <logfile>logs/server.log</logfile>
+    <authfile>logs/server_auth.log</authfile>
+    <dbfile>logs/db.log</dbfile>
+    <acl>acl.xml</acl>
+    <global_databases_path>databases/global</global_databases_path>
+    <system_databases_path>databases/system</system_databases_path>
+    <scriptdebuglogfile>logs/scripts.log</scriptdebuglogfile>
+    <scriptdebugloglevel>3</scriptdebugloglevel>
+    <resource src="mobilelab-spawn" startup="1" protected="0" />
+    <resource src="mobile-world-fixture" startup="1" protected="0" />
+</config>
