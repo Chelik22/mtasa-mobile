@@ -1,0 +1,62 @@
+{
+  "scope": "Actual Win32 CNet transport with HTTP OFF; approved policy/game/Core/Lua not_run",
+  "run": {
+    "pid": 47388,
+    "configureExit": 0,
+    "testExit": 0,
+    "startedUtc": "2026-10-28T10:46:54.816818Z",
+    "buildExit": 0,
+    "source": "22c09631d803eea5cc4950e0f1d37fc7775ac541",
+    "physicalFreeMiB": 4631.0,
+    "finishedUtc": "2026-10-28T10:47:23.9271925Z",
+    "status": "terminal",
+    "scope": "Win32 CNet transport regression; HTTP OFF; game not_run"
+  },
+  "artifacts": {
+    "netc_experimental.dll": {
+      "machine": "I386",
+      "bytes": 82944,
+      "capture": "D:/projects/astana/work/mta-mobile-lab/client-transport-002/artifacts/netc_experimental.dll",
+      "sha256": "ee9e9d1c762845af167bcda770c3c2035df7affc6b77089b92350955e53f1005"
+    },
+    "client_module_tests.exe": {
+      "machine": "I386",
+      "bytes": 61952,
+      "capture": "D:/projects/astana/work/mta-mobile-lab/client-transport-002/artifacts/client_module_tests.exe",
+      "sha256": "e3eec0ca70835fda08edbffa2c16d378e2daf926930b96dc77755e5f32391ef2"
+    }
+  },
+  "logs": {
+    "configure.stdout.log": {
+      "sha256": "3e55a4676f742ea47620e624ce3a1a79013f67a395d2129629d355fd8a9ce531",
+      "text": "-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.\n-- Configuring done (1.0s)\n-- Generating done (0.2s)\n-- Build files have been written to: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32\n"
+    },
+    "configure.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": null
+    },
+    "build.stdout.log": {
+      "sha256": "4a1d7b7f9d3e60016a535736223d6711ab4ce17b686e89e8203816e8bbd649ab",
+      "text": "Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework\r\n\r\n  enet.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\_deps\\enet-build\\Release\\enet.lib\r\n  mta_bitstream.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\mta_bitstream.lib\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/CMakeLists.txt\r\n  OwnedNetClient.cpp\r\n     Создается библиотека D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32/Release/netc_experimental.lib и объект D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32/Release/netc_experimental.exp\r\n  netc_experimental.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\netc_experimental.dll\r\nВерсия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework\r\n\r\n  enet.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\_deps\\enet-build\\Release\\enet.lib\r\n  mta_bitstream.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\mta_bitstream.lib\r\n  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/CMakeLists.txt\r\n  client_module_tests.cpp\r\n  client_module_tests.vcxproj -> D:\\projects\\astana\\work\\mtasa-mobile-net-server\\experiments\\net-module\\build-win32\\Release\\client_module_tests.exe\r\n"
+    },
+    "build.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": null
+    },
+    "test.stdout.log": {
+      "sha256": "b89e729ca2672744740f3a498a744d9b961ab00a8921503dc3cbce0ab0a9ba41",
+      "text": "Test project D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32\n    Start 9: owned_cnet_client_module\n1/1 Test #9: owned_cnet_client_module .........   Passed    0.19 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.20 sec\n"
+    },
+    "test.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": null
+    },
+    "ctest.xml": {
+      "sha256": "6f2abab45817cc75ccb9d345ba6cf1e31bf7754ef441979afbaed3e5e6bb234f",
+      "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<testsuite name=\"(empty)\"\r\n\ttests=\"1\"\r\n\tfailures=\"0\"\r\n\tdisabled=\"0\"\r\n\tskipped=\"0\"\r\n\thostname=\"\"\r\n\ttime=\"0\"\r\n\ttimestamp=\"2026-10-28T15:47:23\"\r\n\t>\r\n\t<testcase name=\"owned_cnet_client_module\" classname=\"owned_cnet_client_module\" time=\"0.186675\" status=\"run\">\r\n\t\t<properties/>\r\n\t\t<system-out>PASS dynamic CNet transport/contracts; pointer_bits=32; game/Core/HTTP/Lua/G4 NOT RUN\r\n</system-out>\r\n\t</testcase>\r\n</testsuite>\r\n"
+    }
+  },
+  "passed": 1,
+  "failed": 0,
+  "independentAudit": "requested"
+}
