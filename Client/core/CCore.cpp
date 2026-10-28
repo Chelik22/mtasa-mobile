@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "StdInc.h"
+#include "ExperimentalClientNetSelection.h"
 #include <game/CGame.h>
 #include <game/CSettings.h>
 #include <Accctrl.h>
@@ -1092,7 +1093,20 @@ void CCore::DestroyGUI()
 
 void CCore::CreateNetwork()
 {
-    m_pNet = CreateModule<CNet>(m_NetModule, "Network", "netc", "InitNetInterface", this);
+    // The isolated prototype needs its own transport without replacing the user's
+    // stock DLL. Accept one fixed module stem, never an environment-supplied path.
+    const auto selection = experimental_client_net::ReadSelection();
+    if (selection == experimental_client_net::Selection::Invalid)
+    {
+        BrowseToSolution("netc-experimental-invalid", TERMINATE_PROCESS, "Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE; expected netc_experimental");
+        return;
+    }
+    const char* networkModule = experimental_client_net::ModuleStem(selection);
+    if (selection == experimental_client_net::Selection::Owned)
+    {
+        WriteDebugEvent("Experimental client network module selected: netc_experimental");
+    }
+    m_pNet = CreateModule<CNet>(m_NetModule, "Network", networkModule, "InitNetInterface", this);
 
     // Network module compatibility check
     typedef unsigned long (*PFNCHECKCOMPATIBILITY)(unsigned long, unsigned long*);
@@ -1101,7 +1115,8 @@ void CCore::CreateNetwork()
     {
         // net.dll doesn't like our version number
         ulong ulNetModuleVersion = 0;
-        pfnCheckCompatibility(1, &ulNetModuleVersion);
+        if (pfnCheckCompatibility)
+            pfnCheckCompatibility(1, &ulNetModuleVersion);
         SString strMessage("Network module not compatible! (Expected 0x%x, got 0x%x)", MTA_DM_CLIENT_NET_MODULE_VERSION, ulNetModuleVersion);
 #if !defined(MTA_DM_PUBLIC_CONNECTIONS)
         strMessage += "\n\n(Devs: Update source and run win-install-data.bat)";

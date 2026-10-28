@@ -21,6 +21,7 @@
 #include <ShlObj.h>
 #include <ShellScalingApi.h>
 #include <version.h>
+#include <ExperimentalClientNetSelection.h>
 #include <SharedUtil.h>
 #include <SharedUtil.hpp>
 
@@ -31,11 +32,9 @@ constexpr std::wstring_view EXPLORER_EXE_NAME = L"explorer.exe";
 #ifdef MTA_DEBUG
 constexpr std::wstring_view MTA_EXE_NAME = L"Multi Theft Auto_d.exe";
 constexpr std::wstring_view CORE_DLL_NAME = L"core_d.dll";
-constexpr std::wstring_view NETC_DLL_NAME = L"netc_d.dll";
 #else
 constexpr std::wstring_view MTA_EXE_NAME = L"Multi Theft Auto.exe";
 constexpr std::wstring_view CORE_DLL_NAME = L"core.dll";
-constexpr std::wstring_view NETC_DLL_NAME = L"netc.dll";
 #endif
 
 namespace fs = std::filesystem;
@@ -420,8 +419,16 @@ VOID OnGameLaunch()
         return;
     }
 
-    // Check if the netc.dll library exists in the MTA subdirectory.
-    const fs::path netcPath = mtaDirectory / NETC_DLL_NAME;
+    // Select the same fixed module as Core before loading either library. This
+    // bootstrap previously loaded stock netc even when Core opted into our DLL.
+    const auto networkSelection = experimental_client_net::ReadSelection();
+    if (networkSelection == experimental_client_net::Selection::Invalid)
+    {
+        AddLaunchLog("Invalid experimental client network module selection");
+        DisplayErrorMessageBox(MakeLauncherError(L"Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE; expected netc_experimental."), L"CL58");
+        return;
+    }
+    const fs::path netcPath = mtaDirectory / experimental_client_net::ModuleFilename(networkSelection);
 
     if (!fs::is_regular_file(netcPath, ec))
     {
@@ -468,17 +475,19 @@ VOID OnGameLaunch()
         InitNetRev(GetProductRegistryPath(), GetProductCommonDataDir(), GetProductVersion());
     }
 
-    bool (*CheckService)(unsigned int) = GetProcAddressAs<decltype(CheckService)>(g_netc, "CheckService");
-
-    if (!CheckService)
+    const auto checkCompatibility = GetProcAddressAs<experimental_client_net::CompatibilityCheck>(g_netc, "CheckCompatibility");
+    const auto checkService = GetProcAddressAs<experimental_client_net::ServiceCheck>(g_netc, "CheckService");
+    const auto bootstrapResult = experimental_client_net::Bootstrap(networkSelection, checkCompatibility, checkService, MTA_DM_CLIENT_NET_MODULE_VERSION);
+    if (bootstrapResult != experimental_client_net::BootstrapResult::Accepted)
     {
-        AddLaunchLog("Network procedure 'CheckService' not found");
+        AddLaunchLog("Network bootstrap rejected (result=%d)", static_cast<int>(bootstrapResult));
         std::wstring message = L"Network library is incompatible.";
         DisplayErrorMessageBox(MakeLauncherError(message), L"CL58");
         return;
     }
 
-    CheckService(7 /* CHECK_SERVICE_POST_CREATE */);
+    if (networkSelection == experimental_client_net::Selection::Owned)
+        AddLaunchLog("Owned network ABI accepted; official private post-create service is unavailable");
 
     // Load and set up core.dll library.
     g_core = LoadLibraryW(corePath.wstring().c_str());
