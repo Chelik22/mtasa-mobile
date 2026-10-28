@@ -1,0 +1,68 @@
+{
+  "schema": "mta-native-version-path-cli-proof-v1",
+  "sourceSha": "b188d2a6006a9653489d75166aa39fc74c42fc3c",
+  "source": {
+    "Shared/sdk/ExperimentalNativeUserPaths.h": "264c84782e8534e9e98175e55b066818f28e5f845578cf0a357a070a82af9979",
+    "Shared/sdk/version.h": "38bf58afb9dc8d792ec2f3207e991595cd39ea5ab314426b54e95abaef1b8db7",
+    "Shared/sdk/SharedUtil.File.hpp": "2eff5fc2329226440d4d8f9ea7ec62e4a0bdce8aa4325a068379827f86af8337",
+    "Shared/sdk/SharedUtil.Misc.hpp": "a149de9401b8d25041776174ea71fae3751d8f6309045ceddb97142d1b1f0df8",
+    "experiments/pc-baseline/lab/native_paths_probe.cpp": "62bf089f9884047d918ea9d65c20e6949b53876f266cca5d1397f206a5e19a71",
+    "experiments/pc-baseline/lab/CMakeLists.txt": "4b40db282aad9898f97b7a839c7a3ecb56f6fea4b663784672e92cb0a8abfe9a"
+  },
+  "status": "passed",
+  "runRoot": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-native-version-path-001",
+  "runSha256": "2ec3314af5e5a84834261d1be13bb75e1c80ca9ec8127252d68b41aa8e8db702",
+  "artifact": {
+    "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-native-version-path-001\\build\\Release\\native_paths_probe.exe",
+    "sha256": "a6c6e09e8db2ea706e908c2e0714e85603859eaf45fd3889770d30e9831cd6e7",
+    "bytes": 92160,
+    "machine": 332,
+    "immutableCopy": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-native-version-path-001\\artifacts\\native_paths_probe.exe"
+  },
+  "logs": {
+    "build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.stdout.log": "7f00fb43ab73b3d461dfbe557911732b4b0a438d7920e9449609fe180558e880",
+    "configure.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configure.stdout.log": "b933496b587b553e51ebf2e641718393833c946db9a93deb0fdf91877429ebc2",
+    "ctest.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ctest.stdout.log": "c4d6f41b0fcb585c82cd5ba5d660190faa3d20e4a43a8c13944122ee6cf153de",
+    "readonly-runtime-preflight.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "readonly-runtime-preflight.stdout.log": "bf88b226d4cad21112d0413ea333630f2bbe16f787bffc7414f26cb06d1c8ad6"
+  },
+  "junit": {
+    "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-native-version-path-001\\junit.xml",
+    "sha256": "0762034ac109dbcd6b5ded5e65eed32ada20b59c4f56250b0637719e3b93ff88",
+    "tests": 4,
+    "failures": 0
+  },
+  "firstActualAttempt": {
+    "rawResult": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-gameplay-g4-001\\result.json",
+    "rawResultSha256": "9357ec8814d787d295880403a8936401f2c50731b245049e2a3a56c6c1321b2b",
+    "loaderLog": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-runtime-001\\app\\MTA\\logs\\logfile.txt",
+    "loaderLogSha256": "3157f58daa68ce751cf5eee2f59998a8add52c8776fd233029320e6bf5aec8cd",
+    "actualGamePid": 36352,
+    "forwardedExitCode": "0x4C414250",
+    "loadedPath": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-runtime-001\\data\\1.7\\GTA San Andreas\\gta_sa.exe",
+    "rawImageSha256": "1c8e082037446cd239eed9c924afff8ced3891cd9a426fdd1c9317671cfcf4b9",
+    "oldUnversionedPathDoesNotMatch": true,
+    "Esc": "stopped Computer Use; not established as cause of game exit"
+  },
+  "newReadonlyRuntimePreflight": {
+    "stdout": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-native-version-path-001\\readonly-runtime-preflight.stdout.log",
+    "sha256": "bf88b226d4cad21112d0413ea333630f2bbe16f787bffc7414f26cb06d1c8ad6",
+    "actualGeneratedImageAccepted": true,
+    "targetCodeExecution": false
+  },
+  "compileOverlap": {
+    "emulator004StartedUtc": "2026-10-28T16:13:35Z",
+    "helperStartedUtc": "2026-10-28T16:14:34.664295+00:00",
+    "helperFinishedUtc": "2026-10-28T16:14:56.876955+00:00",
+    "note": "Tiny1TU compile started before defer steering arrived, terminal22s total. No second compile or VM control; not a clean VM performance comparison."
+  },
+  "limitations": [
+    "No new game, launcher or GUI execution",
+    "Install/UserDirectory/image-memory/instruction guards inside GTA not rerun",
+    "Production proxy not rebuilt or replaced yet; user GUI stop remains in force"
+  ],
+  "capturedUtc": "2026-10-28T16:20:12.659639+00:00"
+}
