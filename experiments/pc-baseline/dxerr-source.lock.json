@@ -1,0 +1,48 @@
+{
+  "repository": "microsoft/DirectX-SDK-Samples",
+  "commit": "07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b",
+  "files": [
+    {
+      "path": "C++/DXUT/Core/dxerr.h",
+      "sha256": "35e621cd5291e131a8e7a0bbb43d91dcd400780a9ba82d154e4b3da64f04cf6c",
+      "bytes": 2915,
+      "url": "https://raw.githubusercontent.com/microsoft/DirectX-SDK-Samples/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b/C++/DXUT/Core/dxerr.h",
+      "gitBlobSha": "9a13b79287cbeafd11e3b5f98c6450544dcaf983"
+    },
+    {
+      "path": "C++/DXUT/Core/dxerr.cpp",
+      "sha256": "cae65997c6d791cba14c1a7ef0c52f0112880ab317819fd972d52a26b2481833",
+      "bytes": 182067,
+      "url": "https://raw.githubusercontent.com/microsoft/DirectX-SDK-Samples/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b/C++/DXUT/Core/dxerr.cpp",
+      "gitBlobSha": "02e4ddfaf533dcc0e59d4a15239917992f7b892c"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "bytes": 1141,
+      "url": "https://raw.githubusercontent.com/microsoft/DirectX-SDK-Samples/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b/LICENSE",
+      "gitBlobSha": "9e841e7a26e4eb057b24511e7b92d42b257a80e5"
+    },
+    {
+      "path": "C++/DXUT/Core/DXUT.h",
+      "sha256": "4ceade815c384065bc756d1aa4b6769fb5c4778c80902666689823a1680f2a1f",
+      "bytes": 17612,
+      "url": "https://raw.githubusercontent.com/microsoft/DirectX-SDK-Samples/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b/C++/DXUT/Core/DXUT.h",
+      "gitBlobSha": "98233dc230a08f1a49a8dfbbb48412e7476eadd8"
+    },
+    {
+      "path": "C++/DXUT/Core/DXUTenum.h",
+      "sha256": "7f4b2a1075bc0a2eb7723bf2f00c4a7887db641b6837844c60c3f9a08a55c0f2",
+      "gitBlobSha": "6181cb51e704c36b35da6c5ca386bdd68cf305be",
+      "bytes": 18270,
+      "url": "https://raw.githubusercontent.com/microsoft/DirectX-SDK-Samples/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b/C++/DXUT/Core/DXUTenum.h"
+    },
+    {
+      "path": "C++/DXUT/Core/DXUTmisc.h",
+      "sha256": "80a5c9d4e9139b54a4ad5c49206603ea4f65f7a66bb731079d3c62a8758bb7d8",
+      "gitBlobSha": "e7cb99fe0adcab048b0dcded3457828b84c193aa",
+      "bytes": 26164,
+      "url": "https://raw.githubusercontent.com/microsoft/DirectX-SDK-Samples/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b/C++/DXUT/Core/DXUTmisc.h"
+    }
+  ]
+}
