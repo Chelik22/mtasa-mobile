@@ -1,0 +1,19 @@
+{
+  "scope": "Win32 configure-only trusted manifest to typed header and client compile definitions",
+  "sourceSha": "7269f23acceb1937f8eb536298e88aa15e60ba6e",
+  "configureExit": 0,
+  "nativeBuild": "not_run",
+  "runtime": "not_run",
+  "source_sha256": {
+    "experiments/net-module/CMakeLists.txt": "c4957b6cc7b6de699d4c58575c4eaa0695e23826da333ca0cc587d2227cf6b3c",
+    "experiments/net-module/client/OwnedNetClient.cpp": "51101e882ec04101a445d27cdb7512af65e8f0fc3de6bfe625ae61de316cb55e",
+    "experiments/net-module/client/ClientResourceConfig.h": "3d01578bcadd2f33151735f457c3c7cbe61878280b9cd6d56090a143f109344f",
+    "experiments/net-module/client/config/generate_approved_fixture.py": "72629651d5e5f865848624485bce57072249b0a6c0c11d206d6f20382484ec57",
+    "experiments/net-module/http/FixtureContentPolicy.h": "9a0af9f8ad94ea66f1d2ea356d0224942231ee514b0cea970621c407daef4458"
+  },
+  "manifest_sha256": "b8d2e187f4783f64faf562e0b5717940b9908253f7b5d4a1c67ff2c261cc4f4d",
+  "generated_header_sha256": "88d02fc38250a30b4c012406c03d63dd3934a11f1583b0ee028a0a7add70bee5",
+  "generated_header": "// Generated from a trusted local manifest; do not edit.\n#pragma once\n#include <cstddef>\n#include <string>\n#include <vector>\n#include \"FixtureContentPolicy.h\"\n\nnamespace experimental_client::approved_fixture\n{\ninline std::vector<experimental_http::FixtureEntry> Entries()\n{\n    return {\n        {\"\\155\\157\\142\\151\\154\\145\\055\\167\\157\\162\\154\\144\\055\\146\\151\\170\\164\\165\\162\\145\\057\\150\\164\\164\\160\\055\\167\\151\\164\\156\\145\\163\\163\\056\\164\\170\\164\", \"\\150\\164\\164\\160\\072\\057\\057\\061\\062\\067\\056\\060\\056\\060\\056\\061\\072\\062\\062\\060\\060\\065\\057\\155\\157\\142\\151\\154\\145\\055\\167\\157\\162\\154\\144\\055\\146\\151\\170\\164\\165\\162\\145\\057\\150\\164\\164\\160\\055\\167\\151\\164\\156\\145\\163\\163\\056\\164\\170\\164\", \"\\071\\063\\070\\063\\066\\141\\065\\146\\071\\067\\141\\141\\143\\060\\067\\141\\145\\071\\065\\063\\144\\070\\064\\144\\067\\067\\143\\141\\143\\071\\070\\061\\062\\064\\141\\145\\070\\144\\065\\143\\066\\145\\060\\065\\143\\061\\067\\141\\065\\062\\141\\066\\062\\141\\145\\142\\146\\141\\141\\067\\063\\061\\146\\070\", std::size_t{27}, experimental_http::FixtureFormat::BinaryAsset},\n    };\n}\n}\n",
+  "configure_stdout": "-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.\n-- Configuring done (4.1s)\n-- Generating done (1.2s)\n-- Build files have been written to: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32\n",
+  "configure_stderr": null
+}
