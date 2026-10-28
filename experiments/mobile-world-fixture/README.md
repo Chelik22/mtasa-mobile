@@ -27,6 +27,12 @@
 fileOpen/read/close и проверки содержимого; при ошибке не посылает ready.
 Одна эта запись без HTTP evidence не доказывает скачивание. Серверный Lua не менялся.
 
+Перед запуском сгенерировать manifest из фактических байтов checkout:
+`python content_manifest.py --http-base http://127.0.0.1:22005`.
+`--destination-prefix` должен совпадать с путём ресурса относительно отдельного
+client cache root. Генератор описывает только `<file>` entries, не packet-delivered
+client.lua. JSON с URL/raw SHA256/size — вход явной lab policy, не evidence скачивания.
+
 ## Что именно сравнивать
 
 `mobilefixture:correlation` — диагностический ID, сформированный сервером для
