@@ -7,7 +7,7 @@ import unittest
 import zipfile
 
 from prepare_dependencies import extract, verify
-from build_pc import build, copy_verified_tree
+from build_pc import build, copy_verified_tree, sdk_inputs
 
 
 class DependencyBoundaryTests(unittest.TestCase):
@@ -62,6 +62,23 @@ class DependencyBoundaryTests(unittest.TestCase):
             self.assertEqual(receipt["clientBuild"], "not_run")
             self.assertNotIn("msbuildPid", receipt)
             self.assertEqual((root / "attempt/build.exitcode").read_text(), "2")
+
+    def test_added_sdk_header_rejected_by_real_build_preflight(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sdk = root / "sdk"
+            (sdk / "Include").mkdir(parents=True)
+            (sdk / "Include/d3dx9.h").write_text("original SDK header")
+            frozen = sdk_inputs(sdk)
+            (sdk / "Include/dinput.h").write_text("unexpected platform shadow")
+            plan = root / "ready.json"
+            # Deliberately no source/tool inputs: even a regression cannot launch a compiler.
+            plan.write_text(json.dumps({"schema": "mta-pc-baseline-v1", "state": "ready", "dxsdk": str(sdk), "sdkInputHashes": frozen}))
+            self.assertEqual(build(plan, root / "attempt"), 2)
+            receipt = json.loads((root / "attempt/build.run.json").read_text())
+            self.assertEqual(receipt["error"], "Prepared SDK file set or contents changed")
+            self.assertEqual(receipt["clientBuild"], "not_run")
+            self.assertNotIn("msbuildPid", receipt)
 
 
 if __name__ == "__main__":
