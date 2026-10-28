@@ -8,6 +8,7 @@
     #include <algorithm>
     #include <array>
     #include <atomic>
+    #include <chrono>
     #include <cstdint>
     #include <filesystem>
     #include <map>
@@ -233,9 +234,10 @@ namespace experimental_lab
             bytes.insert(bytes.end(), value.begin(), value.end());
         }
         static std::atomic<unsigned long> sequence{};
-        const fs::path temporary = directory / (L"registry." + std::to_wstring(GetCurrentProcessId()) + L"." + std::to_wstring(GetTickCount()) + L"." +
-                                                std::to_wstring(sequence++) + L".tmp");
-        bool           created = false;
+        const fs::path                    temporary =
+            directory / (L"registry." + std::to_wstring(GetCurrentProcessId()) + L"." +
+                         std::to_wstring(std::chrono::steady_clock::now().time_since_epoch().count()) + L"." + std::to_wstring(sequence++) + L".tmp");
+        bool created = false;
         try
         {
             {
