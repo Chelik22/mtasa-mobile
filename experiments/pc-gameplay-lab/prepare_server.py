@@ -17,7 +17,7 @@ def digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def prepare(plan_path, destination):
+def prepare(plan_path, destination, net_module=None, net_module_sha256=None):
     plan = json.loads(plan_path.read_text(encoding="utf-8-sig"))
     if plan["schema"] != "mta-mobile-h1-scenario-v1" or plan["state"] != "ready":
         raise ValueError("Expected the existing verified H1 preparation plan")
@@ -30,6 +30,12 @@ def prepare(plan_path, destination):
         if digest(origin) != item["sha256"]:
             raise ValueError("H1 native input changed: " + name)
         inputs[name] = origin
+    if bool(net_module) != bool(net_module_sha256):
+        raise ValueError("A new net module requires its explicit verified SHA256")
+    if net_module:
+        if digest(net_module) != net_module_sha256:
+            raise ValueError("New server net module SHA256 mismatch")
+        inputs["x64/net_experimental.dll"] = net_module
     inputs.update({
         "mods/deathmatch/mtaserver.conf": here / "server-config.xml",
         "mods/deathmatch/acl.xml": here / "server-acl.xml",
@@ -57,7 +63,7 @@ def prepare(plan_path, destination):
         if digest(target) != expected:
             raise ValueError("Copied input hash mismatch: " + name)
         receipt["files"][name] = {"origin": str(origin), "sha256": expected, "bytes": target.stat().st_size}
-    for name in ("logs", "databases/global", "databases/system"):
+    for name in ("logs", "databases/global", "databases/system", "resource-cache"):
         (destination / "mods/deathmatch" / name).mkdir(parents=True, exist_ok=True)
     (destination / "preparation.json").write_text(json.dumps(receipt, indent=2), encoding="utf-8")
     return receipt
@@ -67,5 +73,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--h1-plan", type=Path, required=True)
     parser.add_argument("--destination", type=Path, required=True)
+    parser.add_argument("--net-module", type=Path)
+    parser.add_argument("--net-module-sha256")
     args = parser.parse_args()
-    print(json.dumps(prepare(args.h1_plan, args.destination), indent=2))
+    print(json.dumps(prepare(args.h1_plan, args.destination, args.net_module, args.net_module_sha256), indent=2))
