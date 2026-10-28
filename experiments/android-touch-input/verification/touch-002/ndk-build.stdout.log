@@ -1,0 +1,6 @@
+[1/6] Building CXX object CMakeFiles/android_input_state.dir/AndroidInputState.cpp.o
+[2/6] Building CXX object CMakeFiles/android_input_adapter.dir/AndroidInputAdapter.cpp.o
+[3/6] Linking CXX static library libandroid_input_state.a
+[4/6] Linking CXX static library libandroid_input_adapter.a
+[5/6] Building CXX object CMakeFiles/input_state_tests.dir/input_state_tests.cpp.o
+[6/6] Linking CXX executable input_state_tests
