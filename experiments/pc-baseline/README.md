@@ -149,3 +149,18 @@ runtime; установленный netc от MTA 1.6 автоматически
 Источники: [MTA build guide](https://wiki.multitheftauto.com/wiki/Compiling_MTASA),
 [Microsoft D3DX package](https://www.nuget.org/packages/Microsoft.DXSDK.D3DX/9.29.952.8),
 [Microsoft source/license pin](https://github.com/microsoft/DirectX-SDK-Samples/tree/07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b).
+
+## Отдельная gameplay integration в том же cache
+
+`integration_build.py` использует отдельный schema/receipt: он не ослабляет
+upstream-only проверку `build_pc.py`. Baseline branch566558 и immutable capture
+сохранены. Integration разрешает только compile trees reviewed featurebbe02075b,
+фиксирует13 source deltas, physical input set, прежний34-project graph и scoped
+SDK exact map. Prepare ничего не генерирует и не компилирует. Объекты не копируются;
+используется тот же worktree/cache. Отдельный explicit `build` запускает12targets,
+Normal priority, hidden, `/m:1`, `/p:MultiProcessorCompilation=false`, `_CL_=/MP1`,
+`/nr:false`, с fresh physical2048MiB/commit8192MiB и отказом при активном emulator/
+compiler. Требуются изменившиеся core/loader/proxy outputs; G4/gameplay остаются
+not_run независимо от успеха сборки. Полный command и source/dependency hashes
+фиксируются в новом integration plan вне Git. Проверки отказа до Popen:
+`python -B experiments/pc-baseline/test_integration.py -v`.
