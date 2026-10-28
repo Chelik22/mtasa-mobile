@@ -1,0 +1,54 @@
+{
+  "schema": "mta-android-engine-static-verification-v1",
+  "utc": "2026-10-28T13:29:23.238759+00:00",
+  "source_base": "817dd26bbbec3c46e865780ea3642acabe71012a",
+  "runtime": "not_run",
+  "static_inventory": "matched",
+  "engine_abi": "unverified",
+  "callable": false,
+  "checks": [
+    {
+      "command": [
+        "python",
+        "experiments\\android-engine-map\\verify_inventory.py",
+        "--library",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so",
+        "--readelf",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\libGame-readelf.txt"
+      ],
+      "exit_code": 0,
+      "log": "inventory.log",
+      "sha256": "ef5e863dc56a2e7d66ba1b87757910456afc496a6629e3d7eec8584042d71269"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments\\android-engine-map",
+        "-p",
+        "test_inventory.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "checker-tests.log",
+      "sha256": "3c10777de1df378cf988683bacfae0a8698c67177d4b28b98f012b66076e993e"
+    }
+  ],
+  "rea": [
+    {
+      "file": "rea-libGame-layout.json",
+      "sha256": "b2fc6b10362c240e770ccc02f7c3153072b2b00a8e6d7b1ae7b1085ebf171741",
+      "process_exit": 0,
+      "semantic_ok": false
+    },
+    {
+      "file": "rea-libGame-artifact.json",
+      "sha256": "eecb79077ae10e1d0483df947c4ed90a43f5508e865f8cb0dc329d244f4be8aa",
+      "process_exit": 0,
+      "semantic_ok": true
+    }
+  ]
+}
