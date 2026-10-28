@@ -109,9 +109,35 @@ output paths. This is not a protected-cache/encryption/signature implementation.
 
 `bCheckContents` has no public implementation in the pinned repository. Without an
 injected `FileValidator` it fails before network/file publication. A supplied hook
-checks the actual closed temporary file and can reject it; no stub true validator
+receives FileValidationContext (temporary/final paths, requested/effective URL,
+HTTP status, actual representation bytes) and checks the closed temporary; no stub true validator
 is supplied. Tests use an explicitly named fixture-byte validator, not an alleged
 implementation of official netc validation. Source Lua has its own later loader.
+
+FixtureContentPolicy is an explicitly temporary G4 policy, not general RP/private
+netc compatibility. Its trusted caller supplies cache root and a manifest list of
+destination_relative/url/raw_sha256/max_bytes/format entries. The destination key
+is exact and root-relative; URL and effective URL must both match (no fixture
+redirects), the temporary must be a distinct adjacent ordinary file, and raw bytes
+are hashed through BCrypt SHA256 with concurrent writers refused during reading.
+No newline/BOM normalization changes the hash. max_bytes=0 permits only empty
+files. The manifest must come from the controlled fixture/package receipt, not
+merely an untrusted server's claimed checksum. Existing engine CRC/MD5 checks remain.
+
+BinaryAsset accepts pinned binary/text assets without UTF8/NUL requirements;
+LuaSourceUtf8 additionally rejects NUL, malformed UTF8 and an optional UTF8 BOM
+followed by ESC. Native MZ/ELF and compiled-Lua magic are rejected for fixture
+entries even if a caller accidentally pinned them. Lua source validation does not
+claim syntax or execution. The policy is currently Win32, source entries are at
+most 1 MiB and any entry at most 256 MiB; body limits apply independently.
+Local file hashing is bounded synchronous work: keep the first fixture tiny.
+
+Packaging schema aligns with the caller's content_manifest.py: destination_relative,
+url, raw_sha256, max_bytes, format (lua_source_utf8/binary_asset). Runtime binding
+supplies cache root and HTTP origin. The algorithm contains no hardcoded resource,
+filename or digest. A package generator must hash actual checkout bytes (including
+CRLF), not the normalized Git blob. The old client.lua cache=false stream does not
+exercise HTTP; the separately declared file http-witness.txt does.
 
 Callbacks run at most once after removal from the pending list. A callback may
 cancel/reset other pending/ready requests, enqueue, and recursively pulse; a nested

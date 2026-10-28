@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <functional>
 #include <memory>
+#include <string_view>
 
 namespace experimental_http
 {
@@ -17,7 +18,17 @@ namespace experimental_http
     };
     // bCheckContents is a private net-module policy, not an HTTP or checksum
     // guarantee. An explicit validator is required; absence fails closed.
-    using FileValidator = std::function<bool(const std::filesystem::path&, std::string&)>;
+    struct FileValidationContext
+    {
+        std::filesystem::path temporary;
+        std::filesystem::path destination;
+        std::string_view      url;
+        std::string_view      effective_url;
+        long                  http_status = 0;
+        size_t                bytes_received = 0;
+    };
+    // Context string views are borrowed for this synchronous call only.
+    using FileValidator = std::function<bool(const FileValidationContext&, std::string&)>;
 
     class HttpManager final : public CNetHTTPDownloadManagerInterface
     {
