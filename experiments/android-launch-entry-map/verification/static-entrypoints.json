@@ -1,0 +1,671 @@
+{
+  "schema": "mta-android-launch-static-map-v1",
+  "created_utc": "2026-10-28T14:34:19.106192+00:00",
+  "scope": "static DEX/manifest parse only",
+  "apk_execution": "not_run",
+  "game_runtime": "not_run",
+  "apk_identity": {
+    "apk_sha256_from_prior_verified_inventory": "348750d29d2e463768a2c806dc01c331f2b88fce1646fba8e7485e6c3ff6ff50",
+    "apk_rehashed_this_pass": false,
+    "apk_bytes": 2616125654,
+    "apk_mtime_ns": 1793190739598437900,
+    "apk_metadata_unchanged_during_dex_read": true,
+    "dex_members": [
+      {
+        "member": "classes.dex",
+        "bytes": 9106704,
+        "crc32": "e41bb244",
+        "sha256": "6eb946d749c0b851235fe6bdbad05bdbd51529c7415780da886bcfed972fd937",
+        "crc_verified": true,
+        "written_to_disk": false
+      },
+      {
+        "member": "classes2.dex",
+        "bytes": 7775772,
+        "crc32": "33a1c607",
+        "sha256": "c4107a9a4c19525a92845b47c0cf1b02d15aafad974679355b2036f3e547a3f4",
+        "crc_verified": true,
+        "written_to_disk": false
+      },
+      {
+        "member": "classes3.dex",
+        "bytes": 3172760,
+        "crc32": "3419848d",
+        "sha256": "6d5339876b501d6e1edf8b6cfd0e2ed904c76d50f953eab802795caff5d7d0c9",
+        "crc_verified": true,
+        "written_to_disk": false
+      }
+    ],
+    "bytes_streamed": 20055236,
+    "apk_execution": "not_run"
+  },
+  "class_facts": [
+    {
+      "capture": "gameactivity",
+      "class": "Lcom/rockstargames/gtasa/GameActivity;",
+      "super": "Lcom/rockstargames/oswrapper/GameActivityBase;",
+      "methods": []
+    },
+    {
+      "capture": "gameactivitybase",
+      "class": "Lcom/rockstargames/oswrapper/GameActivityBase;",
+      "super": "Landroidx/appcompat/app/AppCompatActivity;",
+      "methods": [
+        {
+          "descriptor": "static constructor <clinit>()V",
+          "dump_line": 144
+        },
+        {
+          "descriptor": "protected onPause()V",
+          "dump_line": 820
+        },
+        {
+          "descriptor": "protected onResume()V",
+          "dump_line": 840
+        },
+        {
+          "descriptor": "public onWindowFocusChanged(Z)V",
+          "dump_line": 862
+        }
+      ]
+    },
+    {
+      "capture": "gamenative",
+      "class": "Lcom/rockstargames/oswrapper/GameNative;",
+      "super": "Ljava/lang/Object;",
+      "methods": [
+        {
+          "descriptor": "static constructor <clinit>()V",
+          "dump_line": 119
+        },
+        {
+          "descriptor": "public static final native implOnAccelerometerChanged(FFF)V",
+          "dump_line": 148
+        },
+        {
+          "descriptor": "public static final native implOnActivityCreated(Lcom/rockstargames/oswrapper/GamePlatformServices;Z)V",
+          "dump_line": 153
+        },
+        {
+          "descriptor": "public static final native implOnActivityDestroyed()V",
+          "dump_line": 158
+        },
+        {
+          "descriptor": "public static final native implOnBackButtonPressed()V",
+          "dump_line": 163
+        },
+        {
+          "descriptor": "public static final native implOnDrawFrame(F)V",
+          "dump_line": 168
+        },
+        {
+          "descriptor": "public static final native implOnGamepadAxesChanged(IFFFFFF)V",
+          "dump_line": 173
+        },
+        {
+          "descriptor": "public static final native implOnGamepadButtonDown(II)V",
+          "dump_line": 178
+        },
+        {
+          "descriptor": "public static final native implOnGamepadButtonUp(II)V",
+          "dump_line": 183
+        },
+        {
+          "descriptor": "public static final native implOnGamepadConnected(I)V",
+          "dump_line": 188
+        },
+        {
+          "descriptor": "public static final native implOnGamepadDisconnected(I)V",
+          "dump_line": 193
+        },
+        {
+          "descriptor": "public static final native implOnGamepadResume([I)V",
+          "dump_line": 198
+        },
+        {
+          "descriptor": "public static final native implOnHttpRequestData(I[B)V",
+          "dump_line": 203
+        },
+        {
+          "descriptor": "public static final native implOnHttpRequestError(II)V",
+          "dump_line": 208
+        },
+        {
+          "descriptor": "public static final native implOnHttpRequestFinished(I)V",
+          "dump_line": 213
+        },
+        {
+          "descriptor": "public static final native implOnHttpRequestResponse(IILjava/lang/String;[Ljava/lang/String;[Ljava/lang/String;)V",
+          "dump_line": 218
+        },
+        {
+          "descriptor": "public static final native implOnInitialSetup(Lcom/rockstargames/oswrapper/DeviceInfo;Landroid/content/res/AssetManager;[Ljava/lang/String;[Ljava/lang/String;)V",
+          "dump_line": 223
+        },
+        {
+          "descriptor": "public static final native implOnLowMemory()V",
+          "dump_line": 228
+        },
+        {
+          "descriptor": "public static final native implOnNetworkChanged(I)V",
+          "dump_line": 233
+        },
+        {
+          "descriptor": "public static final native implOnPause()V",
+          "dump_line": 238
+        },
+        {
+          "descriptor": "public static final native implOnPlaylistOpenComplete(ZI)V",
+          "dump_line": 243
+        },
+        {
+          "descriptor": "public static final native implOnResume()V",
+          "dump_line": 248
+        },
+        {
+          "descriptor": "public static final native implOnRockstarAccountDeletionComplete()V",
+          "dump_line": 253
+        },
+        {
+          "descriptor": "public static final native implOnRockstarCloudDisabledComplete()V",
+          "dump_line": 258
+        },
+        {
+          "descriptor": "public static final native implOnRockstarGateComplete(IZ)V",
+          "dump_line": 263
+        },
+        {
+          "descriptor": "public static final native implOnRockstarIdChanged(Ljava/lang/String;)V",
+          "dump_line": 268
+        },
+        {
+          "descriptor": "public static final native implOnRockstarInitialComplete()V",
+          "dump_line": 273
+        },
+        {
+          "descriptor": "public static final native implOnRockstarSetup(Ljava/lang/String;Ljava/lang/String;)V",
+          "dump_line": 278
+        },
+        {
+          "descriptor": "public static final native implOnRockstarSignInComplete()V",
+          "dump_line": 283
+        },
+        {
+          "descriptor": "public static final native implOnRockstarSignOutComplete()V",
+          "dump_line": 288
+        },
+        {
+          "descriptor": "public static final native implOnRockstarStateChanged(Z)V",
+          "dump_line": 293
+        },
+        {
+          "descriptor": "public static final native implOnRockstarTicketChanged(Ljava/lang/String;)V",
+          "dump_line": 298
+        },
+        {
+          "descriptor": "public static final native implOnSurfaceChanged(Landroid/view/Surface;II)V",
+          "dump_line": 303
+        },
+        {
+          "descriptor": "public static final native implOnSurfaceCreated()V",
+          "dump_line": 308
+        },
+        {
+          "descriptor": "public static final native implOnSurfaceDestroyed()V",
+          "dump_line": 313
+        },
+        {
+          "descriptor": "public static final native implOnTouchEnd(IFF)V",
+          "dump_line": 318
+        },
+        {
+          "descriptor": "public static final native implOnTouchMove(IFF)V",
+          "dump_line": 323
+        },
+        {
+          "descriptor": "public static final native implOnTouchStart(IFF)V",
+          "dump_line": 328
+        }
+      ]
+    },
+    {
+      "capture": "gameview",
+      "class": "Lcom/rockstargames/oswrapper/GameView;",
+      "super": "Landroid/view/SurfaceView;",
+      "methods": [
+        {
+          "descriptor": "static constructor <clinit>()V",
+          "dump_line": 142
+        },
+        {
+          "descriptor": "public final onPause()V",
+          "dump_line": 433
+        },
+        {
+          "descriptor": "public final onResume()V",
+          "dump_line": 475
+        },
+        {
+          "descriptor": "public onTouchEvent(Landroid/view/MotionEvent;)Z",
+          "dump_line": 517
+        },
+        {
+          "descriptor": "public onWindowFocusChanged(Z)V",
+          "dump_line": 552
+        },
+        {
+          "descriptor": "public surfaceChanged(Landroid/view/SurfaceHolder;III)V",
+          "dump_line": 655
+        },
+        {
+          "descriptor": "public surfaceCreated(Landroid/view/SurfaceHolder;)V",
+          "dump_line": 720
+        },
+        {
+          "descriptor": "public surfaceDestroyed(Landroid/view/SurfaceHolder;)V",
+          "dump_line": 763
+        }
+      ]
+    },
+    {
+      "capture": "inputhandler",
+      "class": "Lcom/rockstargames/oswrapper/view/InputHandler;",
+      "super": "Ljava/lang/Object;",
+      "methods": [
+        {
+          "descriptor": "static constructor <clinit>()V",
+          "dump_line": 159
+        },
+        {
+          "descriptor": "public onPause()V",
+          "dump_line": 1076
+        },
+        {
+          "descriptor": "public onResume()V",
+          "dump_line": 1086
+        },
+        {
+          "descriptor": "public final onTouchEvent(Landroid/view/MotionEvent;)Z",
+          "dump_line": 1229
+        }
+      ]
+    },
+    {
+      "capture": "gamethread",
+      "class": "Lcom/rockstargames/oswrapper/GameThread;",
+      "super": "Ljava/lang/Object;",
+      "methods": [
+        {
+          "descriptor": "static constructor <clinit>()V",
+          "dump_line": 561
+        },
+        {
+          "descriptor": "private final queueEvent(Lkotlin/jvm/functions/Function0;)V",
+          "dump_line": 1215
+        },
+        {
+          "descriptor": "public final onActivityCreated(Lcom/rockstargames/oswrapper/GameActivityBase;Lcom/rockstargames/oswrapper/GameView;Z)V",
+          "dump_line": 1481
+        },
+        {
+          "descriptor": "public final onInitialSetup(Lcom/rockstargames/oswrapper/GameActivityBase;)V",
+          "dump_line": 1865
+        },
+        {
+          "descriptor": "public final onPause()V",
+          "dump_line": 2035
+        },
+        {
+          "descriptor": "public final onResume()V",
+          "dump_line": 2099
+        },
+        {
+          "descriptor": "public final onTouchEnd(IFF)V",
+          "dump_line": 2463
+        },
+        {
+          "descriptor": "public final onTouchMove(IFF)V",
+          "dump_line": 2475
+        },
+        {
+          "descriptor": "public final onTouchStart(IFF)V",
+          "dump_line": 2487
+        }
+      ]
+    },
+    {
+      "capture": "executor",
+      "class": "Lcom/rockstargames/oswrapper/GameThread$ExecutorThread;",
+      "super": "Ljava/lang/Thread;",
+      "methods": [
+        {
+          "descriptor": "private final guardedRun()V",
+          "dump_line": 107
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "name": "dex-code-help",
+      "metadata_sha256": "2313ff19cf52e81debf11d34ca4ed5d04e49c1bfd65414131def92d42cac6055",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--help"
+      ],
+      "started_utc": "2026-10-28T14:18:10.701609+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 3985,
+      "apk_execution": "not_run",
+      "pid": 30532,
+      "status": "failed",
+      "exit_code": 1,
+      "ended_utc": "2026-10-28T14:18:19.470963+00:00",
+      "stdout.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.log_sha256": "83b6cb1969d2f71223fa8e701da8f7a8ce729670a6b732caa45b1b27ba8613d5",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 0,
+      "stderr_bytes": 651
+    },
+    {
+      "name": "executor",
+      "metadata_sha256": "3c41cfbf6372e042e2572ec384729352fe3b022819c233f816d28213e36a0e22",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.GameThread$ExecutorThread",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:25:49.221927+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 2942,
+      "apk_execution": "not_run",
+      "pid": 37532,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:25:58.678059+00:00",
+      "stdout.log_sha256": "10d300034fb494aedbe8f535ab2dce3bd0b9f783718ef9f15d9a14538536d35d",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 8314,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "gameactivity",
+      "metadata_sha256": "6b17b9b89c21c27fd86d360f3ef4c966ad7a8c042de874f916c3ad748d995a2e",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.gtasa.GameActivity",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:19:16.382892+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 3518,
+      "apk_execution": "not_run",
+      "pid": 34396,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:19:33.673758+00:00",
+      "stdout.log_sha256": "76fd4154b81adb3f4d06b670df59bce2a852d9a330b1b7239ff0fc08a1445953",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 850,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "gameactivitybase",
+      "metadata_sha256": "c29b37922561130f61e30b7f81df25c5a7fb8848b73852f1bc41cae57625e102",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.GameActivityBase",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:21:11.149169+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 2477,
+      "apk_execution": "not_run",
+      "pid": 8756,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:21:23.533390+00:00",
+      "stdout.log_sha256": "f622cc378b0121c1de233e5927cebf2b5c63082688860c06573e8a953d9944ec",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 33841,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "gamenative",
+      "metadata_sha256": "e2ec1a9822dd7293386ea2c6a3e09929ecda7aa08358c4b499c4f0ff8c040dd5",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.GameNative",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:22:34.899965+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 3149,
+      "apk_execution": "not_run",
+      "pid": 22140,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:22:36.877387+00:00",
+      "stdout.log_sha256": "7f664c6b7bd35d18ab98f29f2805d60d4f0aeaeae0468e869c13b8a2e1eecf5a",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 13397,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "gamethread",
+      "metadata_sha256": "08df993218374cd8c77cc80ed13e5977821028ed8e64569d3665c107aa1280a7",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.GameThread",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:24:12.998187+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 1712,
+      "apk_execution": "not_run",
+      "pid": 34496,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:24:15.093900+00:00",
+      "stdout.log_sha256": "935f1d0bc18ce6376d639305d1b6b6bb7951c65df1dddcfc794db3c94a1d0533",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 83821,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "gameview",
+      "metadata_sha256": "e13c85c46d9bdf60ca8b717628815d9556c6625be216c059eb117e7eb0e7a7f6",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.GameView",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:22:37.061438+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 4633,
+      "apk_execution": "not_run",
+      "pid": 26548,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:22:55.658403+00:00",
+      "stdout.log_sha256": "3d7235db8e4fa030907d5e6f5f1bfc42298758d0fb401b2fa67a99a54ae69471",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 26241,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "inputhandler",
+      "metadata_sha256": "1cdf755e88977c7c0a9f0063ed2fec060e247fbae6abfc295618d92acd5d2ccb",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.view.InputHandler",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:24:09.612757+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 2630,
+      "apk_execution": "not_run",
+      "pid": 20836,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:24:12.760095+00:00",
+      "stdout.log_sha256": "7447b6a73e43751c9ece3f6f87cca9a26ee27a0e10d68c06f82592f7f7d55e86",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 38207,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "manifest",
+      "metadata_sha256": "62a41e6e349fb071d78566062ab0462db6f6e9c2d984a4ff4b86cca7141d13d0",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "manifest",
+        "print",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:29:21.084907+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 2703,
+      "apk_execution": "not_run",
+      "pid": 29972,
+      "status": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T14:29:41.668402+00:00",
+      "stdout.log_sha256": "9fafe61234d81c9d58a3f96f8418cb6fb33760de09f42a34f0b72ded0c7315e0",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 21449,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "osgameactivity",
+      "metadata_sha256": "581efa6ac9a60d2028db5fe914b1a1bbca853a7936097b19fa1be7150cf8cc0c",
+      "command": [
+        "C:/Program Files/Java/jdk-21.0.11/bin/java.exe",
+        "-Xmx256m",
+        "-Dcom.android.sdklib.toolsdir=C:/Android/cmdline-tools/latest",
+        "-classpath",
+        "C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar",
+        "com.android.tools.apk.analyzer.ApkAnalyzerCli",
+        "dex",
+        "code",
+        "--class",
+        "com.rockstargames.oswrapper.GameActivity",
+        "C:/Users/jasda/Downloads/GTA-SA-v2-11-311-mod.apk"
+      ],
+      "started_utc": "2026-10-28T14:20:35.762247+00:00",
+      "heap_max_mib": 256,
+      "memory_floor_mib": 1536,
+      "free_physical_mib": 4280,
+      "apk_execution": "not_run",
+      "pid": 31424,
+      "status": "failed",
+      "exit_code": 1,
+      "ended_utc": "2026-10-28T14:20:47.066124+00:00",
+      "stdout.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.log_sha256": "c4a6d457509be8358b1a5624c4c04bf2eafdfaffeae91faef9fa881af748ba43",
+      "raw_body_location": "ignored lab only",
+      "stdout_bytes": 0,
+      "stderr_bytes": 79
+    }
+  ],
+  "android_input_header": {
+    "ndk": "28.2.13676358",
+    "declaration": "AMotionEvent_fromJava(JNIEnv*,jobject)",
+    "introduced_api": 31,
+    "line": 1490
+  },
+  "findings": {
+    "launch_super": "androidx.appcompat.app.AppCompatActivity",
+    "surface_super": "android.view.SurfaceView",
+    "library_load": "Game",
+    "input_route": "GameView -> InputHandler -> GameThread eventQueue -> GameNative JNI",
+    "selected_own_seam": "Java MotionEvent snapshot -> own JNI -> portable AndroidInputState; frame consume candidate before implOnDrawFrame",
+    "existing_AInputEvent_adapter_attached": false,
+    "native_engine_abi_verified": false
+  }
+}
