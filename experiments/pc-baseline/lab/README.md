@@ -38,7 +38,7 @@ client build. Установленные MTA/GTA и baseline `Bin` не меня
 
 ```powershell
 cmake -S experiments/pc-baseline/lab -B experiments/pc-baseline/lab/build-win32 -G 'Visual Studio 18 2026' -A Win32
-cmake --build experiments/pc-baseline/lab/build-win32 --config Release --parallel 1 --target lab_paths_probe -- /m:1 /nr:false /p:MultiProcessorCompilation=false
+cmake --build experiments/pc-baseline/lab/build-win32 --config Release --parallel 1 --target lab_paths_probe lab_server_routes -- /m:1 /nr:false /p:MultiProcessorCompilation=false
 ctest --test-dir experiments/pc-baseline/lab/build-win32 -C Release --output-on-failure --parallel 1 --no-tests=error
 ```
 
@@ -47,9 +47,16 @@ filesystem contract tests через настоящий отдельный probe
 absent/invalid root без Registry API, freeze/closed child namespace, independent
 process persistence, Windows key casing, отказ delete parent с subkey,
 oversize/corrupt store без перезаписи и два независимых writer процесса без
-потери updates. Стенд не загружает MTA, DLL или GTA. SDK routing translation units
-и полный client rebuild пока не компилировались. Snapshot находится в
+потери updates. Стенд не загружает MTA, DLL или GTA. После review дополнительно
+скомпилирован настоящий `SharedUtil.File.hpp` в Windows server TU без
+`MTA_CLIENT`: он ловит незащищённые ссылки на client-only namespace. Первый
+такой attempt003 остановился на отсутствующем vendor include path; после
+добавления существующего repository include attempt004 прошёл compile и снова
+все пять filesystem tests. SDK **client** routing и полный client rebuild пока
+не компилировались. Первоначальный snapshot находится в
 `verification/windows-x86-2026-10-28.json`; raw receipts/логи сохраняются вне Git.
+Server-mode regression зафиксирован отдельно в
+`verification/windows-server-routes-2026-10-28.json`.
 
 Предыдущий attempt001 был deferred при 1890MiB до native child. Attempt002 прошёл
 с отдельно разрешённым floor1024MiB для одного standalone TU, `Normal`, `/MP1`,

@@ -1,0 +1,57 @@
+{
+  "scope": "Win32 lab helper contract plus compile-only real SDK File.hpp server-mode regression; client SDK/GTA/GUI not_run",
+  "startedUtc": "2026-10-28T11:50:10.906238+00:00",
+  "finishedUtc": "2026-10-28T11:50:29.818429+00:00",
+  "status": "passed",
+  "exitCode": 0,
+  "sourceRawSha256": {
+    "Shared/sdk/ExperimentalLabPaths.h": "04baf6584c9a6aa3e728f7a72c7b2bf37725bb7681359235af39623f75fbab92",
+    "Shared/sdk/SharedUtil.Misc.hpp": "a149de9401b8d25041776174ea71fae3751d8f6309045ceddb97142d1b1f0df8",
+    "Shared/sdk/SharedUtil.File.hpp": "2eff5fc2329226440d4d8f9ea7ec62e4a0bdce8aa4325a068379827f86af8337",
+    "Client/loader/Utils.cpp": "c16a8114162072845bcc2c6b949edc552f4088e2628f3a1dec901c96cb0415ee",
+    "Client/loader/MainFunctions.cpp": "82bb08e9ca399144a8fa516c7b8baf4fff0f683ddcabb9b143133a94659229dc",
+    "Client/loader/CInstallManager.cpp": "fa46276ad6d4a6a2788929d48117a99afcea62fc7b299b401a507b9a82ef27c2",
+    "Client/loader/FileSystem.cpp": "bf1465f2aa0e452a37b75c967ba60d546b2d08ca798a8662d992a55998c3f13b",
+    "experiments/pc-baseline/lab/CMakeLists.txt": "53547bcdee2d3b629dee649ba851b8b2a8944f3c3a93eda7faae66aa85ab76a4",
+    "experiments/pc-baseline/lab/lab_paths_probe.cpp": "9bb37d5ad2b2b4aec885b2cf089a1a662f7fb240f76ec76bb87267a48d012eb7",
+    "experiments/pc-baseline/lab/server_routes.cpp": "0731c518fa2e658eee4c94107b24942ef40a9770d0e64358088302c42e64b74a",
+    "experiments/pc-baseline/lab/test_lab_paths.py": "da7c3f1ab84873bb6cf386c4113ce295a8cf57d5b047a745e9297f021813182f"
+  },
+  "sourceLfSha256": {
+    "Shared/sdk/ExperimentalLabPaths.h": "04baf6584c9a6aa3e728f7a72c7b2bf37725bb7681359235af39623f75fbab92",
+    "Shared/sdk/SharedUtil.Misc.hpp": "e15b0628ebcb23713d6c02f0448159de40a19b8ce802d06e81d7cf9fac79a607",
+    "Shared/sdk/SharedUtil.File.hpp": "fa3a6d06582709ad7f020934c97b914f67079dc21ca27c0aa69d4f1265604274",
+    "Client/loader/Utils.cpp": "9a40aeff7c8452f8bd46eb55479091b2e7967a97963a97cd1b87ff2d5000262c",
+    "Client/loader/MainFunctions.cpp": "f25987de8aca280ab252c4c28017bf9c2c93d81f86236a29296466bc88b53ffb",
+    "Client/loader/CInstallManager.cpp": "7b775eed8d2596159b326014af4db15192b3c6d5a89a9da31400e292afbcedb3",
+    "Client/loader/FileSystem.cpp": "02a190df7ef6dc6154b0aa53f38bdb90adab148894ae98c9adc0a1140c681543",
+    "experiments/pc-baseline/lab/CMakeLists.txt": "53547bcdee2d3b629dee649ba851b8b2a8944f3c3a93eda7faae66aa85ab76a4",
+    "experiments/pc-baseline/lab/lab_paths_probe.cpp": "9bb37d5ad2b2b4aec885b2cf089a1a662f7fb240f76ec76bb87267a48d012eb7",
+    "experiments/pc-baseline/lab/server_routes.cpp": "0731c518fa2e658eee4c94107b24942ef40a9770d0e64358088302c42e64b74a",
+    "experiments/pc-baseline/lab/test_lab_paths.py": "da7c3f1ab84873bb6cf386c4113ce295a8cf57d5b047a745e9297f021813182f"
+  },
+  "steps": {
+    "configure": 0,
+    "build": 0,
+    "test": 0
+  },
+  "logs": {
+    "build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.stdout.log": "153d47a158bf5da9a5f943b37eb440c113e8c0c0001a3cc0ddaaffd494d4209a",
+    "configure.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configure.stdout.log": "aa5d6f997e6c290757940230c2903fda5d5c04966e166930c5cc1f9d97b51312",
+    "test.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test.stdout.log": "d3f5670858de21b14ec9f793dc78e24eab8f5b8d37be51d4fcedcb8b987379f4"
+  },
+  "junitSha256": "369ce6e6f9feb8a799de3156a01a368028731853bdea59a48f0966072d95a2a6",
+  "helperExeSha256": "5d4736a32179767121bb6551ceb56a5398b88c9753c30f636e58ce56d9b8d21f",
+  "serverRouteArtifactSha256": "f027e42615c402a1cbf79758c8cb5bb6f074811fed879de0cfc5c80d1c0699a4",
+  "serverRouteArtifactBytes": 562026,
+  "serverContext": "MTA_SERVER; MTA_CLIENT absent; real SharedUtil.File.hpp compiled as object-only target",
+  "priorAttempt003": "failed before SDK routing due to missing repository vendor include in isolated test; retained raw failure",
+  "limitations": [
+    "SDK client routing not compiled",
+    "helper executable reused with identical source; server route unit newly compiled",
+    "MTA/GTA/GUI/gameplay and native GTA Documents isolation not_run"
+  ]
+}
