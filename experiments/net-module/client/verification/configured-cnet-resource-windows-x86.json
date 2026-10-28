@@ -71,7 +71,7 @@
   "generated_header_sha256": "88d02fc38250a30b4c012406c03d63dd3934a11f1583b0ee028a0a7add70bee5",
   "passed": 1,
   "failed": 0,
-  "independentAudit": "requested",
+  "independentAudit": "passed: 13 source and 6 log hashes, manifest/header decode, I386 artifacts, two actual requests, named CTest and terminal PID",
   "Core": "not_run",
   "GTA": "not_run",
   "clientLua": "not_run",
