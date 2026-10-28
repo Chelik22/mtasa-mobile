@@ -132,6 +132,13 @@ claim syntax or execution. The policy is currently Win32, source entries are at
 most 1 MiB and any entry at most 256 MiB; body limits apply independently.
 Local file hashing is bounded synchronous work: keep the first fixture tiny.
 
+ValidateReadSnapshot(canonical_path, span<const unsigned char>, error) validates
+the caller's exact retained bytes without reopening a file or inventing an HTTP
+context. The caller supplies the canonical identity captured from its verified
+read handle. Manifest lookup, bound, SHA256 and format rules are shared with the
+download check; URL/status/temp-file rules belong only to the download path.
+Successful snapshot validation certifies those bytes, not an HTTP transfer/event.
+
 Packaging schema aligns with the caller's content_manifest.py: destination_relative,
 url, raw_sha256, max_bytes, format (lua_source_utf8/binary_asset). Runtime binding
 supplies cache root and HTTP origin. The algorithm contains no hardcoded resource,

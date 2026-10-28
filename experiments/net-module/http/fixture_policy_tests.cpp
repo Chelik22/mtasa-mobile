@@ -16,6 +16,10 @@ void write(const std::filesystem::path& path, const std::string& bytes)
     file.write(bytes.data(), bytes.size());
     require(file.good(), "fixture test file write");
 }
+std::span<const unsigned char> as_bytes(const std::string& bytes)
+{
+    return {reinterpret_cast<const unsigned char*>(bytes.data()), bytes.size()};
+}
 int main()
 {
     try
@@ -44,6 +48,13 @@ int main()
         std::string           error;
         write(temporary, lua);
         require(policy(context, error) && error.empty(), "actual BCrypt SHA256/UTF8 source positive");
+        write(root / "client.lua", "changed on disk after capture");
+        require(policy.ValidateReadSnapshot(root / "client.lua", as_bytes(lua), error), "retained bytes must not reopen/hash a changed disk file");
+        std::filesystem::remove(root / "client.lua");
+        require(policy.ValidateReadSnapshot(root / "client.lua", as_bytes(lua), error), "snapshot remains valid after original file removal");
+        require(!policy.ValidateReadSnapshot(root / "other.lua", as_bytes(lua), error), "snapshot path must match a manifest entry");
+        const std::string wrong_snapshot = "return 2\n";
+        require(!policy.ValidateReadSnapshot(root / "client.lua", as_bytes(wrong_snapshot), error), "changed retained bytes must fail raw digest");
         auto bad = context;
         bad.destination = root / "other.lua";
         require(!policy(bad, error), "mismatched destination binding");
@@ -85,6 +96,8 @@ int main()
         context.bytes_received = chunk.size();
         require(!FixtureContentPolicy(root, {compiled})(context, error) && error.find("Compiled Lua") != std::string::npos,
                 "matching hash cannot bypass BOM/compiled chunk rejection");
+        require(!FixtureContentPolicy(root, {compiled}).ValidateReadSnapshot(root / "client.lua", as_bytes(chunk), error),
+                "snapshot uses the same compiled-source rejection");
         auto native = entry;
         native.format = FixtureFormat::BinaryAsset;
         native.raw_sha256 = "78a83403fcb3b7a3fc1df1abbeb6dfad652c01e561efd9ba6985f7c75c44245a";
@@ -102,6 +115,8 @@ int main()
         write(temporary, asset);
         context.bytes_received = asset.size();
         require(FixtureContentPolicy(root, {binary})(context, error), "binary assets are not constrained to source text");
+        require(FixtureContentPolicy(root, {binary}).ValidateReadSnapshot(root / "client.lua", as_bytes(asset), error),
+                "binary snapshot uses the same manifest/hash rules");
         binary.format = FixtureFormat::LuaSourceUtf8;
         require(!FixtureContentPolicy(root, {binary})(context, error), "source-specific NUL/UTF8 policy uses entry type");
         auto invalid_utf8 = entry;

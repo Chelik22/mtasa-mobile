@@ -1,5 +1,10 @@
 # Changes
 
+- Added retained-byte snapshot validation with shared digest/format/path-entry
+  rules and no filesystem reopen. Added changed-disk/removal, changed-byte/path
+  and compiled-source snapshot cases. Manifest entries also reject Windows aliases
+  and case-insensitive duplicates.
+
 - Added context-bound, caller-manifest fixture validation using actual raw SHA256,
   explicit source/binary formats and path/URL binding. Added negative and
   known-digest native test sources; execution remains not_run pending resources.
