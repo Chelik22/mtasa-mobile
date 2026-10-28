@@ -61,3 +61,33 @@ Server-mode regression зафиксирован отдельно в
 Предыдущий attempt001 был deferred при 1890MiB до native child. Attempt002 прошёл
 с отдельно разрешённым floor1024MiB для одного standalone TU, `Normal`, `/MP1`,
 одним build worker. Этот floor не распространяется на engine/NDK сборки.
+
+## Подготовленный native user-directory hook
+
+`Shared/sdk/ExperimentalNativeUserPaths.h` предназначен для раннего
+`loader-proxy::OnGameLaunch`, до загрузки net/Core и возврата в native startup.
+Anchor пока не подключён. Stock path без opt-in не меняется. Поддерживается
+только x86 canonical SHA
+`f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a`
+либо тот же образ после нормализации шести штатных loader patches. Фиксированные
+offsets проверены по pinned `GameExecutablePatcher.cpp`; неизвестная правка кода
+не маскируется и должна провалить полный SHA.
+
+Штатный launch EXE: `root/data/GTA San Andreas/gta_sa.exe`; assets: `root/gta`.
+Helper проверяет image base, исходные16bytes routine0x744FB0 и ещё пустые три
+256-byte native buffers до native writes. ACP conversion обязана точно
+round-trip; каждый путь вместе с NUL<=256bytes. Directory reparse проверяется
+до публикации; hook поддерживает base/Gallery/User Tracks и возвращает настоящий
+base buffer. Detour меняет только память процесса,7bytes целых инструкций,
+сохраняет protection и flushes instruction cache. При любой ошибке установки
+owned child должен завершиться до native continuation. Callback сам завершает
+его при последующем нарушении private-directory policy.
+
+Standalone target `native_paths_probe` —1TU,Win32,/MP1,m1; CTest regex
+`^native_user_paths_`. CMake `-DLAB_CANONICAL_EXE=<private lab gta_sa.exe>`
+включает проверку реальных canonical bytes и normalizer; без этого параметра
+такого доказательства нет. Файл игры читается только как данные. Остальные
+tests проверяют private filesystem публикацию и actual detour tiny owned
+function в VirtualAlloc memory; это не выполнение GTA. Native registry helpers
+вне directory routine ещё требуют аудита: один hook не закрывает полную
+изоляцию процесса и G1/gameplay.
