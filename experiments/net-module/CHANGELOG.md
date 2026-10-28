@@ -19,7 +19,8 @@
   accepted by an explicit path/content policy. Missing validation, write modes
   and oversized files fail; no protected-cache trust is claimed. Native tests
   cover non-truncation, path replacement after validation and rejected reopen.
-  This backend is not wired into CNet and build/runtime tests are pending.
+  Win32 configure/build and the named native CTest passed 1/1 with an I386
+  executable; receipt records hashes/logs. This backend is not wired into CNet.
 
 - Prepared opt-in `MTA_WITH_CLIENT_HTTP=ON` CNet wiring to the real curl backend
   and stable HTTP facade. Reset/Close run outside the transport lock; module
