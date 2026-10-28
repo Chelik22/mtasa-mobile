@@ -133,8 +133,9 @@
     },
     "materializedSourceHashesRechecked": true,
     "tests": {
-      "passed": 4,
-      "scope": "filesystem/provenance/preflight only"
+      "passed": 5,
+      "scope": "filesystem/provenance/preflight only",
+      "includes": "Added SDK shadowing header rejected by actual build preflight before compiler"
     }
   },
   "runtime": {

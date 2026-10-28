@@ -130,6 +130,10 @@ def verify_materialized(source, cache):
         raise ValueError("Materialized font changed")
 
 
+def sdk_inputs(dxsdk):
+    return {str(path): sha(path) for part in ("Include", "Lib/x86") for path in (dxsdk / part).rglob("*") if path.is_file()}
+
+
 def prepare(source, cache, dxsdk, plan):
     value = inspect(source, cache, dxsdk)
     if value["missing"]:
@@ -183,7 +187,7 @@ def prepare(source, cache, dxsdk, plan):
         pending.extend((path.parent / reference).resolve() for reference in references)
     value.update(state="ready", projects=projects, resourceProps=str(props_path), resourcePropsSha256=sha(props_path),
                  solutionSha256=sha(source / "Build/MTASA.sln"),
-                 sdkInputHashes={str(path): sha(path) for part in ("Include", "Lib/x86") for path in (dxsdk / part).rglob("*") if path.is_file()})
+                 sdkInputHashes=sdk_inputs(dxsdk))
     return value
 
 
@@ -204,6 +208,10 @@ def build(plan_path, run_root):
         plan = json.loads(plan_path.read_text())
         if plan["schema"] != "mta-pc-baseline-v1" or plan["state"] != "ready":
             raise ValueError("A ready preparation manifest is required")
+        # An added header can shadow a platform include just as changed bytes can.
+        # Verify the complete set before any build process or source preparation.
+        if sdk_inputs(Path(plan["dxsdk"])) != plan["sdkInputHashes"]:
+            raise ValueError("Prepared SDK file set or contents changed")
         source, cache, dxsdk = Path(plan["source"]), Path(plan["cache"]), Path(plan["dxsdk"])
         lock = source / "Build/.pc-baseline-active.lock"
         descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
@@ -221,9 +229,6 @@ def build(plan_path, run_root):
                 raise ValueError("Generated project changed")
         if sha(source / "Build/MTASA.sln") != plan["solutionSha256"]:
             raise ValueError("Generated solution changed")
-        for path, expected in plan["sdkInputHashes"].items():
-            if sha(path) != expected:
-                raise ValueError("SDK input changed")
         if sha(plan["resourceProps"]) != plan["resourcePropsSha256"]:
             raise ValueError("Resource SDK properties changed")
         memory = memory_mib()
