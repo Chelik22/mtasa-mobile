@@ -95,3 +95,13 @@ tests проверяют private filesystem публикацию и actual detou
 function в VirtualAlloc memory; это не выполнение GTA. Native registry helpers
 вне directory routine ещё требуют аудита: один hook не закрывает полную
 изоляцию процесса и G1/gameplay.
+
+Actual standalone `native-user-paths-001`: configure/build/CTest exit0,
+4/4 native tests passed (2.50s), один Win32 TU, fresh4766MiB при task-specific
+floor1024MiB. Проверены реальные canonical данные, все восемь exact loader
+variants и отказ мутаций внутри прежде маскируемых export/padding/timestamp/
+checksum областей. Реальный detour выполнялся только над tiny owned function,
+не над GTA. Raw receipt/логи/JUnit и immutable helper EXE сохранены в ignored
+lab; [snapshot](verification/native-user-paths-windows-x86.json) фиксирует
+source hashes и ограничения. Actual GTA `Install`/proxy anchor/full client
+build/gameplay этим не проверены.

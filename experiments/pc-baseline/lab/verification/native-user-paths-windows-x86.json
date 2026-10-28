@@ -1,0 +1,261 @@
+{
+  "schema": "mta-native-user-paths-windows-component-v1",
+  "capturedUtc": "2026-10-28T14:07:14.153631+00:00",
+  "sourceCommit": "d847e33b577ff75d25ad978c8e3d9dee9d8df7a4",
+  "source": {
+    "Shared/sdk/ExperimentalNativeUserPaths.h": {
+      "rawSha256": "344943cab2cb53f661bb53498b4d2869e570a11e856a6dfbdc7e00a77fec9471",
+      "lfSha256": "d68c3610a5578b25d57fdabc69aee980db07b5712b08db0d71f2899dae06e462"
+    },
+    "Shared/sdk/ExperimentalLabPaths.h": {
+      "rawSha256": "3fc9b8a67a1377a9681372f5f06e082d26479cfc1dba9fd9dabac2b47ae21e84",
+      "lfSha256": "3fc9b8a67a1377a9681372f5f06e082d26479cfc1dba9fd9dabac2b47ae21e84"
+    },
+    "experiments/pc-baseline/lab/native_paths_probe.cpp": {
+      "rawSha256": "60575e7ada2dd90f50c03ef0b7ed4f2c7f8497cd5b08234ba3cf36770efabb89",
+      "lfSha256": "fa16fdaa4aa9549f0089718dfe45ad1ccfa5f4fc9073f6472a1fafe0c700b853"
+    },
+    "experiments/pc-baseline/lab/test_native_paths.py": {
+      "rawSha256": "98cedc6b9b6f4de6188875fc7a40003b3585e339b0fb6ebeb04216b34c27fb0b",
+      "lfSha256": "98cedc6b9b6f4de6188875fc7a40003b3585e339b0fb6ebeb04216b34c27fb0b"
+    },
+    "experiments/pc-baseline/lab/CMakeLists.txt": {
+      "rawSha256": "fee3fbf53d876435c9007837af895c48c815eb7a995fad918af389345b01e0fd",
+      "lfSha256": "fee3fbf53d876435c9007837af895c48c815eb7a995fad918af389345b01e0fd"
+    },
+    "experiments/pc-baseline/lab/derive_known_gta.py": {
+      "rawSha256": "bb30e23865792bf77d75aa4ad8ee4c747c9c043080c5a0390fc77f3dfcdf17c7",
+      "lfSha256": "bb30e23865792bf77d75aa4ad8ee4c747c9c043080c5a0390fc77f3dfcdf17c7"
+    },
+    "experiments/pc-baseline/lab/verification/known-loader-images.json": {
+      "rawSha256": "540bf10573b8fcb7e9a15ed55876c011d3f707275b49142b1bbb5804475b96e1",
+      "lfSha256": "52b7b462adc065ff517701c2909eae18519fb70ae5c21886c0d66a2fbd5d8407"
+    }
+  },
+  "status": "passed",
+  "platform": "Windows I386",
+  "configuration": "Release",
+  "memory": {
+    "requiredMiB": 1024,
+    "actualMiB": 4766,
+    "scope": "explicit standalone one-TU allowance; not SDK/engine threshold"
+  },
+  "runRoot": "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001",
+  "runSha256": "69b99b2711930576d5d4aef7eccaad13a8e9dff5310744d2f37d1838a6aec81d",
+  "runManifest": {
+    "schema": "mta-native-user-paths-component-v1",
+    "status": "passed",
+    "target": "native_paths_probe",
+    "configuration": "Release",
+    "platform": "Win32",
+    "gameExecution": "not_run",
+    "guiExecution": "not_run",
+    "pid": 42816,
+    "startedUtc": "2026-10-28T14:04:00.230319+00:00",
+    "source": "D:\\projects\\astana\\work\\mtasa-mobile-pc-lab-paths",
+    "sourceSha": "d847e33b577ff75d25ad978c8e3d9dee9d8df7a4",
+    "sourceHashes": {
+      "Shared/sdk/ExperimentalNativeUserPaths.h": "344943cab2cb53f661bb53498b4d2869e570a11e856a6dfbdc7e00a77fec9471",
+      "Shared/sdk/ExperimentalLabPaths.h": "3fc9b8a67a1377a9681372f5f06e082d26479cfc1dba9fd9dabac2b47ae21e84",
+      "experiments/pc-baseline/lab/native_paths_probe.cpp": "60575e7ada2dd90f50c03ef0b7ed4f2c7f8497cd5b08234ba3cf36770efabb89",
+      "experiments/pc-baseline/lab/test_native_paths.py": "98cedc6b9b6f4de6188875fc7a40003b3585e339b0fb6ebeb04216b34c27fb0b",
+      "experiments/pc-baseline/lab/CMakeLists.txt": "fee3fbf53d876435c9007837af895c48c815eb7a995fad918af389345b01e0fd",
+      "experiments/pc-baseline/lab/derive_known_gta.py": "bb30e23865792bf77d75aa4ad8ee4c747c9c043080c5a0390fc77f3dfcdf17c7",
+      "experiments/pc-baseline/lab/verification/known-loader-images.json": "540bf10573b8fcb7e9a15ed55876c011d3f707275b49142b1bbb5804475b96e1"
+    },
+    "memoryFloorMiB": 1024,
+    "stages": [
+      {
+        "name": "configure",
+        "command": [
+          "C:/Program Files/CMake/bin/cmake.exe",
+          "-S",
+          "D:\\projects\\astana\\work\\mtasa-mobile-pc-lab-paths\\experiments\\pc-baseline\\lab",
+          "-B",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\build",
+          "-G",
+          "Visual Studio 18 2026",
+          "-A",
+          "Win32",
+          "-DLAB_CANONICAL_EXE=D:/projects/astana/work/mta-mobile-lab/pc-canonical-gta-001/gta_sa.exe",
+          "-DLAB_KNOWN_VARIANTS_DIR=D:/projects/astana/work/mta-mobile-lab/pc-canonical-gta-001/loader-variant-samples"
+        ],
+        "pid": 28420,
+        "status": "passed",
+        "startedUtc": "2026-10-28T14:04:01.856925+00:00",
+        "exitCode": 0,
+        "finishedUtc": "2026-10-28T14:04:07.377473+00:00"
+      },
+      {
+        "name": "build",
+        "command": [
+          "C:/Program Files/CMake/bin/cmake.exe",
+          "--build",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\build",
+          "--config",
+          "Release",
+          "--target",
+          "native_paths_probe",
+          "--",
+          "/m:1",
+          "/nr:false",
+          "/p:MultiProcessorCompilation=false"
+        ],
+        "pid": 38404,
+        "status": "passed",
+        "startedUtc": "2026-10-28T14:04:07.604372+00:00",
+        "exitCode": 0,
+        "finishedUtc": "2026-10-28T14:04:13.672187+00:00"
+      },
+      {
+        "name": "ctest",
+        "command": [
+          "C:/Program Files/CMake/bin/ctest.exe",
+          "--test-dir",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\build",
+          "-C",
+          "Release",
+          "-R",
+          "^native_user_paths_",
+          "--parallel",
+          "1",
+          "--output-on-failure",
+          "--output-junit",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\ctest.xml"
+        ],
+        "pid": 44276,
+        "status": "passed",
+        "startedUtc": "2026-10-28T14:04:14.067997+00:00",
+        "exitCode": 0,
+        "finishedUtc": "2026-10-28T14:04:16.676102+00:00"
+      }
+    ],
+    "freeMemoryMiB": 4766,
+    "compilerPidsAtPreflight": [],
+    "artifact": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\build\\Release\\native_paths_probe.exe",
+      "bytes": 85504,
+      "sha256": "2c225182921522a683e159cba78f18369274a000680ab6760a2a2885a435be68"
+    },
+    "finishedUtc": "2026-10-28T14:04:16.817475+00:00",
+    "logs": {
+      "build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "build.stdout.log": "beb799d9e95d58cb27f0d956c2d2294341503416b25196ade7e1738f4e071119",
+      "configure.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "configure.stdout.log": "dcb500769f78496892af2490d12785be728b864f9d46bfed49fda31e55e11de1",
+      "ctest.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ctest.stdout.log": "ac27e661ac7f9d798052d727e600016c3d75411813391c27527a95183830168f"
+    }
+  },
+  "junit": {
+    "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\ctest.xml",
+    "sha256": "4fd1e64dddec66a318a686b6d744c6702222d33a50a9d3704f61606657f581d5",
+    "tests": 4,
+    "failures": 0,
+    "skipped": 0
+  },
+  "artifact": {
+    "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\artifacts\\native_paths_probe.exe",
+    "bytes": 85504,
+    "sha256": "2c225182921522a683e159cba78f18369274a000680ab6760a2a2885a435be68",
+    "machine": 332,
+    "optionalMagic": 267
+  },
+  "canonical": {
+    "materializationReceipt": "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-canonical-gta-001\\result.json",
+    "materializationReceiptSha256": "b3a39ce508049e435368d4c582769ed8a36dbe1390c66df4a693c0c89bdc6149",
+    "sha256": "f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a",
+    "reaEvidenceId": "ev_4b509c0962e4b9a0317dd3d104468aebf1ab0a6a2a3fcc7223005505ffe09e26",
+    "mode": "read_as_data_only"
+  },
+  "knownVariants": {
+    "schema": "mta-exact-loader-image-allowlist-v1",
+    "enginePin": "a84e0c77c66f596b0c72def1c857253568208a2b",
+    "source": "Client/loader/GameExecutablePatcher.cpp",
+    "canonicalSha256": "f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a",
+    "variants": [
+      {
+        "name": "release-aero0-gpu0.bin",
+        "debug": false,
+        "aero": false,
+        "gpu": false,
+        "bytes": 14383616,
+        "sha256": "f3d07cca3375af2fe4d19ff4035c444f2d4fd5a9c07fa78ed834bd6756d5b37c"
+      },
+      {
+        "name": "release-aero0-gpu1.bin",
+        "debug": false,
+        "aero": false,
+        "gpu": true,
+        "bytes": 14383616,
+        "sha256": "5b01125db4b0bf04592bd22ddc69245eb391e9b626a950525f95cfb08f676cce"
+      },
+      {
+        "name": "release-aero1-gpu0.bin",
+        "debug": false,
+        "aero": true,
+        "gpu": false,
+        "bytes": 14383616,
+        "sha256": "77485627b4ef17f92819318050d501e171c7ab84ceffe5091b973b9e29f9cc98"
+      },
+      {
+        "name": "release-aero1-gpu1.bin",
+        "debug": false,
+        "aero": true,
+        "gpu": true,
+        "bytes": 14383616,
+        "sha256": "1c8e082037446cd239eed9c924afff8ced3891cd9a426fdd1c9317671cfcf4b9"
+      },
+      {
+        "name": "debug-aero0-gpu0.bin",
+        "debug": true,
+        "aero": false,
+        "gpu": false,
+        "bytes": 14383616,
+        "sha256": "c57460a2e242c1ac3d05054d477c582eeec9a085ce582ff5640925938f58f052"
+      },
+      {
+        "name": "debug-aero0-gpu1.bin",
+        "debug": true,
+        "aero": false,
+        "gpu": true,
+        "bytes": 14383616,
+        "sha256": "5cd22ed63ffb628a2538a29139cfeee4a1a96224b84fa89fa598bf67f316873c"
+      },
+      {
+        "name": "debug-aero1-gpu0.bin",
+        "debug": true,
+        "aero": true,
+        "gpu": false,
+        "bytes": 14383616,
+        "sha256": "416cdc04f19b317393a6dfc404be28449e6dd38bfc63cc3cccc10e5fb51f3eae"
+      },
+      {
+        "name": "debug-aero1-gpu1.bin",
+        "debug": true,
+        "aero": true,
+        "gpu": true,
+        "bytes": 14383616,
+        "sha256": "2f046967c782658f15dfe1524d3d3a0696f90d09b5a602cc40d3a52990135ffc"
+      }
+    ],
+    "targetExecution": "not_run",
+    "installedWrites": false
+  },
+  "limitations": [
+    "UserDirectory/Install not invoked inside GTA",
+    "Proxy integration and full client rebuild not_run",
+    "No GTA, Core DLL or GUI execution",
+    "Owned native test function only; not gameplay",
+    "Bounded static search found no direct callers or absolute references to the three native Rockstar registry wrappers; computed uses remain unknown, outside this hook scope"
+  ],
+  "terminalInventory": {
+    "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\native-user-paths-001\\post-exit-inventory.json",
+    "sha256": "e2a8f3dea968938d44368441348c4ffe0a720c1cc33934e91373daa352e54135",
+    "observed": {
+      "checkedUtc": "2026-10-28T14:07:33.4865587Z",
+      "trackedPidsPresent": [],
+      "nativeProbeProcesses": []
+    }
+  }
+}
