@@ -82,4 +82,6 @@ Ninja16872 завершился exit1: `SharedUtil.Misc.h` для libc++ оши�
 
 Root отдельно разрешил единственный SDK header fix: libc++ включает настоящий `<filesystem>`, MSVC/GCC branches сохраняются. После independent review новый configure выполняется в **новом** `build/x86_64-api26-libcxx`; его snapshot также отдельный. Runner принимает `-BuildRoot`, `-ConfigureSnapshot` и `-Priority Normal`; actual retained PID/path/start проверяются до смены priority. High и добавление workers недоступны. Native streams используют unbuffered file writes, чтобы короткий Ninja progress был виден до terminal.
 
-Новый configure/build после SDK fix пока не запускался. Старый failed receipt не повышается в passed; Android runtime/host traffic и AVD остаются not_run.
+После independent review выполнены отдельный configure6432 exit0 и новый Ninja44028 `-j1`/Normal exit0:14TU/19tasks. Все3 application executables freshly produced, отдельные llvm-readelf processes завершились0. ELF64/PIE/x86_64 с `/system/bin/linker64`, dynamic libraries только libc/libdl/libm; shared libc++ отсутствует. [Configure receipt](verification/configure-libcxx-2026-10-28.json), [build/ELF receipt](verification/build-libcxx-x86_64-2026-10-28.json).
+
+Старый failed receipt не повышается в passed и его cache/objects не копировались. Android execution, native codec execution и Android↔host H1 interaction остаются **not_run**; AVD в этой задаче не запускался. Следующий A1 сценарий требует отдельного плана/review и реального ADB/серверных Lua receipts.
