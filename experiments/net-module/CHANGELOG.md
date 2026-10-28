@@ -11,6 +11,12 @@
 
 ### Added
 
+- Win32 CNet component with the real client SDK interface and undecorated cdecl
+  exports. Native DLL/transport tests passed with I386/pointer_bits32, including
+  callback lifetime, reset/reconnect and explicit unsupported-service failures.
+  This supplies the client transport seam; Core/game/resource integration is not
+  yet proved. The real SDK time header is included before packet-stat definitions.
+
 - Actual source-server H1 evidence: the owned DLL served two genuine CPlayer
   clients, server Lua created one vehicle and accepted three token/reference
   roundtrips, reconnect and zero-player/entity cleanup passed with clean exits.

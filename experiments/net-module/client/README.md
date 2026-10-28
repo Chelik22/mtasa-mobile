@@ -1,5 +1,16 @@
 # Experimental PC CNet component (G4 preparation)
 
+Win32 Release component build and `owned_cnet_client_module` passed on 2026-10-28.
+The actual DLL/test PE machine is I386 and the native host reports pointer_bits=32.
+[Evidence](verification/windows-x86.json). Core/game integration, HTTP/resource
+download, client Lua and G4 remain untested.
+
+```powershell
+cmake -S experiments/net-module -B experiments/net-module/build-win32 -G "Visual Studio 18 2026" -A Win32
+cmake --build experiments/net-module/build-win32 --config Release --target netc_experimental client_module_tests --parallel 1
+ctest --test-dir experiments/net-module/build-win32 -C Release -R "^owned_cnet_client_module$" --output-on-failure
+```
+
 Source-only component; do not install/rename it over production `netc.dll`.
 No Client engine source is changed. The root component build must link
 `OwnedNetClient.cpp` with the existing `mta_bitstream` and pinned ENet, put

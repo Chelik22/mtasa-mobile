@@ -1,0 +1,56 @@
+{
+  "recorded_utc": "2026-10-28T01:04:33.261638+00:00",
+  "scope": "Win32 real CNet SDK DLL exports/vtable/transport component only; NOT GTA/Core integration",
+  "source_parent": "4d3a56092c5e8d05a509e56e1c3b7ca710941c65",
+  "build": {
+    "generator": "Visual Studio 18 2026",
+    "platform": "Win32",
+    "configuration": "Release",
+    "parallel": 1,
+    "targets": [
+      "netc_experimental",
+      "client_module_tests"
+    ],
+    "exit_code": 0
+  },
+  "ctest": {
+    "requested": [
+      "owned_cnet_client_module"
+    ],
+    "passed": 1,
+    "failed": 0,
+    "exit_code": 0,
+    "last_test_log_sha256": "5b8e8d7a19021d2bb09f22eb3af432ec60d198dba8e42e696a45f17569287d04",
+    "raw_log": "Start testing: Oct 28 05:45 ��������� (����)\n----------------------------------------------------------\n8/8 Testing: owned_cnet_client_module\n8/8 Test: owned_cnet_client_module\nCommand: \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32/Release/client_module_tests.exe\" \"D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32/Release/netc_experimental.dll\"\nDirectory: D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build-win32\n\"owned_cnet_client_module\" start time: Oct 28 05:45 ��������� (����)\nOutput:\n----------------------------------------------------------\nPASS dynamic CNet transport/contracts; pointer_bits=32; game/Core/HTTP/Lua/G4 NOT RUN\n<end of output>\nTest time =   0.26 sec\n----------------------------------------------------------\nTest Passed.\n\"owned_cnet_client_module\" end time: Oct 28 05:45 ��������� (����)\n\"owned_cnet_client_module\" time elapsed: 00:00:00\n----------------------------------------------------------\n\nEnd testing: Oct 28 05:45 ��������� (����)\n"
+  },
+  "pointer_bits": 32,
+  "pe_machine": "I386",
+  "source_sha256": {
+    "experiments/net-module/CMakeLists.txt": "850e66e11db6bf2d37575be7fbf2c642e82dda554ce143583571b7d768b35327",
+    "experiments/net-module/MtaBitStream.h": "5b7bc5f475cab7656a09d23c4396c5576adc370eb7979f7686eeb24b13c6f9f0",
+    "experiments/net-module/MtaBitStream.cpp": "8f36a7c3ca56333e2b3726f6ba82fe3e60a732a5c3b26837ab475afd23576fdd",
+    "experiments/net-module/ModuleRuntime.cpp": "e4dbcf1b28944fa28656f56ad80ea4f410eb30f8f4ce5ee95ab89387df1886a1",
+    "experiments/net-module/Protocol.h": "df3a27f4e746438987e266047883dc4544ea6a6b4f7a5fc70bf90ec7217df809",
+    "Client/sdk/net/CNet.h": "97a9484e2485702bb4dfbed34535244a006120be4cd35851eb68f7f614cae194",
+    "Client/sdk/net/net_common.h": "1e07a5348c4ee1f137baf9664c8ef19bcd575d1d897de4cd223175663ae58d7f",
+    "Shared/sdk/net/CNetHTTPDownloadManagerInterface.h": "ec0345981a5d0d9e03837de63c8d9a01a3a5be0dc89dea36479c049ab3b946f3",
+    "experiments/net-module/client/ClientModule.h": "54e2b426572732a0ff2d9f700a6082267b31d366b28168278be6243e2b545341",
+    "experiments/net-module/client/client_module_tests.cpp": "d4e710e8d119a06da040ab183ee5e700172163c94942bfb1f9684fae8be070ec",
+    "experiments/net-module/client/OwnedNetClient.cpp": "3d88fff93afa16be73aabfa0a1d7b63f06f916f5176a9627aa87cc0e12ef929e"
+  },
+  "output_sha256": {
+    "netc_experimental.dll": "1bc6fb62a97882f6b354049afc1b8c9e675a986e34b33042ecb39f5476df1ae5",
+    "client_module_tests.exe": "f3864c803fbbf009a62618a11d4af0612cde7a72eb51ee599bc1280cd30e9989"
+  },
+  "review": {
+    "coordinator_read_only_review": "source CNet caller/ownership audit and implementation reviewed; no blocker found for declared transport-only component",
+    "include_repair": "real SharedUtil.Time.h provides TIMEUS before CNet.h; no fake ABI typedef"
+  },
+  "limitations": [
+    "loopback-only prototype identity from explicit environment",
+    "priority FIFO and stronger delivery ordering for modes2/4",
+    "HTTP/resource download/file cache/signatures/model trust/official AC unsupported and fail explicitly",
+    "full Core/game loader not_run",
+    "client Lua/GTA gameplay/G4 not_run"
+  ]
+}
