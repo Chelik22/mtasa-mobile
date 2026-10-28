@@ -8,6 +8,7 @@ else()
     target_compile_options(bitbuffer_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 enable_testing()
+add_subdirectory(server-cache)
 add_test(NAME bitbuffer_contract COMMAND bitbuffer_tests)
 
 add_library(mta_bitstream STATIC MtaBitStream.cpp ModuleRuntime.cpp)

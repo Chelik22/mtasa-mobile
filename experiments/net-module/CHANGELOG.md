@@ -1,5 +1,13 @@
 # Changelog
 
+## Server HTTP cache preparation
+
+- Реальный gameplay server preflight выявил отсутствующий filename validator.
+  Добавлен узкий immutable root/allowlist validator для двух fixture cache paths;
+  это не official content scanner и не atomic filesystem sandbox.
+- Отсутствующая policy сохраняет прежний отказ filename API без изменения H1
+  transport initialization. Native build и actual server replay ещё not_run.
+
 ## [Unreleased]
 
 ### Fixed
