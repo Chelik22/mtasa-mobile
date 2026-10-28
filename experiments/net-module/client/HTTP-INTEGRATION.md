@@ -3,6 +3,13 @@
 Source audit at `966fbdd27`, 2026-10-28. This is an integration contract, not a
 runtime result. Standalone HTTP compile/link/tests and Core gameplay are pending.
 
+`HttpManagerSlot.h` prepares the stable SDK facade with concrete backend ownership.
+Close cancels pending owners immediately and defers backend destruction until its
+active pulse returns. Integration must check CanRelease before module-side release
+and must not unload a DLL with an active callback frame. Do not hold the CNet
+transport mutex while closing a slot from another thread: HTTP callbacks may call
+back into CNet. The facade is not yet connected to CNet or runtime-tested.
+
 `CResourceFileDownloadManager::BeginResourceFileDownload` always sets
 `bCheckContents=true` before `QueueFile`. `CSingularFileDownload` does likewise.
 The current backend requires an explicit validator for that flag; simply wiring

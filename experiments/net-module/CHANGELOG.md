@@ -11,6 +11,11 @@
 
 ### Added
 
+- Prepared a concrete HTTP manager ownership facade for CNet: stable borrowed
+  interface, Reset/reuse, closed-state failures, and callback-safe deferred curl
+  destruction after a Close request. It is not wired into CNet yet; native review,
+  build and lifecycle runtime tests remain pending.
+
 - Prepared fixed-name PC Core loader opt-in via
   `MTA_EXPERIMENTAL_CLIENT_NET_MODULE=netc_experimental`, preserving the stock
   default and SDK ABI check. Invalid overrides fail before loading; a missing

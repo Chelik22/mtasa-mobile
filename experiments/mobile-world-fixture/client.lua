@@ -48,6 +48,21 @@ addEventHandler("onClientElementDataChange", root, function(key)
 end)
 
 addEventHandler("onClientResourceStart", resourceRoot, function()
+    -- cache=false Lua travels in packets. A separate resource file exercises
+    -- file download and file APIs; the HTTP log/hash must prove its origin.
+    local file = fileOpen("http-witness.txt", true)
+    if not file then
+        log("http_asset_failed reason=open")
+        return
+    end
+    local size = fileGetSize(file)
+    local contents = size <= 128 and fileRead(file, size) or false
+    fileClose(file)
+    if type(contents) ~= "string" or not contents:match("^MTA mobile HTTP witness v1[\r\n]*$") then
+        log("http_asset_failed reason=contents")
+        return
+    end
+    log("http_asset_read bytes=" .. tostring(size))
     log("resource_start player=" .. getPlayerName(localPlayer))
     triggerServerEvent("mobilefixture:ready", localPlayer)
 end)

@@ -16,7 +16,11 @@ def main():
         assert path.is_relative_to(root), "Script path escapes resource"
         assert path.is_file(), f"Missing script: {path.name}"
         assert path.suffix == ".lua", "Expected Lua source"
-    print("PASS: meta.xml references existing server/client Lua source; runtime NOT RUN")
+    files = meta.findall("file")
+    assert [item.get("src") for item in files] == ["http-witness.txt"]
+    witness = root / "http-witness.txt"
+    assert witness.read_bytes().rstrip(b"\r\n") == b"MTA mobile HTTP witness v1"
+    print("PASS: source scripts and HTTP witness packaged; runtime NOT RUN")
 
 
 if __name__ == "__main__":

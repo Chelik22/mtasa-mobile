@@ -2,4 +2,5 @@
     <info author="MTA Mobile campaign" name="Mobile world fixture" version="0.1.0" type="script" />
     <script src="server.lua" type="server" />
     <script src="client.lua" type="client" cache="false" />
+    <file src="http-witness.txt" />
 </meta>
