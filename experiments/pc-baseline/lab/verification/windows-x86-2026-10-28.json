@@ -52,5 +52,18 @@
     "GTA/Documents native behavior not proven isolated",
     "MTA/GTA/GUI/gameplay not_run",
     "Installed GTA/MTA/global registry and original PC baseline/Bin untouched"
-  ]
+  ],
+  "sourceCommit": "aa9d99e8f385e7c4eaf0ec05f53b359e25f6ca1f",
+  "sourceLfSha256": {
+    "Shared/sdk/ExperimentalLabPaths.h": "04baf6584c9a6aa3e728f7a72c7b2bf37725bb7681359235af39623f75fbab92",
+    "Shared/sdk/SharedUtil.Misc.hpp": "e15b0628ebcb23713d6c02f0448159de40a19b8ce802d06e81d7cf9fac79a607",
+    "Shared/sdk/SharedUtil.File.hpp": "fa6ec9cc764f94965fce2943a96862e78363e5ac3a20041233c6563874449910",
+    "Client/loader/Utils.cpp": "9a40aeff7c8452f8bd46eb55479091b2e7967a97963a97cd1b87ff2d5000262c",
+    "Client/loader/MainFunctions.cpp": "f25987de8aca280ab252c4c28017bf9c2c93d81f86236a29296466bc88b53ffb",
+    "Client/loader/CInstallManager.cpp": "7b775eed8d2596159b326014af4db15192b3c6d5a89a9da31400e292afbcedb3",
+    "Client/loader/FileSystem.cpp": "02a190df7ef6dc6154b0aa53f38bdb90adab148894ae98c9adc0a1140c681543",
+    "experiments/pc-baseline/lab/CMakeLists.txt": "f2d37aa3203a29b2b7b4ea07728d654f5adeac4a1f9318ed0c095abd6771c47d",
+    "experiments/pc-baseline/lab/lab_paths_probe.cpp": "9bb37d5ad2b2b4aec885b2cf089a1a662f7fb240f76ec76bb87267a48d012eb7",
+    "experiments/pc-baseline/lab/test_lab_paths.py": "da7c3f1ab84873bb6cf386c4113ce295a8cf57d5b047a745e9297f021813182f"
+  }
 }
