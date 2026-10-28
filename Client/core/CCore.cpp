@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "StdInc.h"
+#include "ExperimentalClientNetSelection.h"
 #include <game/CGame.h>
 #include <game/CSettings.h>
 #include <Accctrl.h>
@@ -1094,19 +1095,15 @@ void CCore::CreateNetwork()
 {
     // The isolated prototype needs its own transport without replacing the user's
     // stock DLL. Accept one fixed module stem, never an environment-supplied path.
-    const char* networkModule = "netc";
-    char        experimentalModule[32] = {};
-    SetLastError(ERROR_SUCCESS);
-    const DWORD experimentalLength = GetEnvironmentVariableA("MTA_EXPERIMENTAL_CLIENT_NET_MODULE", experimentalModule, sizeof(experimentalModule));
-    const DWORD experimentalError = GetLastError();
-    if (experimentalLength || experimentalError != ERROR_ENVVAR_NOT_FOUND)
+    const auto selection = experimental_client_net::ReadSelection();
+    if (selection == experimental_client_net::Selection::Invalid)
     {
-        if (experimentalLength >= sizeof(experimentalModule) || strcmp(experimentalModule, "netc_experimental") != 0)
-        {
-            BrowseToSolution("netc-experimental-invalid", TERMINATE_PROCESS, "Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE; expected netc_experimental");
-            return;
-        }
-        networkModule = "netc_experimental";
+        BrowseToSolution("netc-experimental-invalid", TERMINATE_PROCESS, "Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE; expected netc_experimental");
+        return;
+    }
+    const char* networkModule = experimental_client_net::ModuleStem(selection);
+    if (selection == experimental_client_net::Selection::Owned)
+    {
         WriteDebugEvent("Experimental client network module selected: netc_experimental");
     }
     m_pNet = CreateModule<CNet>(m_NetModule, "Network", networkModule, "InitNetInterface", this);
