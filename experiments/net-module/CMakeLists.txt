@@ -72,6 +72,8 @@ set_tests_properties(headless_source_constants PROPERTIES TIMEOUT 15)
 
 if(WIN32)
     add_library(netc_experimental SHARED client/OwnedNetClient.cpp)
+    # Core's existing Debug loader appends _d; keep the opt-in artifact paired.
+    set_target_properties(netc_experimental PROPERTIES DEBUG_POSTFIX "_d")
     target_include_directories(netc_experimental BEFORE PRIVATE ../../Client/sdk ${CMAKE_CURRENT_SOURCE_DIR} ${enet_SOURCE_DIR}/include)
     target_link_libraries(netc_experimental PRIVATE mta_bitstream enet ws2_32 winmm)
     add_executable(client_module_tests client/client_module_tests.cpp)

@@ -18,7 +18,10 @@ override is `netc_experimental` (module stem, no extension/path). Release loads
 `mta/netc_experimental.dll`; Debug uses the normal `_d.dll` suffix. Empty, unknown
 and oversized values fail before module loading. The normal SDK compatibility
 check remains mandatory. This source seam has not been built or run in Core;
-HTTP/resource support is still required before the gameplay test.
+HTTP/resource support is still required before the gameplay test. Independent
+source/native environment review passed: absent, empty, valid and oversized
+values follow the intended branches. CMake sets the matching Debug postfix;
+the Debug DLL itself has not been built or tested.
 
 The root component build must link
 `OwnedNetClient.cpp` with the existing `mta_bitstream` and pinned ENet, put
