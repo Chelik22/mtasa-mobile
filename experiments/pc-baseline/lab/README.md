@@ -78,7 +78,13 @@ PE checksum. Hash manifest — `verification/known-loader-images.json`; private
 `.bin` samples не публикуются и не исполняются. Это full raw-image whitelist,
 никакие export/padding/timestamp/checksum bytes не маскируются.
 
-Штатный launch EXE: `root/data/GTA San Andreas/gta_sa.exe`; assets: `root/gta`.
+Штатный launch EXE: `root/data/1.7/GTA San Andreas/gta_sa.exe`; assets: `root/gta`.
+Компонент1.7 берётся из SDK `GetMajorVersionString` (`MTA_DM_ASE_VERSION.Left(3)`).
+Первый actual game process36352 подтвердил этот путь в loader log, а старый
+unversioned guard завершил startup с0x4C414250. Он исправлен без ослабления
+exact path/image/hash/instruction guards. Esc остановил Computer Use; причинная
+связь Esc с завершением game process из этого не следует. Нового GUI/game запуска
+CLI regression не выполняет.
 Helper проверяет image base, исходные16bytes routine0x744FB0 и ещё пустые три
 256-byte native buffers до native writes. ACP conversion обязана точно
 round-trip; каждый путь вместе с NUL<=256bytes. Directory reparse проверяется

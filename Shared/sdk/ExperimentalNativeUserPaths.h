@@ -2,6 +2,7 @@
 
 #if defined(_WIN32) && defined(MTA_CLIENT)
     #include "ExperimentalLabPaths.h"
+    #include "version.h"
     #include <bcrypt.h>
     #include <cstring>
     #ifdef _MSC_VER
@@ -206,6 +207,15 @@ namespace experimental_lab::native_paths
         }
     }
 
+    inline fs::path ExpectedExecutable(const Context& context)
+    {
+        // Match SharedUtil::GetMTADataPath: GetMajorVersionString is exactly
+        // SStringX(MTA_DM_ASE_VERSION).Left(3), including custom/nightly builds.
+        // The first actual launch proved the unversioned path was never valid.
+        const auto version = std::string_view(MTA_DM_ASE_VERSION).substr(0, 3);
+        return context.Child(L"data") / version / L"GTA San Andreas" / L"gta_sa.exe";
+    }
+
     inline void Install(const Context& context, HMODULE image)
     {
         if (!context.enabled)
@@ -213,8 +223,7 @@ namespace experimental_lab::native_paths
     #if defined(_M_IX86)
         if (image != reinterpret_cast<HMODULE>(image_base))
             throw std::runtime_error("Native path hook only supports the fixed x86 image base");
-        // Match loader/Utils.cpp GetGameLaunchDirectory, not the assets directory.
-        const fs::path             executable = context.Child(L"data") / L"GTA San Andreas" / L"gta_sa.exe";
+        const fs::path             executable = ExpectedExecutable(context);
         std::array<wchar_t, 32768> actual{};
         const DWORD                length = GetModuleFileNameW(image, actual.data(), static_cast<DWORD>(actual.size()));
         if (!length || length >= actual.size() || !Same(actual.data(), executable.native()) || !IsKnownExecutable(ReadExecutable(executable)))

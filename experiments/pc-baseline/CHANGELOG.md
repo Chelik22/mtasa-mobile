@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+<<<<<<< HEAD
+=======
+- Исправлен exact native identity path: SDK хранит launch EXE в
+  `data/1.7/GTA San Andreas`, а guard ошибочно ожидал путь без версии и завершил
+  первый game process с0x4C414250. Теперь версия выводится из того же compile-time
+  ASE version, что и `GetMajorVersionString`; unversioned/other-version пути
+  по-прежнему отклоняются. CLI regression не запускает игру или GUI.
+
+- Добавлен отдельный integration plan/runner для проверенного PC source fork в
+  существующем cache: baseline immutable, explicit reviewed source delta, SDK/
+  project/input guards, Normal one-worker CLI и самостоятельный integration receipt.
+
+>>>>>>> b188d2a60 (fix(pc): bind native hook to the SDK versioned launch path)
 - Подготовлен lab-only native user-directory hook для одного SHA-проверенного GTA
   EXE: exact full-image whitelist штатных loader patches, ACP/256-byte guards, три native
   буфера и процессный detour с проверкой инструкций. Source anchor подключён

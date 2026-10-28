@@ -45,6 +45,15 @@ void Filesystem()
 {
     const auto& context = experimental_lab::GetContext();
     Check(context.enabled, "paths test requires private lab root");
+    // Independent golden from actual first-launch log (PID36352): the SDK
+    // loader created data/1.7/GTA San Andreas/gta_sa.exe, never data/GTA....
+    const auto expected = paths::ExpectedExecutable(context);
+    Check(expected == context.Child(L"data") / L"1.7" / L"GTA San Andreas" / L"gta_sa.exe",
+          "native identity path does not match actual version-scoped SDK route");
+    Check(!experimental_lab::Same(expected.native(), (context.Child(L"data") / L"GTA San Andreas" / L"gta_sa.exe").native()),
+          "unversioned executable must not satisfy the identity guard");
+    Check(!experimental_lab::Same(expected.native(), (context.Child(L"data") / L"1.6" / L"GTA San Andreas" / L"gta_sa.exe").native()),
+          "a different MTA version must not satisfy the identity guard");
     paths::Install(experimental_lab::Context{}, nullptr);
     const auto value = paths::PreparePaths(context);
     Check(!std::filesystem::exists(value.wide[0]), "prepare must have no filesystem writes");
@@ -136,6 +145,13 @@ int wmain(int argc, wchar_t** argv)
         const std::wstring mode = argv[1];
         if (mode == L"canonical" && argc == 3)
             Canonical(argv[2]);
+        else if (mode == L"runtime-preflight")
+        {
+            const auto& context = experimental_lab::GetContext();
+            const auto  expected = paths::ExpectedExecutable(context);
+            Check(paths::IsKnownExecutable(paths::ReadExecutable(expected)), "actual generated runtime image is outside exact SHA whitelist");
+            std::wcout << L"PASS readonly runtime identity preflight: " << expected.native() << L"; game execution not_run\n";
+        }
         else if (mode == L"known" && argc == 3)
         {
             std::size_t accepted = 0;
