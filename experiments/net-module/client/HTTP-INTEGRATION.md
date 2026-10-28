@@ -24,6 +24,13 @@ downloaded resource checksum against the server value in
 `CResourceFileDownloadManager::DownloadFinished`; preserve that code and its
 fallback/error behavior. A content policy does not replace this checksum.
 
+`ApprovedReadFile.h` prepares the separate SDK `CBinaryFileInterface` needed by
+Lua fileOpen/read. Its explicit callback must approve canonical path and the exact
+retained bytes; absent policy fails closed. Only `rb` with validation is supported.
+Write/resource-create and private cache semantics remain unsupported. Snapshot
+retention prevents a later path replacement from changing an already approved
+read; it does not replace sandbox/path policy. It is not yet instantiated by CNet.
+
 Integration must preserve these ownership rules:
 
 - Stable borrowed manager pointers while CNet is initialized; Reset cancels
