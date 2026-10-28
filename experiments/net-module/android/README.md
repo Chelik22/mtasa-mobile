@@ -75,3 +75,11 @@ adb -s emulator-5580 shell /data/local/tmp/mta-h1/headless_client --host 10.0.2.
 Source/constants check и PowerShell parser выполнены. Actual configure PID47300 завершился exit0, Clang19.0.1/NDKr28c; проверены38 ENet hashes и точный source file set. Ninja graph содержит14 translation units и три заданных application targets. Их executable files отсутствуют: cold build, ELF verification и все Android/host executions not_run. [Configure snapshot](verification/configure-2026-10-28.json) содержит actual source/hash/PID/log evidence; никаких AVD/APK/GTA binaries в Git нет.
 
 Изменения этого subproject обратимы удалением отдельного Android entry point; host CMake и application sources не меняются.
+
+## Первый actual cold build и libc++ fix
+
+Ninja16872 завершился exit1: `SharedUtil.Misc.h` для libc++ ошибочно выбирал MSVC forward declaration `namespace std::filesystem`, конфликтующий с inline ABI namespace NDK. `ModuleRuntime.cpp`, `MtaBitStream.cpp` и static archive были собраны; application executables и ELF checks — нет. [Failed receipt](verification/build-x86_64-attempt1-2026-10-28.json) сохранён. Старый configure/cache/objects не переписываются и не переносятся.
+
+Root отдельно разрешил единственный SDK header fix: libc++ включает настоящий `<filesystem>`, MSVC/GCC branches сохраняются. После independent review новый configure выполняется в **новом** `build/x86_64-api26-libcxx`; его snapshot также отдельный. Runner принимает `-BuildRoot`, `-ConfigureSnapshot` и `-Priority Normal`; actual retained PID/path/start проверяются до смены priority. High и добавление workers недоступны. Native streams используют unbuffered file writes, чтобы короткий Ninja progress был виден до terminal.
+
+Новый configure/build после SDK fix пока не запускался. Старый failed receipt не повышается в passed; Android runtime/host traffic и AVD остаются not_run.

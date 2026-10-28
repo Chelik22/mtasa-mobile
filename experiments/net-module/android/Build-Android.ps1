@@ -4,6 +4,8 @@ param(
     [string]$BuildRoot = (Join-Path $PSScriptRoot 'build/x86_64-api26'),
     [string]$NdkRoot = 'C:/Android/ndk/28.2.13676358',
     [string]$Ninja = 'C:/Android/cmake/3.22.1/bin/ninja.exe',
+    [string]$ConfigureSnapshot = (Join-Path $PSScriptRoot 'verification/configure-2026-10-28.json'),
+    [ValidateSet('BelowNormal', 'Normal')][string]$Priority = 'BelowNormal',
     [ValidateRange(2048, 16384)][int]$RequiredFreeMemoryMiB = 2048
 )
 $ErrorActionPreference = 'Stop'
@@ -73,15 +75,21 @@ function Invoke-OwnedTool([string]$Name, [string]$Executable, [string[]]$Argumen
         $info.Environment['CMAKE_BUILD_PARALLEL_LEVEL'] = '1'
         foreach ($argument in $Arguments) { $info.ArgumentList.Add($argument) }
         $record.stdout = "$Name.stdout.log"; $record.stderr = "$Name.stderr.log"
-        $stdout = [IO.File]::Open((Join-Path $attempt $record.stdout), [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::Read)
-        $stderr = [IO.File]::Open((Join-Path $attempt $record.stderr), [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::Read)
+        $stdout = [IO.FileStream]::new((Join-Path $attempt $record.stdout), [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::Read, 1, [IO.FileOptions]::Asynchronous)
+        $stderr = [IO.FileStream]::new((Join-Path $attempt $record.stderr), [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::Read, 1, [IO.FileOptions]::Asynchronous)
         $process = [Diagnostics.Process]::Start($info)
         $outTask = $process.StandardOutput.BaseStream.CopyToAsync($stdout); $errTask = $process.StandardError.BaseStream.CopyToAsync($stderr)
         $record.pid = $process.Id; $record.startedUtc = $process.StartTime.ToUniversalTime().ToString('o'); $record.status = 'running'
         $state.activeProcess = @{ pid = $process.Id; executable = $record.executable; startedUtc = $record.startedUtc }
         Write-Output "$Name started PID=$($process.Id), logs=$attempt"
         Save-State
-        try { if (-not $process.HasExited) { $process.PriorityClass = [Diagnostics.ProcessPriorityClass]::BelowNormal } }
+        try {
+            if (-not $process.HasExited) {
+                if (-not [string]::Equals($process.Path, $record.executable, [StringComparison]::OrdinalIgnoreCase) -or [Math]::Abs(($process.StartTime.ToUniversalTime() - (Utc $record.startedUtc)).TotalSeconds) -gt 1) { throw 'Native priority target identity mismatch.' }
+                $process.PriorityClass = [Diagnostics.ProcessPriorityClass]::$Priority
+                $record.priority = [string]$process.PriorityClass
+            }
+        }
         catch { $record.priorityError = $_.Exception.Message }
         while (-not $process.WaitForExit(5000)) { Save-State }
         [Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]@($outTask, $errTask))
@@ -126,7 +134,7 @@ try {
     $driver = Get-Process -Id $PID
     $state.driverPid = $PID; $state.driverStartedUtc = $driver.StartTime.ToUniversalTime().ToString('o')
     Save-State
-    $snapshot = Get-Content -LiteralPath (Join-Path $source 'verification/configure-2026-10-28.json') -Raw | ConvertFrom-Json
+    $snapshot = Get-Content -LiteralPath $ConfigureSnapshot -Raw | ConvertFrom-Json
     $configured = $snapshot.actualConfigure
     if ($configured.configure -ne 'passed' -or $configured.exitCode -ne 0) { throw 'Reviewed configure snapshot is not passed.' }
     $dependencyPath = Join-Path $repo 'experiments/mobile-net/android/verification/dependency.json'
@@ -146,7 +154,8 @@ try {
     $state.graphSha256 = Hash (Join-Path $BuildRoot 'build.ninja'); $state.runnerSha256 = Hash $PSCommandPath
     $state.frozenInputsHelperSha256 = Hash (Join-Path $source 'Frozen-Inputs.ps1')
     $state.ninjaInputClosureSha256 = $snapshot.ninjaInputClosureSha256
-    $state.configureSnapshotSha256 = Hash (Join-Path $source 'verification/configure-2026-10-28.json')
+    $state.configureSnapshotSha256 = Hash $ConfigureSnapshot
+    $state.configureSnapshotPath = [IO.Path]::GetFullPath($ConfigureSnapshot); $state.requestedPriority = $Priority
     $state.cacheSha256 = Hash (Join-Path $BuildRoot 'CMakeCache.txt')
     $state.toolchainSha256 = Hash (Join-Path $NdkRoot 'build/cmake/android.toolchain.cmake')
     $state.ndkSourcePropertiesSha256 = Hash (Join-Path $NdkRoot 'source.properties')
