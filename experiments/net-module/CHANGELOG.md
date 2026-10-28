@@ -15,6 +15,11 @@
 
 ### Added
 
+- Prepared build-time trusted manifest configuration and per-CNet immutable cache
+  root policy binding. Generated typed entries avoid a runtime JSON parser;
+  missing/invalid roots fail initialization in approved builds. Generator Python
+  tests passed 50/50; native configured client build/runtime remains pending.
+
 - Construct per-instance concrete HTTP manager owners before publishing the CNet
   SDK pointer, preparing immutable policy injection without replacing borrowed
   managers. Transport-mode regression build/runtime verification is pending.

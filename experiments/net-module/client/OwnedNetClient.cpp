@@ -1,6 +1,7 @@
 #include "ClientModule.h"
 #ifdef MTA_WITH_CLIENT_HTTP
     #include "HttpManagerSlot.h"
+    #include "ClientResourceConfig.h"
 #endif
 #include <Protocol.h>
 #include <net/Packets.h>
@@ -160,11 +161,18 @@ namespace experimental_client
     public:
         OwnedNetClient()
         {
+#ifdef MTA_WITH_CLIENT_HTTP
+            resource_policy_ = LoadClientResourcePolicy();
+#endif
             // Construct concrete managers before publishing the CNet pointer.
             // This seam permits a per-instance content policy without replacing
             // an SDK pointer already borrowed by the game.
             for (auto& http : http_)
+#ifdef MTA_WITH_CLIENT_HTTP
+                http = std::make_unique<ClientHttp>(MakeClientHttpManager(resource_policy_));
+#else
                 http = std::make_unique<ClientHttp>();
+#endif
 #ifdef _WIN32
             // Read the process environment, not a potentially stale per-CRT copy.
             char identity[34]{};
@@ -777,6 +785,9 @@ namespace experimental_client
         std::deque<Frame>                           incoming_, outgoing_;
         std::size_t                                 incoming_bytes_ = 0, outgoing_bytes_ = 0;
         std::array<SPacketStat, 256>                stats_{};
+#ifdef MTA_WITH_CLIENT_HTTP
+        std::shared_ptr<const experimental_http::FixtureContentPolicy> resource_policy_;
+#endif
         std::array<std::unique_ptr<ClientHttp>, static_cast<std::size_t>(EDownloadMode::CALL_REMOTE_ANY_HOST_LAST) + 1> http_;
         UnsupportedHttp                                                                                                 invalid_http_;
     };
