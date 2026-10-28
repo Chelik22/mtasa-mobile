@@ -1092,7 +1092,24 @@ void CCore::DestroyGUI()
 
 void CCore::CreateNetwork()
 {
-    m_pNet = CreateModule<CNet>(m_NetModule, "Network", "netc", "InitNetInterface", this);
+    // The isolated prototype needs its own transport without replacing the user's
+    // stock DLL. Accept one fixed module stem, never an environment-supplied path.
+    const char* networkModule = "netc";
+    char        experimentalModule[32] = {};
+    SetLastError(ERROR_SUCCESS);
+    const DWORD experimentalLength = GetEnvironmentVariableA("MTA_EXPERIMENTAL_CLIENT_NET_MODULE", experimentalModule, sizeof(experimentalModule));
+    const DWORD experimentalError = GetLastError();
+    if (experimentalLength || experimentalError != ERROR_ENVVAR_NOT_FOUND)
+    {
+        if (experimentalLength >= sizeof(experimentalModule) || strcmp(experimentalModule, "netc_experimental") != 0)
+        {
+            BrowseToSolution("netc-experimental-invalid", TERMINATE_PROCESS, "Invalid MTA_EXPERIMENTAL_CLIENT_NET_MODULE; expected netc_experimental");
+            return;
+        }
+        networkModule = "netc_experimental";
+        WriteDebugEvent("Experimental client network module selected: netc_experimental");
+    }
+    m_pNet = CreateModule<CNet>(m_NetModule, "Network", networkModule, "InitNetInterface", this);
 
     // Network module compatibility check
     typedef unsigned long (*PFNCHECKCOMPATIBILITY)(unsigned long, unsigned long*);
@@ -1101,7 +1118,8 @@ void CCore::CreateNetwork()
     {
         // net.dll doesn't like our version number
         ulong ulNetModuleVersion = 0;
-        pfnCheckCompatibility(1, &ulNetModuleVersion);
+        if (pfnCheckCompatibility)
+            pfnCheckCompatibility(1, &ulNetModuleVersion);
         SString strMessage("Network module not compatible! (Expected 0x%x, got 0x%x)", MTA_DM_CLIENT_NET_MODULE_VERSION, ulNetModuleVersion);
 #if !defined(MTA_DM_PUBLIC_CONNECTIONS)
         strMessage += "\n\n(Devs: Update source and run win-install-data.bat)";
