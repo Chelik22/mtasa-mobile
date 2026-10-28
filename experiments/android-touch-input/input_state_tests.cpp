@@ -1,4 +1,7 @@
 #include "AndroidInputState.h"
+#ifdef __ANDROID__
+    #include "AndroidInputAdapter.h"
+#endif
 
 #include <cmath>
 #include <initializer_list>
@@ -170,6 +173,11 @@ int main()
 {
     try
     {
+#ifdef __ANDROID__
+        // Pull the real adapter object into this ELF so its NDK imports must resolve at link time.
+        AndroidInputState no_event_state;
+        Require(HandleAndroidInput(no_event_state, nullptr) == NativeInputResult::NotHandled, "null native event");
+#endif
         MultiTouchTrace();
         CancellationAndLifecycle();
         ViewportAndRotation();
