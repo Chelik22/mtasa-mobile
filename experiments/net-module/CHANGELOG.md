@@ -24,6 +24,11 @@
 
 ### Added
 
+- Actual configured Win32 CNet service integration passed build and CTest 1/1:
+  two real checked HTTP downloads into an empty cache, SDK file read/snapshot,
+  changed-disk rejection and callback Shutdown/Release. I386 artifacts, source
+  hashes and raw logs are captured. Core/player/client Lua/G4 remain not_run.
+
 - Wired approved CNet binary-file allocations to the tested read-only snapshot
   component and shared immutable manifest policy. The default/no-policy and
   shutdown paths still return explicit failure objects. Configured native CNet

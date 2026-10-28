@@ -3,7 +3,10 @@
 Win32 Release component build and `owned_cnet_client_module` passed on 2026-10-28.
 The actual DLL/test PE machine is I386 and the native host reports pointer_bits=32.
 [Evidence](verification/windows-x86.json). Core/game integration, HTTP/resource
-download, client Lua and G4 remain untested.
+download inside Core, client Lua and G4 remain untested. The configured native
+DLL service scenario passed build and CTest 1/1, including real checked HTTP
+downloads, SDK file snapshots and callback Shutdown/Release.
+[Configured evidence](verification/configured-cnet-resource-windows-x86.json).
 
 ```powershell
 cmake -S experiments/net-module -B experiments/net-module/build-win32 -G "Visual Studio 18 2026" -A Win32
@@ -14,7 +17,7 @@ ctest --test-dir experiments/net-module/build-win32 -C Release -R "^owned_cnet_c
 Source-only component; do not install/rename it over production `netc.dll`.
 Prepared real HTTP integration is selected with `-DMTA_WITH_CLIENT_HTTP=ON`
 during Win32 configure. It adds the vendored curl component and concrete HTTP
-managers; its build/runtime verification is pending. Without an explicit content
+managers; its configured native service scenario passed. Without an explicit content
 validator, requests with `bCheckContents=true` still fail before network access.
 This option alone does not make resource download or G4 pass. The default OFF
 configuration retains explicit unsupported HTTP failures.
@@ -24,7 +27,8 @@ trusted local manifest and generates typed entries. Before Init, set
 `MTA_EXPERIMENTAL_CLIENT_CACHE_ROOT` to the absolute existing isolated cache root
 matching the manifest-relative destinations. That root is captured once per CNet
 instance. Missing roots reject approved initialization; unconfigured HTTP builds
-retain the missing-validator failure. Full native policy integration is pending.
+retain the missing-validator failure. Native policy integration passed in the
+service scenario; Core/client Lua/gameplay integration remains pending.
 `CCore::CreateNetwork` has a prepared opt-in loader seam. Leave
 `MTA_EXPERIMENTAL_CLIENT_NET_MODULE` unset for stock `netc.dll`; the only accepted
 override is `netc_experimental` (module stem, no extension/path). Release loads
