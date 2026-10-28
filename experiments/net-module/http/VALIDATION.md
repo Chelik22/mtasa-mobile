@@ -22,3 +22,11 @@ Only ignored CMake compiler-detection artifacts were generated under build-win32
 Subsequent native build/test must preserve its actual command, PID/session,
 stdout/stderr and terminal exit code; never infer completion from an empty
 process-name snapshot or start a duplicate after an observation timeout.
+
+Context-bound fixture policy follow-up: source and meaningful native test cases
+were added on feat/http-fixture-policy in a separate worktree. Frozen e14 HTTP
+runner sources remain unchanged. Policy runtime and syntax-only checks have not
+yet run while G1 causes heavy memory paging. Tests include actual BCrypt known
+digests, path/URL/size/hash mismatches, CRLF versus LF raw hashes, matching-hash
+compiled Lua/native rejection, binary assets, source-only constraints and empty
+files. Expected digest constants were independently calculated with Python hashlib.

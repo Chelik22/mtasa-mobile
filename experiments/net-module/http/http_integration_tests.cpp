@@ -231,7 +231,7 @@ int main(int argc, char** argv)
             queue(manager, base + "/validated", validation, options, narrow_path(file));
             settle(manager);
             require(!validation.success && validation.attempt == 0 && read(file) == "hello", "missing content validator fails before HTTP/publish");
-            HttpManager checked({}, [](const auto& path, std::string&) { return read(path) == "on-disk"; });
+            HttpManager checked({}, [](const auto& context, std::string&) { return read(context.temporary) == "on-disk"; });
             Result      accepted;
             queue(checked, base + "/file", accepted, options, narrow_path(file));
             settle(checked);
