@@ -11,18 +11,39 @@ $source = [IO.Path]::GetFullPath($PSScriptRoot)
 $OutputRoot = [IO.Path]::GetFullPath($OutputRoot)
 New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
 $resultPath = Join-Path $OutputRoot 'configure-evidence.json'
-$lock = [IO.File]::Open((Join-Path $OutputRoot 'configure.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
-if (Test-Path -LiteralPath $resultPath) {
-    $previous = Get-Content -LiteralPath $resultPath -Raw | ConvertFrom-Json
-    if ($previous.pid -and (Get-Process -Id $previous.pid -ErrorAction SilentlyContinue)) {
-        $lock.Dispose()
-        throw "Prior recorded configure PID$($previous.pid) is active; inspect it instead of starting a duplicate."
+$result = [ordered]@{ status = 'starting'; configure = 'not_run'; targetBuild = 'not_run'; runtime = 'not_run'; hostTraffic = 'not_run'; downloads = $false; abi = 'x86_64'; api = 26; stl = 'c++_static'; startedUtc = [DateTime]::UtcNow.ToString('o') }
+$lock = $null; $canWriteEvidence = $false
+$process = $null; $stdout = $null; $stderr = $null; $outTask = $null; $errTask = $null
+function Stop-OwnedConfigure {
+    if (-not $process -or $process.HasExited) { return }
+    try { $process.Kill($true) } catch { $result.cleanupError = $_.Exception.Message }
+    if (-not $process.WaitForExit(10000)) {
+        $result.status = 'cleanup_pending'
+        Write-Output "Owned configure PID $($process.Id) remains active; retaining pipe drains and lock until terminal."
+        # Observation cancellation must not dispose live redirected streams.
+        $process.WaitForExit()
     }
 }
-$result = [ordered]@{ status = 'starting'; configure = 'not_run'; targetBuild = 'not_run'; runtime = 'not_run'; hostTraffic = 'not_run'; downloads = $false; abi = 'x86_64'; api = 26; stl = 'c++_static'; startedUtc = [DateTime]::UtcNow.ToString('o') }
-$result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $resultPath -Encoding utf8
-$process = $null; $stdout = $null; $stderr = $null
 try {
+    $lock = [IO.File]::Open((Join-Path $OutputRoot 'configure.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
+    if (Test-Path -LiteralPath $resultPath) {
+        # Invalid prior metadata is preserved for inspection, never silently replaced.
+        $previous = Get-Content -LiteralPath $resultPath -Raw | ConvertFrom-Json
+        if (-not $previous.status) { throw 'Invalid prior configure evidence: missing status.' }
+        if ($previous.pid) {
+            $priorProcess = Get-Process -Id $previous.pid -ErrorAction SilentlyContinue
+            if ($priorProcess) {
+                if (-not $previous.processStartedUtc) { throw 'Prior live PID has no start identity; inspect its metadata.' }
+                $priorTime = if ($previous.processStartedUtc -is [DateTime]) { $previous.processStartedUtc.ToUniversalTime() } else { [DateTime]::Parse([string]$previous.processStartedUtc, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::RoundtripKind).ToUniversalTime() }
+                if ([string]::Equals($priorProcess.Path, [IO.Path]::GetFullPath($Cmake), [StringComparison]::OrdinalIgnoreCase) -and [Math]::Abs(($priorProcess.StartTime.ToUniversalTime() - $priorTime).TotalSeconds) -le 1) {
+                    throw "Prior configure PID $($previous.pid) is still active; inspect it instead of starting a duplicate."
+                }
+                # A reused unrelated PID is not a configure owner and is never stopped.
+            }
+        }
+    }
+    $canWriteEvidence = $true
+    $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $resultPath -Encoding utf8
     $toolchain = Join-Path $NdkRoot 'build/cmake/android.toolchain.cmake'
     foreach ($file in @($Cmake, $Ninja, $toolchain, (Join-Path $EnetSource 'CMakeLists.txt'))) {
         if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "Missing existing tool/cache: $file" }
@@ -49,9 +70,10 @@ try {
     $stdout = [IO.File]::Open((Join-Path $OutputRoot 'configure.stdout.log'), [IO.FileMode]::Create, [IO.FileAccess]::Write, [IO.FileShare]::Read)
     $stderr = [IO.File]::Open((Join-Path $OutputRoot 'configure.stderr.log'), [IO.FileMode]::Create, [IO.FileAccess]::Write, [IO.FileShare]::Read)
     $process = [Diagnostics.Process]::Start($info)
-    $result.pid = $process.Id; $result.processStartedUtc = $process.StartTime.ToUniversalTime().ToString('o'); $result.status = 'running'
-    $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $resultPath -Encoding utf8
     $outTask = $process.StandardOutput.BaseStream.CopyToAsync($stdout); $errTask = $process.StandardError.BaseStream.CopyToAsync($stderr)
+    $result.pid = $process.Id; $result.processStartedUtc = $process.StartTime.ToUniversalTime().ToString('o'); $result.status = 'running'
+    Write-Output "Configure started PID=$($process.Id); logs and lock remain in $OutputRoot"
+    $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $resultPath -Encoding utf8
     # Configure can include tiny compiler capability probes, but never builds the targets.
     $process.WaitForExit()
     [Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]@($outTask, $errTask))
@@ -59,12 +81,24 @@ try {
     if ($process.ExitCode -ne 0) { throw "CMake configure failed with exit$($process.ExitCode); inspect configure logs." }
     if (Test-Path -LiteralPath (Join-Path $OutputRoot 'CTestTestfile.cmake')) { throw 'Android configure unexpectedly registered runtime CTest execution.' }
     $result.configure = 'passed'; $result.status = 'configured_not_built'
-} catch { $result.status = 'failed'; $result.error = $_.Exception.Message; throw }
+} catch {
+    $failure = $_
+    $result.status = 'failed'; $result.error = $failure.Exception.Message
+    Stop-OwnedConfigure
+    if ($process) { $result.exitCode = $process.ExitCode }
+    throw $failure
+}
 finally {
-    if ($process -and -not $process.HasExited) { $result.status = 'running_after_observer_exit' }
+    Stop-OwnedConfigure
+    if ($outTask -and $errTask) {
+        try { [Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]@($outTask, $errTask)) }
+        catch { $result.outputDrainError = $_.Exception.Message; $result.status = 'failed'; $result.configure = 'failed' }
+    }
     $result.finishedUtc = [DateTime]::UtcNow.ToString('o')
-    $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $resultPath -Encoding utf8
-    if ($stdout) { $stdout.Dispose() }; if ($stderr) { $stderr.Dispose() }
-    if ($lock) { $lock.Dispose() }
+    try { if ($canWriteEvidence) { $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $resultPath -Encoding utf8 } }
+    finally {
+        if ($stdout) { $stdout.Dispose() }; if ($stderr) { $stderr.Dispose() }
+        if ($lock) { $lock.Dispose() }
+    }
 }
 Write-Output $resultPath
