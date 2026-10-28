@@ -54,7 +54,12 @@ function Verify-Inputs {
     if ($LASTEXITCODE -ne 0 -or $changed.Count) { throw 'Tracked protocol/SDK inputs differ from frozen configure source.' }
     $expectedIncludeFiles = @(& git -C $repo -c core.quotepath=false ls-tree -r --name-only $configured.sourceHead -- Shared/sdk Server/sdk experiments/net-module | Where-Object { -not $_.StartsWith('experiments/net-module/android/', [StringComparison]::OrdinalIgnoreCase) })
     if ($LASTEXITCODE -ne 0 -or -not $expectedIncludeFiles.Count) { throw 'Cannot derive frozen include tree file set.' }
-    Assert-ExactIncludeTree -RepositoryRoot $repo -Roots @('Shared/sdk','Server/sdk','experiments/net-module') -ExpectedFiles $expectedIncludeFiles -ExcludePrefixes @('experiments/net-module/android')
+    # Module_ROOT is an include directory: even android/log.h here could shadow
+    # an NDK header. Exclude only generated build outputs, never all tooling.
+    $toolingFiles = @(& git -C $repo -c core.quotepath=false ls-tree -r --name-only HEAD -- experiments/net-module/android | Where-Object { -not $_.StartsWith('experiments/net-module/android/build/', [StringComparison]::OrdinalIgnoreCase) })
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot derive reviewed Android tooling file set.' }
+    $expectedIncludeFiles += $toolingFiles
+    Assert-ExactIncludeTree -RepositoryRoot $repo -Roots @('Shared/sdk','Server/sdk','experiments/net-module') -ExpectedFiles $expectedIncludeFiles -ExcludePrefixes @('experiments/net-module/android/build')
     $state.includeInputFileCount = $expectedIncludeFiles.Count
 }
 function Invoke-OwnedTool([string]$Name, [string]$Executable, [string[]]$Arguments) {
@@ -139,6 +144,7 @@ try {
     $state.cmakeSha256 = $configured.cmakeSha256; $state.dependencyManifestSha256 = Hash $dependencyPath
     $state.enetCommit = $dependency.enetCommit; $state.enetArchiveSha256 = $dependency.archiveSha256; $state.verifiedEnetFiles = 38
     $state.graphSha256 = Hash (Join-Path $BuildRoot 'build.ninja'); $state.runnerSha256 = Hash $PSCommandPath
+    $state.frozenInputsHelperSha256 = Hash (Join-Path $source 'Frozen-Inputs.ps1')
     $state.ninjaInputClosureSha256 = $snapshot.ninjaInputClosureSha256
     $state.configureSnapshotSha256 = Hash (Join-Path $source 'verification/configure-2026-10-28.json')
     $state.cacheSha256 = Hash (Join-Path $BuildRoot 'CMakeCache.txt')
