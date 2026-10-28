@@ -1,0 +1,29 @@
+{
+  "source_sha": "d442d6d61f6eb065264e4937f0ec4e68dd98c13e",
+  "command": [
+    "C:/Android/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-readelf.exe",
+    "-h",
+    "-l",
+    "-d",
+    "--dyn-syms",
+    "--wide",
+    "D:\\projects\\astana\\work\\mta-mobile-lab\\android-touch-input\\runs\\touch-002\\android-arm64\\input_state_tests"
+  ],
+  "exit_code": 0,
+  "readelf_sha256": "236ebb615933d8e1f5304f869aeae4e58293d3d6ddf77aee9884fcfb46ff53fc",
+  "elf_sha256": "c141852251e6844890ec3d3f27cd486b43bc4ae1047d8cfdcb3a355b669ad5c0",
+  "ndk_stub_link": "passed",
+  "needed": "libandroid.so",
+  "interpreter": "/system/bin/linker64",
+  "ndk_imports": [
+    "AInputEvent_getType",
+    "AInputEvent_getSource",
+    "AMotionEvent_getAction",
+    "AMotionEvent_getPointerCount",
+    "AMotionEvent_getPointerId",
+    "AMotionEvent_getX",
+    "AMotionEvent_getY"
+  ],
+  "android_event_delivery": "not_run",
+  "game_runtime": "not_run"
+}
