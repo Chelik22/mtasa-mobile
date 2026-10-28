@@ -4,6 +4,10 @@
 
 ### Fixed
 
+- Track the imported fixture producer as a CMake configure dependency, so changes
+  to its shared path validation regenerate approved entries. Independent review
+  found that JSON and generator tracking alone left this input untracked.
+
 - Enforce the prepared read-only file backend's 64 MiB hard cap even when a caller
   requests a larger configured limit; independent review found the missing cap.
   Added a negative configured-limit assertion; native execution is pending.
