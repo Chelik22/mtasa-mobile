@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "SharedUtil.Misc.h"
+#include "ExperimentalLabPaths.h"
 #include "SharedUtil.Time.h"
 #include <cstdint>
 #include <algorithm>
@@ -472,6 +473,10 @@ static SString ReadInstallRootRegistryValueView(REGSAM viewFlag)
 //
 SString SharedUtil::GetMTASABaseDir()
 {
+    #if defined(_WIN32) && defined(MTA_CLIENT)
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"app")).c_str();
+    #endif
     if (!strInstallRootOverride.empty())
         return strInstallRootOverride;
 
@@ -740,6 +745,16 @@ static void WriteRegistryStringValue(HKEY hkRoot, const char* szSubKey, const ch
     WString wstrSubKey = FromUTF8(szSubKey);
     WString wstrValue = FromUTF8(szValue);
     WString wstrBuffer = FromUTF8(strBuffer);
+    #if defined(_WIN32) && defined(MTA_CLIENT)
+    if (experimental_lab::GetContext().enabled)
+    {
+        const WString product = FromUTF8(SharedUtil::GetProductRegistryPath());
+        if (!experimental_lab::RegistryPathWithin(wstrSubKey.c_str(), product.c_str()))
+            throw std::runtime_error("Lab mode cannot write outside MTA's settings namespace");
+        experimental_lab::WriteSetting(hkRoot, wstrSubKey.c_str(), wstrValue.c_str(), strBuffer);
+        return;
+    }
+    #endif
     RegCreateKeyExW(hkRoot, wstrSubKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hkTemp, NULL);
     if (hkTemp)
     {
@@ -1042,6 +1057,22 @@ static SString ReadRegistryStringValue(HKEY hkRoot, const char* szSubKey, const 
         pValueName = wstrValue.c_str();
     }
 
+    #if defined(_WIN32) && defined(MTA_CLIENT)
+    if (experimental_lab::GetContext().enabled)
+    {
+        // Windows/driver registry queries still see the real OS. Only MTA's
+        // product namespace belongs to this explicit laboratory settings store.
+        const WString product = FromUTF8(SharedUtil::GetProductRegistryPath());
+        if (experimental_lab::RegistryPathWithin(pSubKey, product.c_str()))
+        {
+            const auto value = experimental_lab::ReadSetting(hkRoot, pSubKey, pValueName);
+            if (iResult)
+                *iResult = value ? 0 : -ERROR_FILE_NOT_FOUND;
+            return value ? value->c_str() : "";
+        }
+    }
+    #endif
+
     constexpr size_t                     kAccessMaskSlots = 3u;
     std::array<REGSAM, kAccessMaskSlots> accessMasks{};
     size_t                               maskCount = 0;
@@ -1086,6 +1117,16 @@ static SString ReadRegistryStringValue(HKEY hkRoot, const char* szSubKey, const 
 //
 static bool DeleteRegistryKey(HKEY hkRoot, const char* szSubKey)
 {
+    #if defined(_WIN32) && defined(MTA_CLIENT)
+    if (experimental_lab::GetContext().enabled)
+    {
+        const WString path = FromUTF8(szSubKey);
+        const WString product = FromUTF8(SharedUtil::GetProductRegistryPath());
+        if (!experimental_lab::RegistryPathWithin(path.c_str(), product.c_str()))
+            throw std::runtime_error("Lab mode cannot delete Windows registry keys");
+        return experimental_lab::DeleteSettingsKey(hkRoot, path.c_str());
+    }
+    #endif
     return RegDeleteKey(hkRoot, szSubKey) == ERROR_SUCCESS;
 }
 

@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "Utils.h"
+#include "ExperimentalLabPaths.h"
 #include "Main.h"
 #include "Dialogs.h"
 #include <array>
@@ -336,6 +337,14 @@ bool IsGTARunning()
 void TerminateGTAIfRunning()
 {
     std::vector<DWORD> processIdList = GetGTAProcessList();
+    if (experimental_lab::GetContext().enabled)
+    {
+        // No previously-running game belongs to this launcher. Recovery must
+        // never close the user's installed GTA instance.
+        if (!processIdList.empty())
+            throw std::runtime_error("Lab startup refuses to terminate an existing GTA process");
+        return;
+    }
 
     // Try to stop all GTA process id's
     for (uint i = 0; i < 3 && processIdList.size(); i++)
@@ -398,6 +407,12 @@ bool IsOtherMTARunning()
 void TerminateOtherMTAIfRunning()
 {
     std::vector<DWORD> processIdList = GetOtherMTAProcessList();
+    if (experimental_lab::GetContext().enabled)
+    {
+        if (!processIdList.empty())
+            throw std::runtime_error("Lab startup refuses to terminate another MTA process");
+        return;
+    }
 
     if (processIdList.size())
     {
@@ -539,6 +554,13 @@ namespace
 
     void SetRegistryValue64(const SString& strPath, const SString& strName, const SString& strValue)
     {
+        if (experimental_lab::GetContext().enabled)
+        {
+            const WString key = FromUTF8(MakeCurrentVersionRegistryPath(strPath));
+            const WString name = FromUTF8(strName);
+            experimental_lab::WriteSetting(HKEY_LOCAL_MACHINE, key.c_str(), name.c_str(), strValue);
+            return;
+        }
         if (!HasDistinct64BitRegistryView())
         {
             SetRegistryValue(strPath, strName, strValue);
@@ -567,6 +589,8 @@ namespace
     // ReadRegistryStringValue helper in SharedUtil.Misc.hpp.
     SString ReadInstallRootRegistryView(REGSAM viewFlag)
     {
+        if (experimental_lab::GetContext().enabled)
+            return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"app")).c_str();
         constexpr DWORD kMaxRegistryValueBytes = 1024u * 1024u;
 
         const WString wstrSubKey = FromUTF8(MakeCurrentVersionRegistryPath(""));
@@ -618,6 +642,8 @@ namespace
 
 SString GetInstallPathForLauncher()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"app")).c_str();
     const SString strLaunchPath = GetLaunchPath();
     if (!SharedUtil::IsTemporaryUpdateLaunchPath(strLaunchPath))
         return strLaunchPath;
@@ -662,6 +688,11 @@ SString GetInstallPathForLauncher()
 
 void SetMTASAPathSource(bool bReadFromRegistry)
 {
+    if (experimental_lab::GetContext().enabled)
+    {
+        g_strMTASAPath = experimental_lab::Utf8(experimental_lab::GetContext().Child(L"app")).c_str();
+        return;
+    }
     if (bReadFromRegistry)
     {
         g_strMTASAPath = GetMTASABaseDir();
@@ -797,6 +828,11 @@ static const SString DoUserAssistedSearch() noexcept
 ///////////////////////////////////////////////////////////////
 ePathResult GetGamePath(SString& strOutResult, bool bFindIfMissing)
 {
+    if (experimental_lab::GetContext().enabled)
+    {
+        strOutResult = experimental_lab::Utf8(experimental_lab::GetContext().Child(L"gta")).c_str();
+        return FileExists(PathJoin(strOutResult, MTA_GTA_KNOWN_FILE_NAME)) ? GAME_PATH_OK : GAME_PATH_MISSING;
+    }
     // Registry places to look
     std::vector<SString> pathList;
 
@@ -1252,6 +1288,8 @@ Return Value:
 //////////////////////////////////////////////////////////
 void RelaunchAsAdmin(const SString& strCmdLine, const SString& strReason)
 {
+    if (experimental_lab::GetContext().enabled)
+        throw std::runtime_error("Lab mode does not elevate or relaunch another process");
     HideSplash();
     AddReportLog(7115, SString("Loader - Request to elevate privileges (%s)", *strReason));
     MessageBoxUTF8(NULL, SString(_("MTA:SA needs Administrator access for the following task:\n\n  '%s'\n\nPlease confirm in the next window."), *strReason),
@@ -1503,6 +1541,8 @@ bool Is32bitProcess(DWORD processID)
 ///////////////////////////////////////////////////////////////////////////
 bool TerminateProcess(DWORD dwProcessID, uint uiExitCode)
 {
+    if (experimental_lab::GetContext().enabled)
+        throw std::runtime_error("Lab cleanup requires a retained owned process handle, not a discovered PID");
     bool success = false;
 
     if (HMODULE handle = GetLibraryHandle("kernel32.dll"); handle)
@@ -2346,6 +2386,8 @@ LONG RegQueryValueString(HKEY hKey, LPCWSTR lpValueName, WString& strOutData)
 
 LONG RegSetValueString(HKEY hKey, LPCWSTR lpValueName, const WString& strData)
 {
+    if (experimental_lab::GetContext().enabled)
+        throw std::runtime_error("Lab mode cannot write a Windows registry handle");
     DWORD dwSizeChars = strData.length() + 1;
     DWORD dwSizeBytes = dwSizeChars * sizeof(WCHAR);
     return RegSetValueExW(hKey, lpValueName, 0, REG_SZ, (const BYTE*)*strData, dwSizeBytes);
@@ -2362,6 +2404,8 @@ LONG RegSetValueString(HKEY hKey, LPCWSTR lpValueName, const WString& strData)
 //////////////////////////////////////////////////////////
 bool WriteCompatibilityEntries(const WString& strProgName, const WString& strSubKey, HKEY hKeyRoot, uint uiFlags, const WString& strNewData)
 {
+    if (experimental_lab::GetContext().enabled)
+        throw std::runtime_error("Windows compatibility repair is not permitted in lab mode");
     bool bResult = false;
 
     // Try open/create key for wrting - Failure means admin is required
@@ -2571,6 +2615,8 @@ bool RegQueryInteger(HKEY rootKey, LPCWSTR keyName, LPCWSTR valueName, DWORD& va
 
 bool RegWriteInteger(HKEY rootKey, LPCWSTR keyName, LPCWSTR valueName, DWORD value)
 {
+    if (experimental_lab::GetContext().enabled)
+        throw std::runtime_error("Windows registry repair is not permitted in lab mode");
     HKEY key{};
     if (RegCreateKeyExW(rootKey, keyName, 0, 0, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &key, nullptr) != ERROR_SUCCESS)
         return false;

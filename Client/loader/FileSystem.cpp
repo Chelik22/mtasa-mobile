@@ -10,6 +10,7 @@
 
 #include "FileSystem.h"
 #include "Utils.h"
+#include "ExperimentalLabPaths.h"
 #include <limits>
 #include <random>
 #include <sha2.h>
@@ -45,7 +46,7 @@ auto GetTempFilePath(size_t attempts, std::error_code& ec) -> fs::path
     if (!attempts)
         return {};
 
-    const fs::path tempDirectory = fs::temp_directory_path(ec);
+    const fs::path tempDirectory = experimental_lab::GetContext().enabled ? experimental_lab::GetContext().Child(L"temp") : fs::temp_directory_path(ec);
 
     if (ec)
         return {};
