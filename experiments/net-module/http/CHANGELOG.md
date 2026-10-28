@@ -1,5 +1,10 @@
 # Changes
 
+- Added optional reuse of the locally built HTTP005 Release curl/zlib archives.
+  Configure verifies recorded artifact hashes and the complete unchanged vendor
+  input set; other configurations retain source compilation. Positive configure
+  passed, and a deliberately changed copied archive was rejected before build.
+
 - Added retained-byte snapshot validation with shared digest/format/path-entry
   rules and no filesystem reopen. Added changed-disk/removal, changed-byte/path
   and compiled-source snapshot cases. Manifest entries also reject Windows aliases

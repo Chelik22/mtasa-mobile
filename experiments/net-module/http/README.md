@@ -1,5 +1,12 @@
 # Owned HTTP component
 
+Optional local dependency reuse: configure Release-only with
+`-DCMAKE_CONFIGURATION_TYPES=Release -DMTA_HTTP_VENDOR_ARTIFACT_DIR=<HTTP005-artifacts>`.
+Only the recorded curl/zlib archives are imported, after hash and vendor-input
+checks; manager/policy and CNet sources still compile normally. Default builds
+compile the dependencies from source. This option is not an HTTP or gameplay
+test result. A changed copied archive was rejected in a configure-only check.
+
 Preparation from MTA fork `6083de505d1b2f38161015b096fe48c816254950`.
 Only this directory changes. No CNet integration, engine change, game/GUI launch,
 RP rewrite, successful client Lua execution or G4 completion is claimed.
