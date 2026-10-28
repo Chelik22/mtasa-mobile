@@ -1,0 +1,69 @@
+{
+  "sourcePin": "a84e0c77c66f596b0c72def1c857253568208a2b",
+  "upstreamBuildActions": "utils/buildactions/install_cef.lua, install_discord.lua, install_unifont.lua at sourcePin",
+  "artifacts": [
+    {
+      "id": "cef",
+      "filename": "cef_windows32_minimal.tar.bz2",
+      "url": "https://cef-builds.spotifycdn.com/cef_binary_152.0.5%2Bgb129680%2Bchromium-152.0.7977.54_windows32_minimal.tar.bz2",
+      "sha256": "ad0a3de19a23791cdbeb7eea11ad3af4e2216ea818f047d24c9114c721661c2f",
+      "version": "152.0.5+gb129680+chromium-152.0.7977.54",
+      "license": "CEF BSD-style + bundled third-party notices; retain LICENSE.txt in archive",
+      "kind": "tar.bz2"
+    },
+    {
+      "id": "discord",
+      "filename": "discord-rpc-v3.4.3.zip",
+      "url": "https://github.com/multitheftauto/discord-rpc/archive/refs/tags/v3.4.3.zip",
+      "sha256": "dacfcf9ac6f005923eef55b4e41f0e46dc64f7a25da88e00faeef86e8553f32f",
+      "version": "v3.4.3",
+      "license": "MIT; retain LICENSE from source archive",
+      "kind": "zip"
+    },
+    {
+      "id": "rapidjson",
+      "filename": "rapidjson-v1.1.1.zip",
+      "url": "https://github.com/multitheftauto/rapidjson/archive/refs/tags/v1.1.1.zip",
+      "sha256": "3d638ad2549645a4831e8e98cf7b919f191de0d60816e63e1d5aa08cd56e6db8",
+      "version": "v1.1.1",
+      "license": "MIT and third-party licenses; retain license.txt",
+      "kind": "zip"
+    },
+    {
+      "id": "unifont",
+      "filename": "unifont-16.0.04.ttf",
+      "url": "https://github.com/multitheftauto/unifont/releases/download/v16.0.04/unifont-16.0.04.ttf",
+      "sha256": "6b18fdcf0f61f3df2e61db9737af6de9f37048ec93083621d41504ebf8cb18f4",
+      "version": "v16.0.04",
+      "license": "GNU Unifont GPL-2.0-or-later with font embedding exception; see upstream distribution",
+      "kind": "file"
+    },
+    {
+      "id": "mfc-headers",
+      "filename": "Microsoft.VC.14.51.MFC.Headers.base.vsix",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/a62262cf-b9f6-4770-9454-7372ad8fcec0/0d3aafac0227ce4d29e0a9a866cd3a080b64459c7e041cb7e2237d575f9a33b2/Microsoft.VC.14.51.MFC.Headers.base.vsix",
+      "sha256": "0d3aafac0227ce4d29e0a9a866cd3a080b64459c7e041cb7e2237d575f9a33b2",
+      "version": "14.51.36244",
+      "license": "Microsoft Visual Studio license; local SDK use only, no headers redistributed in Git",
+      "provenance": {
+        "catalogSha256": "7efff81f77aa16060608c50d6291877462f6164562f0c4c65875affd4fa3aed9",
+        "packageId": "Microsoft.VC.14.51.MFC.Headers.base"
+      },
+      "kind": "zip"
+    },
+    {
+      "id": "d3dx",
+      "filename": "microsoft.dxsdk.d3dx.9.29.952.8.nupkg",
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.dxsdk.d3dx/9.29.952.8/microsoft.dxsdk.d3dx.9.29.952.8.nupkg",
+      "sha512Base64": "n2qV7YWFVcHEOKhSGe3jLIJykGiyHdfs8R3gHPPN1SWy8EpYZDv8wUxIopQD3ByAJG8KEqHvQ3e5G4VfbW15hg==",
+      "version": "9.29.952.8",
+      "license": "Microsoft package LICENSE/NOTICE; only stated runtime DLLs app-local redistributable; SDK files stay local",
+      "provenance": {
+        "metadataUrl": "https://www.nuget.org/api/v2/Packages(Id='Microsoft.DXSDK.D3DX',Version='9.29.952.8')",
+        "owner": "Microsoft/directxtk",
+        "documentation": "https://www.nuget.org/packages/Microsoft.DXSDK.D3DX/9.29.952.8"
+      },
+      "kind": "zip"
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "recordedUtc": "2026-10-28T00:44:51.579876+00:00",
+  "scope": "PC baseline preparation only; no MTA client compilation or GUI/game execution",
+  "baseCommit": "7ccf8e118b0e856dd2b17ee879f508132d3ca49d",
+  "upstreamSourcePin": "a84e0c77c66f596b0c72def1c857253568208a2b",
+  "compileTreesMatchPin": true,
+  "toolchain": {
+    "VS": "2026 Community 18.10",
+    "MSVC": "19.51.36257.0 / v145",
+    "MSBuild": "18.10.1.42706",
+    "WindowsSDK": "10.0.26100.0",
+    "platform": "Win32",
+    "CMake": "4.3.3",
+    "MFCFullInstallation": "absent",
+    "ATL": "installed",
+    "MFCResourceHeaders": "verified official VSIX scoped in lab"
+  },
+  "dependencies": [
+    {
+      "id": "cef",
+      "bytes": 147060127,
+      "sha256": "ad0a3de19a23791cdbeb7eea11ad3af4e2216ea818f047d24c9114c721661c2f",
+      "status": "passed",
+      "files": 972
+    },
+    {
+      "id": "discord",
+      "bytes": 2152190,
+      "sha256": "dacfcf9ac6f005923eef55b4e41f0e46dc64f7a25da88e00faeef86e8553f32f",
+      "status": "passed",
+      "files": 85
+    },
+    {
+      "id": "rapidjson",
+      "bytes": 1242531,
+      "sha256": "3d638ad2549645a4831e8e98cf7b919f191de0d60816e63e1d5aa08cd56e6db8",
+      "status": "passed",
+      "files": 313
+    },
+    {
+      "id": "unifont",
+      "bytes": 11934928,
+      "sha256": "6b18fdcf0f61f3df2e61db9737af6de9f37048ec93083621d41504ebf8cb18f4",
+      "status": "passed",
+      "files": null
+    },
+    {
+      "id": "mfc-headers",
+      "bytes": 2414599,
+      "sha256": "0d3aafac0227ce4d29e0a9a866cd3a080b64459c7e041cb7e2237d575f9a33b2",
+      "status": "passed",
+      "files": 994
+    },
+    {
+      "id": "d3dx",
+      "bytes": 9833468,
+      "sha256": "ead0906ae8a26c18a7525da7490127a2110f7c58f18293738283e30e97c6ea4b",
+      "status": "passed",
+      "files": 63
+    }
+  ],
+  "dxerr": {
+    "repository": "microsoft/DirectX-SDK-Samples",
+    "commit": "07e3eaa10e7dd026ec9d95fe326db2d5c4227e1b",
+    "license": "MIT",
+    "archiveSha256": "e47b24909006de33422a8a9e7f7174586e1c9b7c9b38ca623acc95ae4b621912",
+    "archiveBytes": 1873594,
+    "machine": "I386",
+    "observedPublicSymbols": [
+      "_DXGetErrorStringW@4",
+      "_DXGetErrorDescriptionW@12",
+      "_DXTraceW@20"
+    ],
+    "probeLinked": true,
+    "probeMachine": "I386",
+    "probeSha256": "e32312baae40c1ef79d0c161a741e78b316a502aab098096e89a61580bdd7bf8",
+    "probeExecution": "not_run",
+    "MTAUsedSymbols": [],
+    "MTAReference": "Client/gui/premake5.lua:29 links dxerr.lib only",
+    "legacyApiCompatibility": "not asserted; Unicode-only API with buffer-based description differs from old SDK",
+    "probeSourceSha256": "21b6c1ca936a7268c0142590b399d0228b7d703b9c7d164d71ac547109ebdec8"
+  },
+  "configuration": {
+    "mode": "Release",
+    "targets": [
+      "Client\\Client Launcher",
+      "Client\\Loader",
+      "Client\\Loader Proxy",
+      "Client\\Client Core",
+      "Client\\Game SA",
+      "Client\\Multiplayer SA",
+      "Client\\GUI",
+      "Client\\Client Deathmatch",
+      "Client\\Client Webbrowser",
+      "Client\\CEFLauncher",
+      "Client\\CEFLauncher DLL",
+      "Shared\\XML"
+    ],
+    "recursiveProjectCount": 34,
+    "oneWorker": true,
+    "MSBuildProperties": [
+      "MultiProcessorCompilation=false",
+      "/m:1",
+      "/nr:false"
+    ],
+    "compilerOverride": "/MP1",
+    "coldBuildTranslationUnits": 1544,
+    "memoryAtPreparation": {
+      "physicalFreeMiB": 5572,
+      "commitFreeMiB": 57832
+    }
+  },
+  "actualPreparation": {
+    "dependenciesMaterialized": true,
+    "generationExitCode": 0,
+    "targetValidation": {
+      "pid": 32236,
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "Build/MTASA.sln",
+        "/t:ValidateSolutionConfiguration",
+        "/p:Configuration=Release",
+        "/p:Platform=Win32",
+        "/m:1",
+        "/nr:false",
+        "/nologo",
+        "/v:minimal"
+      ],
+      "exitCode": 0,
+      "scope": "ValidateSolutionConfiguration only; no compiler/project build targets executed",
+      "allPresent": true,
+      "metaprojectSha256": "47c2ea99992521dc710a94e50d0d95403e7a8f9e190599befa985c9c86320d1d"
+    },
+    "materializedSourceHashesRechecked": true,
+    "tests": {
+      "passed": 4,
+      "scope": "filesystem/provenance/preflight only"
+    }
+  },
+  "runtime": {
+    "MTAInstallationFound": true,
+    "GTAAssetPathsPresent": true,
+    "GTAVersionCompatibility": "unverified; no version resource",
+    "gameExecution": "not_run",
+    "officialCompatibleNetc": "not_cached_in_isolated_runtime",
+    "clientLua": "not_run"
+  },
+  "gates": {
+    "clientBuild": "not_run",
+    "G1": "not_run",
+    "PC_Android_gameplay": "not_run"
+  },
+  "limitations": [
+    "Prepared files are prerequisites, not a full successful MTA client build.",
+    "DxErr is genuine Microsoft Unicode-only source; no general legacy API compatibility is asserted.",
+    "Official DXSDK installer download flow was rejected by automatic tool policy and was not retried or executed.",
+    "Game assets/executable and installed MTA are not imported into Git, changed or run.",
+    "Actual client compilation awaits the campaign owner execution scope and a fresh memory check."
+  ]
+}
