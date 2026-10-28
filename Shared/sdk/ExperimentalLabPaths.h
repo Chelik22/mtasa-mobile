@@ -233,7 +233,7 @@ namespace experimental_lab
             bytes.insert(bytes.end(), value.begin(), value.end());
         }
         static std::atomic<unsigned long> sequence{};
-        const fs::path temporary = directory / (L"registry." + std::to_wstring(GetCurrentProcessId()) + L"." + std::to_wstring(GetTickCount64()) + L"." +
+        const fs::path temporary = directory / (L"registry." + std::to_wstring(GetCurrentProcessId()) + L"." + std::to_wstring(GetTickCount()) + L"." +
                                                 std::to_wstring(sequence++) + L".tmp");
         bool           created = false;
         try
