@@ -1,0 +1,110 @@
+{
+  "started_utc": "2026-10-28T13:57:44.760868+00:00",
+  "driver_pid": 37816,
+  "source_commit": "58d3c62f7d7dd229b10e6836da61f49b76a4a7b0",
+  "free_memory_mib": 3260,
+  "dll_sha256": "3a8ce8334a35bf19d82582027345aff800735a6a4e3bb4880e9f9156c6c082f7",
+  "scope": "Win32 selection/bootstrap ABI and actual proxy object compile; Core/GTA/gameplay not_run",
+  "steps": [
+    {
+      "name": "configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "D:\\projects\\astana\\work\\mtasa-mobile-pc-proxy-owned-net\\experiments\\pc-bootstrap",
+        "-B",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-bootstrap-004\\build",
+        "-G",
+        "Visual Studio 18 2026",
+        "-A",
+        "Win32",
+        "-DMTA_OWNED_NET_DLL=D:/projects/astana/work/mta-mobile-lab/configured-cnet-test-002/artifacts/netc_experimental.dll"
+      ],
+      "started_utc": "2026-10-28T13:57:44.933581+00:00",
+      "pid": 40972,
+      "exit_code": 0,
+      "finished_utc": "2026-10-28T13:57:52.573847+00:00"
+    },
+    {
+      "name": "build",
+      "argv": [
+        "cmake",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-bootstrap-004\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "1"
+      ],
+      "started_utc": "2026-10-28T13:57:52.574504+00:00",
+      "pid": 3156,
+      "exit_code": 0,
+      "finished_utc": "2026-10-28T13:58:37.543640+00:00"
+    },
+    {
+      "name": "test",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-bootstrap-004\\build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\pc-bootstrap-004\\junit.xml"
+      ],
+      "started_utc": "2026-10-28T13:58:37.544153+00:00",
+      "pid": 40640,
+      "exit_code": 0,
+      "finished_utc": "2026-10-28T13:58:37.886357+00:00"
+    }
+  ],
+  "source_raw_sha256": {
+    "Shared/sdk/ExperimentalClientNetSelection.h": "fcd160345c3b035bdd47023ff49abad672edeab2d53ebab2cf42ee418a807d45",
+    "Client/core/CCore.cpp": "ecb33887aea49b29cd8830480c2fd8d07dbc530d9d18b86aa11e75107987d33d",
+    "Client/loader-proxy/main.cpp": "3591bee46a64fbbdcbd3dd73522413aa7cc64366f64b71e50ddb3c963f1c4f9f",
+    "experiments/pc-bootstrap/selection_tests.cpp": "e418ece1f17e21d6f2ba2e94f40336c3f766805335c8459a57f093d78f037a4d",
+    "experiments/pc-bootstrap/CMakeLists.txt": "ee2b5bd932569c8029cda06a8515bb3da5b98f4bca45a0c4cc2bef8b9ec49049",
+    "Shared/sdk/ExperimentalLabPaths.h": "1bde192df1ff89432585f6d503acae35b262afc2d9ce5126f93f46f1131b48d2"
+  },
+  "status": "passed",
+  "finished_utc": "2026-10-28T13:58:37.886841+00:00",
+  "artifacts": {
+    "bootstrap_release_tests.exe": {
+      "sha256": "8b725266b6e396b06d407659b3deb79defacf0f55a54f22daa1923fa46007310",
+      "bytes": 29184,
+      "machine": "I386"
+    },
+    "bootstrap_debug_tests.exe": {
+      "sha256": "3d134e23fd0bf32e80875759dee4ad7d095f31250f757ef3fc05abaa9fd9dc20",
+      "bytes": 29184,
+      "machine": "I386"
+    },
+    "main.obj": {
+      "sha256": "a555358d5c7e8d885d280f23a24501cd3c053882d846949884d812ca4adc2aa8",
+      "bytes": 2051951,
+      "machine": "I386"
+    }
+  },
+  "logs": {
+    "configure.stdout.log": "4260864e43c297f666d8db0b5774d9f80e4143bae8f5621777f157ed545f6471",
+    "configure.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.stdout.log": "f1a53a62e4b4e3f33b0cec261010832cede1874783eee918b77af708718bd216",
+    "build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test.stdout.log": "c765a7cc3c0be5c6a35b6dc147327cb293cc6bbfdae41e1f575b74b0a37e55be",
+    "test.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "junit.xml": "394263f1b2a2a1d5c0686c49456b5cf6e538f45347f6cd1dccfa6f85ab2578ff"
+  },
+  "prior_attempts": {
+    "001": "actual proxy compile failed: SDK forbids GetTickCount64",
+    "002": "actual proxy compile failed: SDK also forbids GetTickCount",
+    "003": "memory guard483MiB before any native build process"
+  },
+  "source_review": "independent network_audit PASS for bf340; chrono follow-up fixes SDK include context",
+  "limitations": [
+    "Actual proxy main.cpp compiled as object only; proxy DLL/Core not linked here",
+    "Core code reviewed; full Core compile not_run",
+    "No GTA, proxy initialization, client Lua or gameplay executed",
+    "Debug selector branch tested using Release-built test process; Debug transport DLL not built"
+  ]
+}
