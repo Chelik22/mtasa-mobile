@@ -72,6 +72,12 @@ set_tests_properties(headless_source_constants PROPERTIES TIMEOUT 15)
 
 if(WIN32)
     add_library(netc_experimental SHARED client/OwnedNetClient.cpp)
+    option(MTA_WITH_CLIENT_HTTP "Build the real curl HTTP backend into the experimental Win32 client" OFF)
+    if(MTA_WITH_CLIENT_HTTP)
+        add_subdirectory(http)
+        target_compile_definitions(netc_experimental PRIVATE MTA_WITH_CLIENT_HTTP)
+        target_link_libraries(netc_experimental PRIVATE mta_owned_http)
+    endif()
     # Core's existing Debug loader appends _d; keep the opt-in artifact paired.
     set_target_properties(netc_experimental PROPERTIES DEBUG_POSTFIX "_d")
     target_include_directories(netc_experimental BEFORE PRIVATE ../../Client/sdk ${CMAKE_CURRENT_SOURCE_DIR} ${enet_SOURCE_DIR}/include)

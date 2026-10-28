@@ -12,6 +12,12 @@ ctest --test-dir experiments/net-module/build-win32 -C Release -R "^owned_cnet_c
 ```
 
 Source-only component; do not install/rename it over production `netc.dll`.
+Prepared real HTTP integration is selected with `-DMTA_WITH_CLIENT_HTTP=ON`
+during Win32 configure. It adds the vendored curl component and concrete HTTP
+managers; its build/runtime verification is pending. Without an explicit content
+validator, requests with `bCheckContents=true` still fail before network access.
+This option alone does not make resource download or G4 pass. The default OFF
+configuration retains explicit unsupported HTTP failures.
 `CCore::CreateNetwork` has a prepared opt-in loader seam. Leave
 `MTA_EXPERIMENTAL_CLIENT_NET_MODULE` unset for stock `netc.dll`; the only accepted
 override is `netc_experimental` (module stem, no extension/path). Release loads

@@ -1,4 +1,7 @@
 #include "ClientModule.h"
+#ifdef MTA_WITH_CLIENT_HTTP
+    #include "HttpManagerSlot.h"
+#endif
 #include <Protocol.h>
 #include <net/Packets.h>
 #include <version.h>
@@ -78,6 +81,8 @@ namespace experimental_client
         bool QueueFile(const char*, const char*, void* object, PFN_DOWNLOAD_FINISHED_CALLBACK callback, const SHttpRequestOptionsTx&) override
         {
             std::lock_guard lock(mutex_);
+            if (closed_)
+                return false;
             for (const auto& item : pending_)
                 if (item.object == object && item.callback == callback)
                     return false;
@@ -91,6 +96,17 @@ namespace experimental_client
         {
             std::lock_guard lock(mutex_);
             pending_.clear();
+        }
+        void Close()
+        {
+            std::lock_guard lock(mutex_);
+            closed_ = true;
+            pending_.clear();
+        }
+        bool CanRelease()
+        {
+            std::lock_guard lock(mutex_);
+            return !processing_;
         }
         bool CancelDownload(void* object, PFN_DOWNLOAD_FINISHED_CALLBACK callback) override
         {
@@ -117,7 +133,14 @@ namespace experimental_client
         std::mutex          mutex_;
         std::deque<Failure> pending_;
         bool                processing_ = false;
+        bool                closed_ = false;
     };
+
+#ifdef MTA_WITH_CLIENT_HTTP
+    using ClientHttp = HttpManagerSlot;
+#else
+    using ClientHttp = UnsupportedHttp;
+#endif
 
     class UnsupportedFile final : public CBinaryFileInterface
     {
@@ -326,14 +349,21 @@ namespace experimental_client
         }
         void Shutdown() override
         {
-            std::lock_guard lock(mutex_);
-            stop(true);
-            shutdown_ = true;
-            if (initialized_)
             {
-                enet_deinitialize();
-                initialized_ = false;
+                std::lock_guard lock(mutex_);
+                stop(true);
+                shutdown_ = true;
+                if (initialized_)
+                {
+                    enet_deinitialize();
+                    initialized_ = false;
+                }
             }
+            // HTTP callbacks may enter CNet; never wait for their lock while
+            // holding the transport lock in the opposite direction.
+            for (auto& http : http_)
+                http.Close();
+            invalid_http_.Close();
         }
         void RegisterPacketHandler(PPACKETHANDLER handler) override
         {
@@ -457,14 +487,16 @@ namespace experimental_client
         }
         void Reset() override
         {
-            std::lock_guard lock(mutex_);
-            stop(true);
-            server_version_ = 0;
-            connection_error_ = 0;
-            extended_error_ = 0;
+            {
+                std::lock_guard lock(mutex_);
+                stop(true);
+                server_version_ = 0;
+                connection_error_ = 0;
+                extended_error_ = 0;
+                detail_ = "reset; disconnected";
+            }
             for (auto& http : http_)
                 http.Reset();
-            detail_ = "reset; disconnected";
         }
         CNetHTTPDownloadManagerInterface* GetHTTPDownloadManager(EDownloadModeType mode) override
         {
@@ -584,8 +616,15 @@ namespace experimental_client
         }
         bool CanRelease()
         {
-            std::lock_guard lock(mutex_);
-            return !pulsing_;
+            {
+                std::lock_guard lock(mutex_);
+                if (pulsing_)
+                    return false;
+            }
+            for (auto& http : http_)
+                if (!http.CanRelease())
+                    return false;
+            return invalid_http_.CanRelease();
         }
 
     private:
@@ -731,8 +770,8 @@ namespace experimental_client
         std::deque<Frame>                           incoming_, outgoing_;
         std::size_t                                 incoming_bytes_ = 0, outgoing_bytes_ = 0;
         std::array<SPacketStat, 256>                stats_{};
-        std::array<UnsupportedHttp, static_cast<std::size_t>(EDownloadMode::CALL_REMOTE_ANY_HOST_LAST) + 1> http_;
-        UnsupportedHttp                                                                                     invalid_http_;
+        std::array<ClientHttp, static_cast<std::size_t>(EDownloadMode::CALL_REMOTE_ANY_HOST_LAST) + 1> http_;
+        UnsupportedHttp                                                                                invalid_http_;
     };
 }
 

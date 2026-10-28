@@ -72,7 +72,7 @@ void http_callback(const SHttpDownloadResult& result)
 {
     auto& context = *static_cast<HttpContext*>(result.pObj);
     ++context.count;
-    context.bad |= result.bSuccess || result.pData || result.dataSize || !result.iErrorCode || result.uiContentLength;
+    context.bad |= result.bSuccess || (result.pData && *result.pData) || result.dataSize || !result.iErrorCode || result.uiContentLength;
     if (context.reset)
         context.manager->Reset();
 }
@@ -201,13 +201,18 @@ void unsupported_contracts(CNet& net)
     auto* http = net.GetHTTPDownloadManager(EDownloadMode::RESOURCE_INITIAL_FILES_INTERNAL);
     require(http != nullptr && net.GetHTTPDownloadManager(static_cast<EDownloadModeType>(-1)) != nullptr, "HTTP managers cannot be null");
     HttpContext first{http}, cancelled{http};
-    require(http->QueueFile("http://invalid/", "must-not-create", &first, http_callback), "failure notification queued");
-    require(!http->QueueFile("http://invalid/", "must-not-create", &first, http_callback), "duplicate rejection");
-    require(http->QueueFile("http://invalid/", "must-not-create", &cancelled, http_callback) && http->CancelDownload(&cancelled, http_callback),
+    // No content policy is installed in this transport test. The real HTTP
+    // backend must reject these before DNS or any destination publication.
+    SHttpRequestOptionsTx checked;
+    checked.bCheckContents = true;
+    require(http->QueueFile("http://invalid/", "must-not-create", &first, http_callback, checked), "failure notification queued");
+    require(!http->QueueFile("http://invalid/", "must-not-create", &first, http_callback, checked), "duplicate rejection");
+    require(http->QueueFile("http://invalid/", "must-not-create", &cancelled, http_callback, checked) && http->CancelDownload(&cancelled, http_callback),
             "HTTP cancellation");
     require(first.count == 0 && http->ProcessQueuedFiles() && first.count == 1 && !first.bad && !cancelled.count, "HTTP settles with actual deferred failure");
     first.reset = true;
-    require(http->QueueFile("x", "x", &first, http_callback) && http->QueueFile("y", "y", &cancelled, http_callback), "reentrant reset setup");
+    require(http->QueueFile("x", "x", &first, http_callback, checked) && http->QueueFile("y", "y", &cancelled, http_callback, checked),
+            "reentrant reset setup");
     require(http->ProcessQueuedFiles() && first.count == 2 && !cancelled.count, "callback reset cancels remaining requests");
     require(net.GetExtendedErrorCode() != 0, "unsupported service diagnostic");
 }
@@ -316,6 +321,9 @@ int main(int argc, char** argv)
         }
         net->Shutdown();
         require(!net->IsReady() && !net->IsConnected(), "shutdown closes readiness");
+        auto* closed_http = net->GetHTTPDownloadManager(EDownloadMode::RESOURCE_INITIAL_FILES_INTERNAL);
+        require(closed_http && !closed_http->QueueFile("http://127.0.0.1/", nullptr, nullptr, nullptr) && closed_http->ProcessQueuedFiles(),
+                "shutdown HTTP facade rejects new work and is settled");
         std::cout << "PASS dynamic CNet transport/contracts; pointer_bits=" << sizeof(void*) * 8 << "; game/Core/HTTP/Lua/G4 NOT RUN\n";
         return 0;
     }

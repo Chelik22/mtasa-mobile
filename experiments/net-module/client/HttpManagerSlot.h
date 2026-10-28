@@ -11,7 +11,8 @@ namespace experimental_client
     class HttpManagerSlot final : public CNetHTTPDownloadManagerInterface
     {
     public:
-        explicit HttpManagerSlot(std::unique_ptr<experimental_http::HttpManager> backend) : backend_(std::move(backend))
+        explicit HttpManagerSlot(std::unique_ptr<experimental_http::HttpManager> backend = std::make_unique<experimental_http::HttpManager>())
+            : backend_(std::move(backend))
         {
             if (!backend_)
                 throw std::invalid_argument("HTTP slot requires a concrete manager");

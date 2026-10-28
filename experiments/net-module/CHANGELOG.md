@@ -11,6 +11,12 @@
 
 ### Added
 
+- Prepared opt-in `MTA_WITH_CLIENT_HTTP=ON` CNet wiring to the real curl backend
+  and stable HTTP facade. Reset/Close run outside the transport lock; module
+  release checks active HTTP callbacks. Component assertions cover missing
+  validator failure and closed-state queue rejection. Build/runtime pending;
+  the default remains the previously tested transport-only configuration.
+
 - Prepared a concrete HTTP manager ownership facade for CNet: stable borrowed
   interface, Reset/reuse, closed-state failures, and callback-safe deferred curl
   destruction after a Close request. It is not wired into CNet yet; native review,
