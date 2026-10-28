@@ -1,0 +1,140 @@
+
+File: D:\projects\astana\work\mta-mobile-lab\android-jni-build-001\host\Release\mta_input_bridge.dll
+Format: COFF-x86-64
+Arch: x86_64
+AddressSize: 64bit
+ImageFileHeader {
+  Machine: IMAGE_FILE_MACHINE_AMD64 (0x8664)
+  SectionCount: 6
+  TimeDateStamp: 2026-10-28 16:07:25 (0x6AE21DBD)
+  PointerToSymbolTable: 0x0
+  SymbolCount: 0
+  StringTableSize: 0
+  OptionalHeaderSize: 240
+  Characteristics [ (0x2022)
+    IMAGE_FILE_DLL (0x2000)
+    IMAGE_FILE_EXECUTABLE_IMAGE (0x2)
+    IMAGE_FILE_LARGE_ADDRESS_AWARE (0x20)
+  ]
+}
+ImageOptionalHeader {
+  Magic: 0x20B
+  MajorLinkerVersion: 14
+  MinorLinkerVersion: 51
+  SizeOfCode: 14848
+  SizeOfInitializedData: 10240
+  SizeOfUninitializedData: 0
+  AddressOfEntryPoint: 0x3F70
+  BaseOfCode: 0x1000
+  ImageBase: 0x180000000
+  SectionAlignment: 4096
+  FileAlignment: 512
+  MajorOperatingSystemVersion: 6
+  MinorOperatingSystemVersion: 0
+  MajorImageVersion: 0
+  MinorImageVersion: 0
+  MajorSubsystemVersion: 6
+  MinorSubsystemVersion: 0
+  SizeOfImage: 45056
+  SizeOfHeaders: 1024
+  CheckSum: 0x0
+  Subsystem: IMAGE_SUBSYSTEM_WINDOWS_CUI (0x3)
+  Characteristics [ (0x160)
+    IMAGE_DLL_CHARACTERISTICS_DYNAMIC_BASE (0x40)
+    IMAGE_DLL_CHARACTERISTICS_HIGH_ENTROPY_VA (0x20)
+    IMAGE_DLL_CHARACTERISTICS_NX_COMPAT (0x100)
+  ]
+  SizeOfStackReserve: 1048576
+  SizeOfStackCommit: 4096
+  SizeOfHeapReserve: 1048576
+  SizeOfHeapCommit: 4096
+  NumberOfRvaAndSize: 16
+  DataDirectory {
+    ExportTableRVA: 0x6210
+    ExportTableSize: 0x214
+    ImportTableRVA: 0x6424
+    ImportTableSize: 0xA0
+    ResourceTableRVA: 0x9000
+    ResourceTableSize: 0x1E0
+    ExceptionTableRVA: 0x8000
+    ExceptionTableSize: 0x3FC
+    CertificateTableRVA: 0x0
+    CertificateTableSize: 0x0
+    BaseRelocationTableRVA: 0xA000
+    BaseRelocationTableSize: 0x5C
+    DebugRVA: 0x5420
+    DebugSize: 0x1C
+    ArchitectureRVA: 0x0
+    ArchitectureSize: 0x0
+    GlobalPtrRVA: 0x0
+    GlobalPtrSize: 0x0
+    TLSTableRVA: 0x0
+    TLSTableSize: 0x0
+    LoadConfigTableRVA: 0x52E0
+    LoadConfigTableSize: 0x140
+    BoundImportRVA: 0x0
+    BoundImportSize: 0x0
+    IATRVA: 0x5000
+    IATSize: 0x150
+    DelayImportDescriptorRVA: 0x0
+    DelayImportDescriptorSize: 0x0
+    CLRRuntimeHeaderRVA: 0x0
+    CLRRuntimeHeaderSize: 0x0
+    ReservedRVA: 0x0
+    ReservedSize: 0x0
+  }
+}
+DOSHeader {
+  Magic: MZ
+  UsedBytesInTheLastPage: 144
+  FileSizeInPages: 3
+  NumberOfRelocationItems: 0
+  HeaderSizeInParagraphs: 4
+  MinimumExtraParagraphs: 0
+  MaximumExtraParagraphs: 65535
+  InitialRelativeSS: 0
+  InitialSP: 184
+  Checksum: 0
+  InitialIP: 0
+  InitialRelativeCS: 0
+  AddressOfRelocationTable: 64
+  OverlayNumber: 0
+  OEMid: 0
+  OEMinfo: 0
+  AddressOfNewExeHeader: 256
+}
+Export {
+  Ordinal: 1
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeConfigure
+  RVA: 0x1C30
+}
+Export {
+  Ordinal: 2
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeConsume
+  RVA: 0x1D30
+}
+Export {
+  Ordinal: 3
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeCreate
+  RVA: 0x1EA0
+}
+Export {
+  Ordinal: 4
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeDestroy
+  RVA: 0x2010
+}
+Export {
+  Ordinal: 5
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeFeed
+  RVA: 0x20E0
+}
+Export {
+  Ordinal: 6
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeGate
+  RVA: 0x2530
+}
+Export {
+  Ordinal: 7
+  Name: Java_org_mta_mobile_input_NativeInputBridge_nativeReset
+  RVA: 0x2560
+}

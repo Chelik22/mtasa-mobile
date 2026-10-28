@@ -1,0 +1,41 @@
+{
+  "jvm_xcheck_jni_warnings": false,
+  "compile_warnings": [
+    {
+      "file": "javac-core-trace.stderr.log",
+      "line": "warning: [options] source value 8 is obsolete and will be removed in a future release"
+    },
+    {
+      "file": "javac-core-trace.stderr.log",
+      "line": "warning: [options] target value 8 is obsolete and will be removed in a future release"
+    },
+    {
+      "file": "javac-core-trace.stderr.log",
+      "line": "warning: [options] To suppress warnings about obsolete options, use -Xlint:-options."
+    },
+    {
+      "file": "javac-motion-helper.stderr.log",
+      "line": "warning: [options] source value 8 is obsolete and will be removed in a future release"
+    },
+    {
+      "file": "javac-motion-helper.stderr.log",
+      "line": "warning: [options] target value 8 is obsolete and will be removed in a future release"
+    },
+    {
+      "file": "javac-motion-helper.stderr.log",
+      "line": "warning: [options] To suppress warnings about obsolete options, use -Xlint:-options."
+    }
+  ],
+  "ndk_defined_default_visibility_exports": 699,
+  "jni_exports": [
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeConfigure",
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeConsume",
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeCreate",
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeDestroy",
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeFeed",
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeGate",
+    "Java_org_mta_mobile_input_NativeInputBridge_nativeReset"
+  ],
+  "game_abi_compatibility": "not_run",
+  "note": "Javac obsolete release8 warnings retained. ELF also contains static C++ runtime exports; only own JNI integration was exercised."
+}

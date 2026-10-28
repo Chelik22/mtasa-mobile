@@ -1,0 +1,4 @@
+[1/4] Building CXX object CMakeFiles/android_input_state.dir/D_/projects/astana/work/mtasa-mobile-android-jni-input/experiments/android-touch-input/AndroidInputState.cpp.o
+[2/4] Building CXX object CMakeFiles/mta_input_bridge.dir/InputBridge.cpp.o
+[3/4] Linking CXX static library libandroid_input_state.a
+[4/4] Linking CXX shared library libmta_input_bridge.so
