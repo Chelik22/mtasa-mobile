@@ -111,6 +111,8 @@ try {
     New-Item -ItemType Directory -Path $attempt -Force | Out-Null
     $statePath = Join-Path $attempt 'result.json'; $canWrite = $true
     $state.startedUtc = [DateTime]::UtcNow.ToString('o'); $state.attemptRoot = $attempt
+    $driver = Get-Process -Id $PID
+    $state.driverPid = $PID; $state.driverStartedUtc = $driver.StartTime.ToUniversalTime().ToString('o')
     Save-State
     $snapshot = Get-Content -LiteralPath (Join-Path $source 'verification/configure-2026-10-28.json') -Raw | ConvertFrom-Json
     $configured = $snapshot.actualConfigure
@@ -146,9 +148,10 @@ try {
     $state.freeMemoryAfterPlanMiB = [Math]::Floor((Get-CimInstance Win32_OperatingSystem -OperationTimeoutSec 3).FreePhysicalMemory / 1024)
     if ($state.freeMemoryAfterPlanMiB -lt $RequiredFreeMemoryMiB) { $state.status = 'deferred_memory_after_plan'; Save-State; Write-Output $statePath; return }
     $buildStarted = [DateTime]::UtcNow
-    $state.buildStartedUtc = $buildStarted.ToString('o'); $state.status = 'building'; Save-State
+    $state.buildStartedUtc = $buildStarted.ToString('o'); $state.status = 'building'; $state.build = 'in_progress'; Save-State
     Invoke-OwnedTool 'build' $Ninja (@('-C', $BuildRoot, '-j', '1') + $targets)
     Verify-Inputs
+    $state.elf = 'in_progress'
     foreach ($target in $targets) {
         $path = Join-Path $BuildRoot $target; $file = Get-Item -LiteralPath $path
         $fresh = $file.LastWriteTimeUtc -ge $buildStarted -and (-not $before[$target] -or $file.LastWriteTimeUtc -ne $before[$target].modifiedUtc)
@@ -162,7 +165,12 @@ try {
     $state.elf = 'passed'
     if (@($state.artifacts | Where-Object { -not $_.freshlyProduced }).Count) { $state.status = 'reused_artifacts_not_new_build'; $state.build = 'not_new_build' }
     else { $state.status = 'built_fresh'; $state.build = 'passed' }
-} catch { $state.status = 'failed'; $state.error = $_.Exception.Message; throw }
+} catch {
+    $state.status = 'failed'; $state.error = $_.Exception.Message
+    if ($state.build -eq 'in_progress') { $state.build = 'failed' }
+    if ($state.elf -eq 'in_progress') { $state.elf = 'failed' }
+    throw
+}
 finally {
     $state.finishedUtc = [DateTime]::UtcNow.ToString('o')
     try { Save-State } finally { $lock.Dispose() }
