@@ -26,7 +26,9 @@ def prepare(plan_path, destination, net_module=None, net_module_sha256=None):
     inputs = {}
     for name in NATIVE_FILES:
         item = plan["files"][name]
-        origin = Path(item["origin"])
+        # Build outputs may be rebuilt later. The passed H1 runtime retains its
+        # own verified copies; never depend on a mutable build-cache DLL here.
+        origin = Path(plan["runtime"]) / name
         if digest(origin) != item["sha256"]:
             raise ValueError("H1 native input changed: " + name)
         inputs[name] = origin
