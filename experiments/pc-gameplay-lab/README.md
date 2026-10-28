@@ -2,7 +2,8 @@
 
 `bootstrap/` — отдельный server-only ресурс обычного MTA. Он вызывает штатные
 `spawnPlayer`, `fadeCamera`, `setCameraTarget` рядом с машиной из
-`mobile-world-fixture`. Сам fixture и серверные RP-ресурсы не изменяются.
+`mobile-world-fixture`. Серверные RP-ресурсы не изменяются. Общий fixture
+отличает настоящий MTA console element от player при именовании, chat и ACL.
 
 Для G4 нужны оба ресурса: `mobilelab-spawn` (эта папка bootstrap под таким
 именем в server resources) и `mobile-world-fixture`. После actual client Lua

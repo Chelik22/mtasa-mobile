@@ -13,8 +13,14 @@ local function log(message)
     outputServerLog("[mobilefixture] " .. message)
 end
 
+local function isPlayer(element)
+    return isElement(element) and getElementType(element) == "player"
+end
+
 local function playerLabel(player)
-    if not isElement(player) then
+    -- Pinned MTA supplies a real console element for CLI commands, not false.
+    -- Only players can be passed to player-name/chat APIs or the player ACL check.
+    if not isPlayer(player) then
         return "console"
     end
     return getPlayerName(player):gsub("[%c]", "?")
@@ -22,7 +28,7 @@ end
 
 local function reply(player, message)
     log(message)
-    if isElement(player) then
+    if isPlayer(player) then
         outputChatBox("[mobilefixture] " .. message, player, 220, 220, 220)
     end
 end
@@ -58,7 +64,7 @@ end
 
 addCommandHandler("mobilefixture", function(player, _, action)
     -- Console is local administration; players must have this explicit ACL right.
-    if isElement(player) and not hasObjectPermissionTo(player, "command.mobilefixture", false) then
+    if isPlayer(player) and not hasObjectPermissionTo(player, "command.mobilefixture", false) then
         reply(player, "denied caller=" .. playerLabel(player))
         return
     end
