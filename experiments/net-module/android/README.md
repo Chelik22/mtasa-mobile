@@ -50,6 +50,6 @@ adb -s emulator-5580 shell /data/local/tmp/mta-h1/headless_client --host 10.0.2.
 
 ## Текущий статус
 
-Source/constants check и PowerShell parser выполнены. Configure evidence добавляется после actual configure. Cold build и все Android/host executions not_run. Актуальные snapshots хранятся в `verification/`; никаких AVD/APK/GTA binaries в Git нет.
+Source/constants check и PowerShell parser выполнены. Actual configure PID47300 завершился exit0, Clang19.0.1/NDKr28c; проверены38 ENet hashes и точный source file set. Ninja graph содержит14 translation units и три заданных application targets. Их executable files отсутствуют: cold build, ELF verification и все Android/host executions not_run. [Configure snapshot](verification/configure-2026-10-28.json) содержит actual source/hash/PID/log evidence; никаких AVD/APK/GTA binaries в Git нет.
 
 Изменения этого subproject обратимы удалением отдельного Android entry point; host CMake и application sources не меняются.
