@@ -15,6 +15,10 @@
 
 ### Added
 
+- Construct per-instance concrete HTTP manager owners before publishing the CNet
+  SDK pointer, preparing immutable policy injection without replacing borrowed
+  managers. Transport-mode regression build/runtime verification is pending.
+
 - Prepared a real SDK read-only resource-file implementation retaining the bytes
   accepted by an explicit path/content policy. Missing validation, write modes
   and oversized files fail; no protected-cache trust is claimed. Native tests

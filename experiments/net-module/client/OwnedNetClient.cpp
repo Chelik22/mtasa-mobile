@@ -160,6 +160,11 @@ namespace experimental_client
     public:
         OwnedNetClient()
         {
+            // Construct concrete managers before publishing the CNet pointer.
+            // This seam permits a per-instance content policy without replacing
+            // an SDK pointer already borrowed by the game.
+            for (auto& http : http_)
+                http = std::make_unique<ClientHttp>();
 #ifdef _WIN32
             // Read the process environment, not a potentially stale per-CRT copy.
             char identity[34]{};
@@ -362,7 +367,8 @@ namespace experimental_client
             // HTTP callbacks may enter CNet; never wait for their lock while
             // holding the transport lock in the opposite direction.
             for (auto& http : http_)
-                http.Close();
+                if (http)
+                    http->Close();
             invalid_http_.Close();
         }
         void RegisterPacketHandler(PPACKETHANDLER handler) override
@@ -496,12 +502,13 @@ namespace experimental_client
                 detail_ = "reset; disconnected";
             }
             for (auto& http : http_)
-                http.Reset();
+                if (http)
+                    http->Reset();
         }
         CNetHTTPDownloadManagerInterface* GetHTTPDownloadManager(EDownloadModeType mode) override
         {
             const auto index = static_cast<int>(mode);
-            return index >= 0 && static_cast<std::size_t>(index) < http_.size() ? &http_[index] : &invalid_http_;
+            return index >= 0 && static_cast<std::size_t>(index) < http_.size() ? http_[index].get() : &invalid_http_;
         }
         void SetServerBitStreamVersion(unsigned short version) override
         {
@@ -622,7 +629,7 @@ namespace experimental_client
                     return false;
             }
             for (auto& http : http_)
-                if (!http.CanRelease())
+                if (http && !http->CanRelease())
                     return false;
             return invalid_http_.CanRelease();
         }
@@ -770,8 +777,8 @@ namespace experimental_client
         std::deque<Frame>                           incoming_, outgoing_;
         std::size_t                                 incoming_bytes_ = 0, outgoing_bytes_ = 0;
         std::array<SPacketStat, 256>                stats_{};
-        std::array<ClientHttp, static_cast<std::size_t>(EDownloadMode::CALL_REMOTE_ANY_HOST_LAST) + 1> http_;
-        UnsupportedHttp                                                                                invalid_http_;
+        std::array<std::unique_ptr<ClientHttp>, static_cast<std::size_t>(EDownloadMode::CALL_REMOTE_ANY_HOST_LAST) + 1> http_;
+        UnsupportedHttp                                                                                                 invalid_http_;
     };
 }
 
