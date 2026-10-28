@@ -58,5 +58,5 @@
   },
   "passed": 1,
   "failed": 0,
-  "independentAudit": "requested"
+  "independentAudit": "passed: raw log and artifact hashes, I386, named CTest and terminal PID; source commit attested, per-source raw hashes not captured"
 }
