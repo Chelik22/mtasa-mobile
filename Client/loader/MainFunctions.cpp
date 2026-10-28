@@ -12,6 +12,7 @@
 #include "MainFunctions.h"
 #include "Main.h"
 #include "Utils.h"
+#include "ExperimentalLabPaths.h"
 #include "Dialogs.h"
 #include "D3DStuff.h"
 #include "../core/FastFailCrashHandler/WerCrashHandler.h"
@@ -825,6 +826,10 @@ void HandleCustomStartMessage()
 //////////////////////////////////////////////////////////
 void ConfigureWerDumpPath()
 {
+    // Retain the ordinary client crash handler without registering machine-wide
+    // WER settings merely to observe a separate lab installation.
+    if (experimental_lab::GetContext().enabled)
+        return;
     using WerRegisterAppLocalDumpFn = HRESULT(WINAPI*)(PCWSTR);
 
     SString strInstallPath = GetInstallPathForLauncher();
@@ -1069,6 +1074,8 @@ void HandleIfGTAIsAlreadyRunning()
 //////////////////////////////////////////////////////////
 void HandleSpecialLaunchOptions()
 {
+    if (experimental_lab::GetContext().enabled && (CommandLineContains("/kdinstall") || CommandLineContains("/kduninstall")))
+        throw std::runtime_error("Service installation is not permitted in lab mode");
     // Handle service install request from the installer
     if (CommandLineContains("/kdinstall"))
     {
@@ -1101,6 +1108,13 @@ void HandleSpecialLaunchOptions()
 //////////////////////////////////////////////////////////
 void HandleDuplicateLaunching()
 {
+    if (experimental_lab::GetContext().enabled)
+    {
+        // Never forward a lab URI/WM_COPYDATA to a user's existing MTA window.
+        if (!CreateSingleInstanceMutex())
+            throw std::runtime_error("An existing MTA instance prevents isolated lab startup");
+        return;
+    }
     LPSTR lpCmdLine = GetCommandLine();
     if (!lpCmdLine)
         ExitProcess(EXIT_ERROR);
@@ -1786,6 +1800,14 @@ BOOL StartGtaProcess(const SString& lpApplicationName, const SString& lpCommandL
     if (wasProcessCreated)
         return true;
 
+    if (experimental_lab::GetContext().enabled)
+    {
+        // ShellExecute/elevation can change process ancestry and environment.
+        dwOutError = GetLastError();
+        strOutErrorContext = "Lab-CreateProcess";
+        return false;
+    }
+
     if (bAsDebugger)
     {
         dwOutError = GetLastError();
@@ -2359,6 +2381,8 @@ int LaunchGame(SString strCmdLine)
 //////////////////////////////////////////////////////////
 void HandleOnQuitCommand()
 {
+    if (experimental_lab::GetContext().enabled)
+        return;  // No shell/update restart may escape the owned lab process tree.
     const SString strMTASAPath = GetMTASAPath();
 
     if (!ValidatePath(strMTASAPath))

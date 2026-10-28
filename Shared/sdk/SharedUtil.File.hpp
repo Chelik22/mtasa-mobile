@@ -16,6 +16,7 @@
 #endif
 
 #include "SharedUtil.File.h"
+#include "ExperimentalLabPaths.h"
 #include "SharedUtil.Defines.h"
 #include "SharedUtil.IntTypes.h"
 #include "SharedUtil.Misc.h"
@@ -596,6 +597,8 @@ SString SharedUtil::GetSystemDllDirectory()
 
 SString SharedUtil::GetSystemLocalAppDataPath()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"local-appdata")).c_str();
     wchar_t szResult[MAX_PATH] = L"";
     SHGetFolderPathW(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, szResult);
     if (IsShortPathName(szResult))
@@ -605,6 +608,8 @@ SString SharedUtil::GetSystemLocalAppDataPath()
 
 SString SharedUtil::GetSystemCommonAppDataPath()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"common")).c_str();
     wchar_t szResult[MAX_PATH] = L"";
     SHGetFolderPathW(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szResult);
     if (IsShortPathName(szResult))
@@ -614,6 +619,8 @@ SString SharedUtil::GetSystemCommonAppDataPath()
 
 SString SharedUtil::GetSystemPersonalPath()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"documents")).c_str();
     wchar_t szResult[MAX_PATH] = L"";
     SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, 0, szResult);
     if (IsShortPathName(szResult))
@@ -641,6 +648,8 @@ SString SharedUtil::GetSystemSystemPath()
 
 SString SharedUtil::GetSystemTempPath()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"temp")).c_str();
     wchar_t szResult[4030] = L"";
     GetTempPathW(4000, szResult);
     if (IsShortPathName(szResult))
@@ -650,11 +659,15 @@ SString SharedUtil::GetSystemTempPath()
 
 SString SharedUtil::GetMTADataPath()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"data") / GetMajorVersionString().c_str()).c_str();
     return PathJoin(GetSystemCommonAppDataPath(), GetProductCommonDataDir(), GetMajorVersionString());
 }
 
 SString SharedUtil::GetMTADataPathCommon()
 {
+    if (experimental_lab::GetContext().enabled)
+        return experimental_lab::Utf8(experimental_lab::GetContext().Child(L"common")).c_str();
     return PathJoin(GetSystemCommonAppDataPath(), GetProductCommonDataDir(), "Common");
 }
 

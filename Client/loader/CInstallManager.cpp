@@ -10,6 +10,7 @@
 
 #include "CInstallManager.h"
 #include "Utils.h"
+#include "ExperimentalLabPaths.h"
 #include "Main.h"
 #include "Dialogs.h"
 #include "Install.h"
@@ -451,6 +452,8 @@ SString CInstallManager::GetLauncherPathFilename()
 //////////////////////////////////////////////////////////
 SString CInstallManager::_ChangeToAdmin()
 {
+    if (experimental_lab::GetContext().enabled)
+        throw std::runtime_error("Lab mode cannot elevate installation repair");
     if (!IsUserAdmin())
     {
         MessageBoxUTF8(
@@ -1081,6 +1084,8 @@ SString CInstallManager::_CheckOnRestartCommand()
 //////////////////////////////////////////////////////////
 SString CInstallManager::_MaybeSwitchToTempExe()
 {
+    if (experimental_lab::GetContext().enabled)
+        return m_pSequencer->GetVariable(INSTALL_LOCATION) == "far" ? "quit" : "ok";
     // If a new "Multi Theft Auto.exe" exists, let that complete the install
     if (m_pSequencer->GetVariable(INSTALL_LOCATION) == "far")
     {
@@ -1107,6 +1112,8 @@ SString CInstallManager::_MaybeSwitchToTempExe()
 //////////////////////////////////////////////////////////
 SString CInstallManager::_SwitchBackFromTempExe()
 {
+    if (experimental_lab::GetContext().enabled)
+        return m_pSequencer->GetVariable(INSTALL_LOCATION) == "far" ? "quit" : "ok";
     // If currently running temp install exe, switch back
     if (m_pSequencer->GetVariable(INSTALL_LOCATION) == "far")
     {
@@ -1777,6 +1784,8 @@ SString CInstallManager::_ProcessServiceChecks()
 //////////////////////////////////////////////////////////
 SString CInstallManager::_ProcessAppCompatChecks()
 {
+    if (experimental_lab::GetContext().enabled)
+        return "ok";        // Optional system repairs do not belong to a lab run.
     BOOL bIsWOW64 = false;  // 64bit OS
     IsWow64Process(GetCurrentProcess(), &bIsWOW64);
     uint    uiHKLMFlags = bIsWOW64 ? KEY_WOW64_64KEY : 0;

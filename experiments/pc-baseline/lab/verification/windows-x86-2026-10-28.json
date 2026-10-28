@@ -1,0 +1,56 @@
+{
+  "scope": "actual standalone Win32 lab root/settings helper only; MTA SDK routing/GTA/GUI not_run",
+  "baselineSource": "566558c415596c288cc15166361b45effe3ab0e1",
+  "startedUtc": "2026-10-28T11:33:48.475240+00:00",
+  "finishedUtc": "2026-10-28T11:34:08.101911+00:00",
+  "status": "passed",
+  "exitCode": 0,
+  "componentTU": 1,
+  "workers": 1,
+  "compilerOverride": "/MP1",
+  "priority": "Normal",
+  "physicalFloorMiB": 1024,
+  "commitFloorMiB": 8192,
+  "stepExitCodes": {
+    "configure": 0,
+    "build": 0,
+    "test": 0
+  },
+  "sourceSha256": {
+    "Shared/sdk/ExperimentalLabPaths.h": "04baf6584c9a6aa3e728f7a72c7b2bf37725bb7681359235af39623f75fbab92",
+    "Shared/sdk/SharedUtil.Misc.hpp": "a149de9401b8d25041776174ea71fae3751d8f6309045ceddb97142d1b1f0df8",
+    "Shared/sdk/SharedUtil.File.hpp": "6e52d63958c31fbce5dd367630a0f308f338e7d6621b7af57aca3f22a84cd3c1",
+    "Client/loader/Utils.cpp": "c16a8114162072845bcc2c6b949edc552f4088e2628f3a1dec901c96cb0415ee",
+    "Client/loader/MainFunctions.cpp": "82bb08e9ca399144a8fa516c7b8baf4fff0f683ddcabb9b143133a94659229dc",
+    "Client/loader/CInstallManager.cpp": "fa46276ad6d4a6a2788929d48117a99afcea62fc7b299b401a507b9a82ef27c2",
+    "Client/loader/FileSystem.cpp": "bf1465f2aa0e452a37b75c967ba60d546b2d08ca798a8662d992a55998c3f13b",
+    "experiments/pc-baseline/lab/CMakeLists.txt": "f2d37aa3203a29b2b7b4ea07728d654f5adeac4a1f9318ed0c095abd6771c47d",
+    "experiments/pc-baseline/lab/lab_paths_probe.cpp": "9bb37d5ad2b2b4aec885b2cf089a1a662f7fb240f76ec76bb87267a48d012eb7",
+    "experiments/pc-baseline/lab/test_lab_paths.py": "da7c3f1ab84873bb6cf386c4113ce295a8cf57d5b047a745e9297f021813182f"
+  },
+  "logs": {
+    "build.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.stdout.log": "ffc3119c7d52cbfb6f17a45bb0ce7c33404b5e011f780649994b690db5ab1b99",
+    "configure.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configure.stdout.log": "1715617c80fd9d86fb64c37a81a445c6e0ed6023e444fb10566784decd8895be",
+    "test.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test.stdout.log": "5f48c8487663c6aeda6b6276d498cc022c1e540a11c4494c87408281ec306ffa"
+  },
+  "junitSha256": "27d451f4aba099dd113a0bdd570fb88d902d5fe8f2ef99b2c69f56ec89e024d4",
+  "test": {
+    "name": "lab_paths_filesystem_contract",
+    "classname": "lab_paths_filesystem_contract",
+    "time": "2.53236",
+    "status": "run"
+  },
+  "actualTestOutput": ".....\n----------------------------------------------------------------------\nRan 5 tests in 2.105s\n\nOK\n",
+  "exeSha256": "5d4736a32179767121bb6551ceb56a5398b88c9753c30f636e58ce56d9b8d21f",
+  "exeBytes": 68608,
+  "peMachine": "0x14c",
+  "limitations": [
+    "SDK routing translation units not compiled",
+    "GTA/Documents native behavior not proven isolated",
+    "MTA/GTA/GUI/gameplay not_run",
+    "Installed GTA/MTA/global registry and original PC baseline/Bin untouched"
+  ]
+}
