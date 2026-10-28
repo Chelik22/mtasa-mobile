@@ -66,7 +66,9 @@ Server-mode regression зафиксирован отдельно в
 
 `Shared/sdk/ExperimentalNativeUserPaths.h` предназначен для раннего
 `loader-proxy::OnGameLaunch`, до загрузки net/Core и возврата в native startup.
-Anchor пока не подключён. Stock path без opt-in не меняется. Поддерживается
+Anchor подключён в source после проверки имени процесса, до net/Core callbacks;
+его actual proxy compile/game runtime ещё не выполнялись. Stock path без opt-in
+не меняется. Поддерживается
 только x86 canonical SHA
 `f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a`
 либо один из восьми exact full-image SHA штатных loader patches (Release/Debug,
@@ -104,4 +106,5 @@ checksum областей. Реальный detour выполнялся толь
 не над GTA. Raw receipt/логи/JUnit и immutable helper EXE сохранены в ignored
 lab; [snapshot](verification/native-user-paths-windows-x86.json) фиксирует
 source hashes и ограничения. Actual GTA `Install`/proxy anchor/full client
-build/gameplay этим не проверены.
+build/gameplay этим не проверены. CEF пропускается по настоящему process basename;
+GTA не может пропустить hook, просто добавив CEF command-line switch.

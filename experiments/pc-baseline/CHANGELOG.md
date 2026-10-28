@@ -4,8 +4,9 @@
 
 - Подготовлен lab-only native user-directory hook для одного SHA-проверенного GTA
   EXE: exact full-image whitelist штатных loader patches, ACP/256-byte guards, три native
-  буфера и процессный detour с проверкой инструкций. Hook пока не подключён к
-  proxy; game/GUI и полная native registry isolation остаются непроверенными.
+  буфера и процессный detour с проверкой инструкций. Source anchor подключён
+  до net/Core startup с actual process-name guard для CEF; game/GUI и полная
+  native registry isolation остаются непроверенными.
 
 - Исправлена область client-only guard в Windows SDK file routing: server TUs
   не должны ссылаться на lab namespace. Добавлен compile-only test настоящего

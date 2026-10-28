@@ -22,6 +22,7 @@
 #include <ShellScalingApi.h>
 #include <version.h>
 #include <ExperimentalClientNetSelection.h>
+#include <ExperimentalNativeUserPaths.h>
 #include <SharedUtil.h>
 #include <SharedUtil.hpp>
 
@@ -334,6 +335,25 @@ VOID OnGameLaunch()
             DisplayErrorMessageBox(MakeLauncherError(message), L"CL52");
             return;
         }
+    }
+
+    // Native GTA resolves Documents without SharedUtil. Install its lab-only
+    // redirection before net/Core callbacks and before native startup resumes.
+    // CEF inherits the lab environment but has no supported GTA image to hook;
+    // check the actual executable, not only the spoofable CEF command-line flag.
+    try
+    {
+        const auto& lab = experimental_lab::GetContext();
+        if (lab.enabled && IEqual(GTA_EXE_NAME, GetCurrentProcessPath().filename().wstring()))
+            experimental_lab::native_paths::Install(lab, g_exe);
+    }
+    catch (...)
+    {
+        // Returning here would resume native writes using the real Personal
+        // directory. Fail only this already-owned process, without repair/UI.
+        OutputDebugStringA("MTA lab native user-directory initialization failed; stopping owned process\n");
+        TerminateProcess(GetCurrentProcess(), 0x4c414250);
+        ExitProcess(0x4c414250);
     }
 
     // MTA must be the parent launcher process in every case
