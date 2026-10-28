@@ -1,0 +1,375 @@
+{
+  "schema": "mta-android-jni-build-v1",
+  "source_sha": "8f530e58a78dc0b18d14e1f23c2810d3a74077fd",
+  "started_utc": "2026-10-28T16:07:09.540890+00:00",
+  "state": "passed",
+  "memory_floor_mib": 2048,
+  "priority": "Normal",
+  "native_workers": 1,
+  "java_heap_max_mib": 256,
+  "java_active_processor_count": 1,
+  "apk_modified": false,
+  "apk_installed": false,
+  "android_motion_event_delivery": "not_run",
+  "game_runtime": "not_run",
+  "u1": "not_run",
+  "stages": [
+    {
+      "name": "host-configure",
+      "command": [
+        "C:/Program Files/CMake/bin/cmake.exe",
+        "-S",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-jni-input\\experiments\\android-jni-input",
+        "-B",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\host",
+        "-G",
+        "Visual Studio 18 2026",
+        "-A",
+        "x64"
+      ],
+      "memory": {
+        "free_physical_mib": 5718,
+        "free_commit_mib": 61679
+      },
+      "started_utc": "2026-10-28T16:07:10.578696+00:00",
+      "pid": 8120,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:19.258881+00:00",
+      "stdout.log_sha256": "1a7c9f31d67ae8bdba3c9cfca5c4609dcecd7b6cb8b4517fe7b6a14c5df99f86",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host-build",
+      "command": [
+        "C:/Program Files/CMake/bin/cmake.exe",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\host",
+        "--config",
+        "Release",
+        "--target",
+        "mta_input_bridge",
+        "--parallel",
+        "1",
+        "--",
+        "/m:1",
+        "/nr:false",
+        "/p:MultiProcessorCompilation=false"
+      ],
+      "memory": {
+        "free_physical_mib": 5511,
+        "free_commit_mib": 61645
+      },
+      "started_utc": "2026-10-28T16:07:19.576725+00:00",
+      "pid": 32516,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:25.556852+00:00",
+      "stdout.log_sha256": "b2f074853828060f5cb5bfce98ff59dc4e4a4ee93a522aefd1aab0fc38ef818f",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "javac-core-trace",
+      "command": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "--release",
+        "8",
+        "-d",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-jni-input\\experiments\\android-jni-input\\java\\org\\mta\\mobile\\input\\NativeInputBridge.java",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-jni-input\\experiments\\android-jni-input\\tests\\BridgeJvmTrace.java"
+      ],
+      "memory": {
+        "free_physical_mib": 5433,
+        "free_commit_mib": 61595
+      },
+      "started_utc": "2026-10-28T16:07:25.705656+00:00",
+      "pid": 35236,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:26.897325+00:00",
+      "stdout.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.log_sha256": "9f4656f99054c33910186842989643135f173409cb9990fe8ec8f5476cd78a8c"
+    },
+    {
+      "name": "jvm-jni-trace",
+      "command": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\java.exe",
+        "-Xmx256m",
+        "-XX:ActiveProcessorCount=1",
+        "-Xcheck:jni",
+        "-Djava.library.path=D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\host\\Release",
+        "-cp",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes",
+        "org.mta.mobile.input.BridgeJvmTrace"
+      ],
+      "memory": {
+        "free_physical_mib": 5306,
+        "free_commit_mib": 61225
+      },
+      "started_utc": "2026-10-28T16:07:27.028688+00:00",
+      "pid": 40360,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:27.174376+00:00",
+      "stdout.log_sha256": "fdf3fc08cd2d83b2bee8b4795100181da9cddd93f48459c61ca37454a3454272",
+      "stderr.log_sha256": "4dc00d600bd30f21855d7b20e79f26380322815f12d89699de620293423ac7c1"
+    },
+    {
+      "name": "javac-motion-helper",
+      "command": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "--release",
+        "8",
+        "-cp",
+        "C:\\Android\\platforms\\android-34\\android.jar;D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes",
+        "-d",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-jni-input\\experiments\\android-jni-input\\java\\org\\mta\\mobile\\input\\MotionEventInput.java"
+      ],
+      "memory": {
+        "free_physical_mib": 5529,
+        "free_commit_mib": 61510
+      },
+      "started_utc": "2026-10-28T16:07:27.296869+00:00",
+      "pid": 21936,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:28.337566+00:00",
+      "stdout.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.log_sha256": "9f4656f99054c33910186842989643135f173409cb9990fe8ec8f5476cd78a8c"
+    },
+    {
+      "name": "d8-help",
+      "command": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\java.exe",
+        "-Xmx256m",
+        "-XX:ActiveProcessorCount=1",
+        "-cp",
+        "C:\\Android\\build-tools\\36.0.0\\lib\\d8.jar",
+        "com.android.tools.r8.D8",
+        "--help"
+      ],
+      "memory": {
+        "free_physical_mib": 5481,
+        "free_commit_mib": 61220
+      },
+      "started_utc": "2026-10-28T16:07:28.517868+00:00",
+      "pid": 43012,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:28.792413+00:00",
+      "stdout.log_sha256": "8c1d5a10a43ad13037c76231202e05837d92393bf02ec7997e2033030c0e6a63",
+      "stderr.log_sha256": "4dc00d600bd30f21855d7b20e79f26380322815f12d89699de620293423ac7c1"
+    },
+    {
+      "name": "d8-helper",
+      "command": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\java.exe",
+        "-Xmx256m",
+        "-XX:ActiveProcessorCount=1",
+        "-cp",
+        "C:\\Android\\build-tools\\36.0.0\\lib\\d8.jar",
+        "com.android.tools.r8.D8",
+        "--min-api",
+        "28",
+        "--lib",
+        "C:\\Android\\platforms\\android-34\\android.jar",
+        "--output",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\dex",
+        "--thread-count",
+        "1",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes\\org\\mta\\mobile\\input\\NativeInputBridge.class",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes\\org\\mta\\mobile\\input\\NativeInputBridge$Frame.class",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\classes\\org\\mta\\mobile\\input\\MotionEventInput.class"
+      ],
+      "memory": {
+        "free_physical_mib": 5427,
+        "free_commit_mib": 61155
+      },
+      "started_utc": "2026-10-28T16:07:28.901726+00:00",
+      "pid": 20588,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:31.075481+00:00",
+      "stdout.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr.log_sha256": "4dc00d600bd30f21855d7b20e79f26380322815f12d89699de620293423ac7c1"
+    },
+    {
+      "name": "ndk-configure",
+      "command": [
+        "C:/Program Files/CMake/bin/cmake.exe",
+        "-S",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-jni-input\\experiments\\android-jni-input",
+        "-B",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\android-arm64",
+        "-G",
+        "Ninja",
+        "-DCMAKE_MAKE_PROGRAM=C:/Android/cmake/3.22.1/bin/ninja.exe",
+        "-DCMAKE_TOOLCHAIN_FILE=C:\\Android\\ndk\\28.2.13676358\\build\\cmake\\android.toolchain.cmake",
+        "-DANDROID_ABI=arm64-v8a",
+        "-DANDROID_PLATFORM=android-28",
+        "-DANDROID_STL=c++_static",
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "memory": {
+        "free_physical_mib": 5023,
+        "free_commit_mib": 60693
+      },
+      "started_utc": "2026-10-28T16:07:31.333329+00:00",
+      "pid": 6624,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:34.742374+00:00",
+      "stdout.log_sha256": "1d2f81e5c2aa17e802e3d4a51b9170eeb81a157da8950f8a0859f15fc11974b4",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ndk-build",
+      "command": [
+        "C:/Program Files/CMake/bin/cmake.exe",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\android-arm64",
+        "--target",
+        "mta_input_bridge",
+        "--parallel",
+        "1"
+      ],
+      "memory": {
+        "free_physical_mib": 4860,
+        "free_commit_mib": 61017
+      },
+      "started_utc": "2026-10-28T16:07:35.140734+00:00",
+      "pid": 47776,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:51.721095+00:00",
+      "stdout.log_sha256": "9082ab592642cfb58bf0ec63626be0c2bc78ce8e2085a9b8bb76a18b9c1be710",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "elf-inspection",
+      "command": [
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "-h",
+        "-d",
+        "--dyn-syms",
+        "--wide",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\android-arm64\\libmta_input_bridge.so"
+      ],
+      "memory": {
+        "free_physical_mib": 4791,
+        "free_commit_mib": 60937
+      },
+      "started_utc": "2026-10-28T16:07:51.913503+00:00",
+      "pid": 37788,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:52.008679+00:00",
+      "stdout.log_sha256": "162391191ea75e756ba00114f85f666b172e891a7c3bb178e1ed1281e5e51899",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pe-inspection",
+      "command": [
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readobj.exe",
+        "--file-headers",
+        "--coff-exports",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\host\\Release\\mta_input_bridge.dll"
+      ],
+      "memory": {
+        "free_physical_mib": 4783,
+        "free_commit_mib": 60969
+      },
+      "started_utc": "2026-10-28T16:07:52.482234+00:00",
+      "pid": 8120,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-28T16:07:52.581697+00:00",
+      "stdout.log_sha256": "109f359985d923daea4b6c6aca3b1d51e2b261a923ef4a91aa8033e124688257",
+      "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_raw_sha256": {
+    "experiments/android-jni-input/CMakeLists.txt": "9bcf600a418b61dc0fbe310ab349bc23aec51ff4dc482beae69184736b75adf5",
+    "experiments/android-jni-input/InputBridge.cpp": "2cf09c5a314f175a5f1058c622b4b150013d8d4ceef9e154cdbcdb25ab0394d6",
+    "experiments/android-jni-input/java/org/mta/mobile/input/MotionEventInput.java": "10176a10d8f7d91963efab05116b0ba6193d3094b69c3dc7d92812ddfda91ac3",
+    "experiments/android-jni-input/java/org/mta/mobile/input/NativeInputBridge.java": "b1675a5a2dd88894b96544182b00cc3f19453e0374c5abd5316c04ed16a5cabd",
+    "experiments/android-jni-input/proguard-rules.pro": "8c0c2f2196487736cb68d135bc8401ee49041c8c2c7bc4f74558083bb90541f8",
+    "experiments/android-jni-input/README.md": "20388d9a2f34e2bfb8dcbdd83914126d0d2cc37c83e3c03ce7ccc14df8157d21",
+    "experiments/android-jni-input/tests/BridgeJvmTrace.java": "b9dc1c1388af1482cf86b7dd743518adb654a833f05baadc396c345a48ab6504",
+    "experiments/android-touch-input/AndroidInputState.cpp": "b458753cd86b1d4961803fb9d22d8e4c8f8e6b3e81cfbc6667ba1e1b72fe28e2",
+    "experiments/android-touch-input/AndroidInputState.h": "805d7be07c417a3acc19d325c9d39c5935dc544d6c5d43c884ce5805f255befc"
+  },
+  "source_lf_sha256": {
+    "experiments/android-jni-input/CMakeLists.txt": "9bcf600a418b61dc0fbe310ab349bc23aec51ff4dc482beae69184736b75adf5",
+    "experiments/android-jni-input/InputBridge.cpp": "2cf09c5a314f175a5f1058c622b4b150013d8d4ceef9e154cdbcdb25ab0394d6",
+    "experiments/android-jni-input/java/org/mta/mobile/input/MotionEventInput.java": "10176a10d8f7d91963efab05116b0ba6193d3094b69c3dc7d92812ddfda91ac3",
+    "experiments/android-jni-input/java/org/mta/mobile/input/NativeInputBridge.java": "b1675a5a2dd88894b96544182b00cc3f19453e0374c5abd5316c04ed16a5cabd",
+    "experiments/android-jni-input/proguard-rules.pro": "8c0c2f2196487736cb68d135bc8401ee49041c8c2c7bc4f74558083bb90541f8",
+    "experiments/android-jni-input/README.md": "1d7883621297364d7fae4638641398d169262fdc3df103c0d68a64a0e1f34144",
+    "experiments/android-jni-input/tests/BridgeJvmTrace.java": "b9dc1c1388af1482cf86b7dd743518adb654a833f05baadc396c345a48ab6504",
+    "experiments/android-touch-input/AndroidInputState.cpp": "2f2edae5d8cdf25cd1d1dc07690c1a013d264a6ab5c11e306c1bf5817b382e5d",
+    "experiments/android-touch-input/AndroidInputState.h": "3702007f1624b272b5550e750593854bf0dba936c68391ee9f0aa7a44e9cbec8"
+  },
+  "tool_inputs_sha256": {
+    "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\java.exe": "5d0fb7c0461414c668979c4e53bdffb13cc12ec39002fd4a464736bde2caa3a6",
+    "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\javac.exe": "70fccdaef6071181e39a42170d876be01fbe2f4a701c2c5f19608276532884c4",
+    "C:\\Program Files\\Java\\jdk-21.0.11\\release": "e7065d30c410ba1102df1a931c989eea04e821716e548f166830d1e748484023",
+    "C:\\Android\\platforms\\android-34\\android.jar": "6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad",
+    "C:\\Android\\build-tools\\36.0.0\\lib\\d8.jar": "4097ff9c46c185c6e7214da7fe9b1befb5adeea5cc9ca349270e0249904f9240",
+    "C:\\Android\\ndk\\28.2.13676358\\source.properties": "c00aa236fdb205e9be9edd9e2169763e48aca52735efff4e16f34205d49783b5",
+    "C:\\Android\\ndk\\28.2.13676358\\build\\cmake\\android.toolchain.cmake": "dbad92d9dcfea0d32b7c5e5f82f5072d878ded5d46a5d3f1f581ea108ca7fe89"
+  },
+  "dex": {
+    "min_api": 28,
+    "version": "039",
+    "class_descriptors": [
+      "Lorg/mta/mobile/input/MotionEventInput;",
+      "Lorg/mta/mobile/input/NativeInputBridge$Frame;",
+      "Lorg/mta/mobile/input/NativeInputBridge;"
+    ],
+    "checksum_sha1_verified": true,
+    "sha256": "15421418ae779727006888ebb9ef193b0903528546acd3449cf2534600574e2d"
+  },
+  "artifacts": {
+    "mta_input_bridge.dll": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\artifacts\\mta_input_bridge.dll",
+      "bytes": 25600,
+      "sha256": "696f823146a8474b97bc86b375b1043c0e5b31d2c8db7e1b3a3cb40a0b335ba7"
+    },
+    "libmta_input_bridge.so": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\artifacts\\libmta_input_bridge.so",
+      "bytes": 3144456,
+      "sha256": "bb58d08b964b29929d1cf262b293690584d12e22c16b37930fabf2286c3473a8"
+    },
+    "classes.dex": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\artifacts\\classes.dex",
+      "bytes": 5148,
+      "sha256": "15421418ae779727006888ebb9ef193b0903528546acd3449cf2534600574e2d"
+    },
+    "NativeInputBridge.class": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\artifacts\\NativeInputBridge.class",
+      "bytes": 1987,
+      "sha256": "913541b19927babf73908cd473d3d82ef562cf6987a0b4a0b279285cd940bd83"
+    },
+    "NativeInputBridge$Frame.class": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\artifacts\\NativeInputBridge$Frame.class",
+      "bytes": 935,
+      "sha256": "3e1ba6213e4c795b4cfd5fb2c4975c7bb57761c89df90bcb1aa2d7782d7020a8"
+    },
+    "MotionEventInput.class": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-jni-build-001\\artifacts\\MotionEventInput.class",
+      "bytes": 1957,
+      "sha256": "2f36d2fa4854c41be930344f4c4e15c0ea8a94b0451942b9f1c4398dfc235b87"
+    }
+  },
+  "jvm_jni_trace": "passed",
+  "java_helper_compile": "passed",
+  "d8_compile": "passed",
+  "host_pe": "AMD64",
+  "ndk_elf": "AArch64 ELF64 DYN",
+  "ended_utc": "2026-10-28T16:07:53.040594+00:00"
+}

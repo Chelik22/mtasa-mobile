@@ -1,0 +1,1 @@
+PASS actual JVM/JNI scalar touch traces and context lifecycle; Android MotionEvent/game/U1 NOT RUN
