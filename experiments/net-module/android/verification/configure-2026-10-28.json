@@ -85,5 +85,11 @@
   "elfVerification": "not_run",
   "androidRuntime": "not_run",
   "androidHostH1Interaction": "not_run",
-  "reason": "G1 build has RAM priority; this was configure only, including tiny compiler capability probes"
+  "reason": "G1 build has RAM priority; this was configure only, including tiny compiler capability probes",
+  "ninjaInputClosureSha256": {
+    "build.ninja": "D20ECBD71AE5731E60BEC8FD04CF1E38597CB67FD8835D43F5C6D67E336E9B6A",
+    "CMakeFiles/rules.ninja": "BCF3FBB4DBE0EE50FF6CB3F91C022356EA48C97A8E670527FF756FB838A1AE5F"
+  },
+  "cmakeCacheSha256": "B8636BB59E1B5F8B0D9FD0CB0F6E7DB9818B2054528A0357C06E99CB3DD64260",
+  "closureRecordedAtUtc": "2026-10-28T10:02:09.8566150Z"
 }

@@ -7,6 +7,7 @@ param(
     [ValidateRange(2048, 16384)][int]$RequiredFreeMemoryMiB = 2048
 )
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'Frozen-Inputs.ps1')
 $BuildRoot = [IO.Path]::GetFullPath($BuildRoot)
 $source = [IO.Path]::GetFullPath($PSScriptRoot)
 $module = [IO.Path]::GetFullPath((Join-Path $source '..'))
@@ -36,6 +37,8 @@ function Verify-Inputs {
     foreach ($entry in @{ 'compile_commands.json' = $snapshot.compileCommandsSha256; 'build.ninja' = $snapshot.buildNinjaSha256 }.GetEnumerator()) {
         if ((Hash (Join-Path $BuildRoot $entry.Key)) -ne $entry.Value) { throw "Frozen generated input changed: $($entry.Key)" }
     }
+    Assert-NinjaClosure -BuildRoot $BuildRoot -Expected $snapshot.ninjaInputClosureSha256
+    if ((Hash (Join-Path $BuildRoot 'CMakeCache.txt')) -ne $snapshot.cmakeCacheSha256) { throw 'Frozen CMake cache changed.' }
     if ($state.cacheSha256 -and (Hash (Join-Path $BuildRoot 'CMakeCache.txt')) -ne $state.cacheSha256) { throw 'CMake cache changed during build.' }
     if ((Hash $dependencyPath) -ne $configured.enetManifestSha256) { throw 'Pinned dependency manifest changed.' }
     $entries = @(Get-ChildItem -LiteralPath $configured.enetSource -Recurse -Force)
@@ -49,6 +52,10 @@ function Verify-Inputs {
     }
     $changed = @(& git -C $repo diff --name-only $configured.sourceHead -- Shared/sdk Server/sdk experiments/net-module ':!experiments/net-module/android')
     if ($LASTEXITCODE -ne 0 -or $changed.Count) { throw 'Tracked protocol/SDK inputs differ from frozen configure source.' }
+    $expectedIncludeFiles = @(& git -C $repo -c core.quotepath=false ls-tree -r --name-only $configured.sourceHead -- Shared/sdk Server/sdk experiments/net-module | Where-Object { -not $_.StartsWith('experiments/net-module/android/', [StringComparison]::OrdinalIgnoreCase) })
+    if ($LASTEXITCODE -ne 0 -or -not $expectedIncludeFiles.Count) { throw 'Cannot derive frozen include tree file set.' }
+    Assert-ExactIncludeTree -RepositoryRoot $repo -Roots @('Shared/sdk','Server/sdk','experiments/net-module') -ExpectedFiles $expectedIncludeFiles -ExcludePrefixes @('experiments/net-module/android')
+    $state.includeInputFileCount = $expectedIncludeFiles.Count
 }
 function Invoke-OwnedTool([string]$Name, [string]$Executable, [string[]]$Arguments) {
     $record = [ordered]@{ name = $Name; executable = [IO.Path]::GetFullPath($Executable); arguments = $Arguments; pid = $null; exitCode = $null; status = 'starting' }
@@ -132,6 +139,8 @@ try {
     $state.cmakeSha256 = $configured.cmakeSha256; $state.dependencyManifestSha256 = Hash $dependencyPath
     $state.enetCommit = $dependency.enetCommit; $state.enetArchiveSha256 = $dependency.archiveSha256; $state.verifiedEnetFiles = 38
     $state.graphSha256 = Hash (Join-Path $BuildRoot 'build.ninja'); $state.runnerSha256 = Hash $PSCommandPath
+    $state.ninjaInputClosureSha256 = $snapshot.ninjaInputClosureSha256
+    $state.configureSnapshotSha256 = Hash (Join-Path $source 'verification/configure-2026-10-28.json')
     $state.cacheSha256 = Hash (Join-Path $BuildRoot 'CMakeCache.txt')
     $state.toolchainSha256 = Hash (Join-Path $NdkRoot 'build/cmake/android.toolchain.cmake')
     $state.ndkSourcePropertiesSha256 = Hash (Join-Path $NdkRoot 'source.properties')
