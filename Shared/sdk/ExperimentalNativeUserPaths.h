@@ -4,7 +4,6 @@
     #include "ExperimentalLabPaths.h"
     #include <bcrypt.h>
     #include <cstring>
-    #include <limits>
     #ifdef _MSC_VER
         #pragma comment(lib, "bcrypt.lib")
     #endif
@@ -51,36 +50,28 @@ namespace experimental_lab::native_paths
         return result;
     }
 
-    inline void NormalizeKnownPatches(std::vector<unsigned char>& bytes)
+    inline bool IsKnownExecutable(const std::vector<unsigned char>& bytes)
     {
-        // Exact offsets are from loader/GameExecutablePatcher.cpp at a84e0c77.
-        // Restore only its six supported patches; full SHA rejects every other
-        // change. Do not accept a prefix hash or silently normalize code bytes.
-        if (bytes.size() != executable_size || bytes[0] != 'M' || bytes[1] != 'Z' || std::memcmp(bytes.data() + 0x80, "PE\0\0\x4c\x01", 6) ||
-            bytes[0x98] != 0x0b || bytes[0x99] != 0x01)
-            throw std::runtime_error("Native executable is outside fixed PE32 contract");
-        bytes[0x96] &= ~0x20;  // IMAGE_FILE_LARGE_ADDRESS_AWARE
-        bytes[0xdf] &= ~0x01;  // IMAGE_DLLCHARACTERISTICS_NX_COMPAT
-        constexpr unsigned char timestamp[]{0xca, 0x01, 0x71, 0x42};
-        constexpr unsigned char checksum[]{0x89, 0xd6, 0xdb, 0x00};
-        std::memcpy(bytes.data() + 0x88, timestamp, sizeof(timestamp));
-        std::memcpy(bytes.data() + 0xd8, checksum, sizeof(checksum));
-        auto* library = bytes.data() + 0x4a0c8a;
-        if (!std::memcmp(library, "mtasa.dll\0", 10) || !std::memcmp(library, "mtasa_d.dll\0", 12))
-            std::memcpy(library, "WINMM.dll\0\x02", 11);
-        std::fill_n(bytes.data() + 0xf8, 8, 0);  // Export directory RVA/size.
-        std::fill_n(bytes.data() + 0x4a1ab0, 144, 0);
-        std::fill_n(bytes.data() + 0x4e1b00, 256, 0);
-    }
-
-    inline bool IsKnownExecutable(std::vector<unsigned char> bytes)
-    {
+        // Full raw-image hashes, derived from canonical bytes plus the exact
+        // pinned ApplyPatches combinations. No masked/zeroed regions: arbitrary
+        // export padding, timestamp or checksum changes must also be rejected.
         if (bytes.size() != executable_size)
             return false;
-        if (Sha256(bytes) == canonical_hash)
-            return true;
-        NormalizeKnownPatches(bytes);
-        return Sha256(bytes) == canonical_hash;
+        constexpr std::array<std::string_view, 9> allowed{
+            "f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a", "f3d07cca3375af2fe4d19ff4035c444f2d4fd5a9c07fa78ed834bd6756d5b37c",
+            "5b01125db4b0bf04592bd22ddc69245eb391e9b626a950525f95cfb08f676cce", "77485627b4ef17f92819318050d501e171c7ab84ceffe5091b973b9e29f9cc98",
+            "1c8e082037446cd239eed9c924afff8ced3891cd9a426fdd1c9317671cfcf4b9", "c57460a2e242c1ac3d05054d477c582eeec9a085ce582ff5640925938f58f052",
+            "5cd22ed63ffb628a2538a29139cfeee4a1a96224b84fa89fa598bf67f316873c", "416cdc04f19b317393a6dfc404be28449e6dd38bfc63cc3cccc10e5fb51f3eae",
+            "2f046967c782658f15dfe1524d3d3a0696f90d09b5a602cc40d3a52990135ffc",
+        };
+        const auto  hash = Sha256(bytes);
+        std::string text;
+        for (const auto byte : hash)
+        {
+            text += "0123456789abcdef"[byte >> 4];
+            text += "0123456789abcdef"[byte & 15];
+        }
+        return std::find(allowed.begin(), allowed.end(), text) != allowed.end();
     }
 
     inline auto ReadExecutable(const fs::path& path) -> std::vector<unsigned char>

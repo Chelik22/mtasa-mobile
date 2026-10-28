@@ -1,0 +1,74 @@
+{
+  "schema": "mta-exact-loader-image-allowlist-v1",
+  "enginePin": "a84e0c77c66f596b0c72def1c857253568208a2b",
+  "source": "Client/loader/GameExecutablePatcher.cpp",
+  "canonicalSha256": "f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a",
+  "variants": [
+    {
+      "name": "release-aero0-gpu0.bin",
+      "debug": false,
+      "aero": false,
+      "gpu": false,
+      "bytes": 14383616,
+      "sha256": "f3d07cca3375af2fe4d19ff4035c444f2d4fd5a9c07fa78ed834bd6756d5b37c"
+    },
+    {
+      "name": "release-aero0-gpu1.bin",
+      "debug": false,
+      "aero": false,
+      "gpu": true,
+      "bytes": 14383616,
+      "sha256": "5b01125db4b0bf04592bd22ddc69245eb391e9b626a950525f95cfb08f676cce"
+    },
+    {
+      "name": "release-aero1-gpu0.bin",
+      "debug": false,
+      "aero": true,
+      "gpu": false,
+      "bytes": 14383616,
+      "sha256": "77485627b4ef17f92819318050d501e171c7ab84ceffe5091b973b9e29f9cc98"
+    },
+    {
+      "name": "release-aero1-gpu1.bin",
+      "debug": false,
+      "aero": true,
+      "gpu": true,
+      "bytes": 14383616,
+      "sha256": "1c8e082037446cd239eed9c924afff8ced3891cd9a426fdd1c9317671cfcf4b9"
+    },
+    {
+      "name": "debug-aero0-gpu0.bin",
+      "debug": true,
+      "aero": false,
+      "gpu": false,
+      "bytes": 14383616,
+      "sha256": "c57460a2e242c1ac3d05054d477c582eeec9a085ce582ff5640925938f58f052"
+    },
+    {
+      "name": "debug-aero0-gpu1.bin",
+      "debug": true,
+      "aero": false,
+      "gpu": true,
+      "bytes": 14383616,
+      "sha256": "5cd22ed63ffb628a2538a29139cfeee4a1a96224b84fa89fa598bf67f316873c"
+    },
+    {
+      "name": "debug-aero1-gpu0.bin",
+      "debug": true,
+      "aero": true,
+      "gpu": false,
+      "bytes": 14383616,
+      "sha256": "416cdc04f19b317393a6dfc404be28449e6dd38bfc63cc3cccc10e5fb51f3eae"
+    },
+    {
+      "name": "debug-aero1-gpu1.bin",
+      "debug": true,
+      "aero": true,
+      "gpu": true,
+      "bytes": 14383616,
+      "sha256": "2f046967c782658f15dfe1524d3d3a0696f90d09b5a602cc40d3a52990135ffc"
+    }
+  ],
+  "targetExecution": "not_run",
+  "installedWrites": false
+}

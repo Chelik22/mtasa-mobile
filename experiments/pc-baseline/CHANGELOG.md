@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Подготовлен lab-only native user-directory hook для одного SHA-проверенного GTA
-  EXE: source-known loader patch normalization, ACP/256-byte guards, три native
+  EXE: exact full-image whitelist штатных loader patches, ACP/256-byte guards, три native
   буфера и процессный detour с проверкой инструкций. Hook пока не подключён к
   proxy; game/GUI и полная native registry isolation остаются непроверенными.
 

@@ -28,23 +28,17 @@ void Canonical(const wchar_t* path)
     auto original = paths::ReadExecutable(path);
     Check(paths::Sha256(original) == paths::canonical_hash, "fixture must be real canonical GTA bytes, read as data only");
     Check(paths::IsKnownExecutable(original), "canonical executable rejected");
-    auto patched = original;
-    patched[0x96] |= 0x20;
-    patched[0xdf] |= 0x01;
-    patched[0x8b] = 0x43;
-    std::fill_n(patched.data() + 0xd8, 4, 0xff);
-    std::memcpy(patched.data() + 0x4a0c8a, "mtasa.dll", 10);
-    std::fill_n(patched.data() + 0xf8, 8, 0xff);
-    std::fill_n(patched.data() + 0x4a1ab0, 144, 0xff);
-    std::fill_n(patched.data() + 0x4e1b00, 256, 0xff);
-    Check(paths::IsKnownExecutable(patched), "supported loader patch normalization rejected");
-    std::memcpy(patched.data() + 0x4a0c8a, "mtasa_d.dll", 12);
-    Check(paths::IsKnownExecutable(patched), "debug proxy name normalization rejected");
-    patched[0x1000] ^= 1;
-    Check(!paths::IsKnownExecutable(patched), "unknown code mutation bypassed full SHA");
+    // These mutations were previously hidden by upstream-style Restore masks.
+    // Each is now outside the *full image* whitelist, including reserved bytes.
+    for (const std::size_t offset : {0x88, 0xd8, 0xf8, 0x4a1ab0, 0x4a1ab0 + 143, 0x4e1b00, 0x4e1b00 + 255, 0x1000})
+    {
+        auto changed = original;
+        changed[offset] ^= 1;
+        Check(!paths::IsKnownExecutable(changed), "unknown mutation in previously masked region accepted");
+    }
     original.resize(40);
     Check(!paths::IsKnownExecutable(original), "truncated image accepted");
-    std::cout << "PASS canonical/raw+6-source-patch normalization; unknown mutation rejected; GTA execution not_run\n";
+    std::cout << "PASS full canonical SHA; unknown code/export/timestamp/checksum mutations rejected; GTA execution not_run\n";
 }
 
 void Filesystem()
@@ -142,6 +136,20 @@ int wmain(int argc, wchar_t** argv)
         const std::wstring mode = argv[1];
         if (mode == L"canonical" && argc == 3)
             Canonical(argv[2]);
+        else if (mode == L"known" && argc == 3)
+        {
+            std::size_t accepted = 0;
+            for (const auto& entry : std::filesystem::directory_iterator(argv[2]))
+            {
+                if (entry.path().extension() == L".bin")
+                {
+                    Check(paths::IsKnownExecutable(paths::ReadExecutable(entry.path())), "exact source-derived loader variant rejected");
+                    ++accepted;
+                }
+            }
+            Check(accepted == 8, "expected all eight source-derived variants");
+            std::cout << "PASS eight exact full-image loader variants as data, no GTA execution\n";
+        }
         else if (mode == L"paths")
             Filesystem();
         else if (mode == L"redirect")

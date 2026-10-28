@@ -30,4 +30,8 @@ set(LAB_CANONICAL_EXE "" CACHE FILEPATH "Optional private canonical game fixture
 if(LAB_CANONICAL_EXE)
     add_test(NAME native_user_paths_canonical COMMAND native_paths_probe canonical "${LAB_CANONICAL_EXE}")
 endif()
+set(LAB_KNOWN_VARIANTS_DIR "" CACHE PATH "Optional private source-derived loader variants, read as data only")
+if(LAB_KNOWN_VARIANTS_DIR)
+    add_test(NAME native_user_paths_loader_variants COMMAND native_paths_probe known "${LAB_KNOWN_VARIANTS_DIR}")
+endif()
 set_tests_properties(native_user_paths_filesystem native_user_paths_x86_detour PROPERTIES TIMEOUT 40)

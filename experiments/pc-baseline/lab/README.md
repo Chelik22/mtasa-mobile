@@ -69,9 +69,12 @@ Server-mode regression зафиксирован отдельно в
 Anchor пока не подключён. Stock path без opt-in не меняется. Поддерживается
 только x86 canonical SHA
 `f63fa623d14e170d0ae9e7032186669cf3a177793be21c4824043f0279bd506a`
-либо тот же образ после нормализации шести штатных loader patches. Фиксированные
-offsets проверены по pinned `GameExecutablePatcher.cpp`; неизвестная правка кода
-не маскируется и должна провалить полный SHA.
+либо один из восьми exact full-image SHA штатных loader patches (Release/Debug,
+Aero on/off, GPU exports on/off). `derive_known_gta.py` воспроизводит pinned
+`GameExecutablePatcher.cpp::ApplyPatches` над canonical данными, включая настоящий
+PE checksum. Hash manifest — `verification/known-loader-images.json`; private
+`.bin` samples не публикуются и не исполняются. Это full raw-image whitelist,
+никакие export/padding/timestamp/checksum bytes не маскируются.
 
 Штатный launch EXE: `root/data/GTA San Andreas/gta_sa.exe`; assets: `root/gta`.
 Helper проверяет image base, исходные16bytes routine0x744FB0 и ещё пустые три
@@ -85,8 +88,9 @@ owned child должен завершиться до native continuation. Callba
 
 Standalone target `native_paths_probe` —1TU,Win32,/MP1,m1; CTest regex
 `^native_user_paths_`. CMake `-DLAB_CANONICAL_EXE=<private lab gta_sa.exe>`
-включает проверку реальных canonical bytes и normalizer; без этого параметра
-такого доказательства нет. Файл игры читается только как данные. Остальные
+включает проверку реальных canonical bytes; `-DLAB_KNOWN_VARIANTS_DIR=<private
+samples>` включает восемь source-derived variants. Без этих параметров такого
+доказательства нет. Файл игры читается только как данные. Остальные
 tests проверяют private filesystem публикацию и actual detour tiny owned
 function в VirtualAlloc memory; это не выполнение GTA. Native registry helpers
 вне directory routine ещё требуют аудита: один hook не закрывает полную
