@@ -4,6 +4,11 @@
 
 ### Fixed
 
+- Use separate SDK-base returns for HTTP manager lookup: the configured facade
+  and invalid-mode failure manager have unrelated concrete pointer types, which
+  the conditional operator could not combine. Actual configured compile found
+  this error; its failed run is retained before the repair.
+
 - Track the imported fixture producer as a CMake configure dependency, so changes
   to its shared path validation regenerate approved entries. Independent review
   found that JSON and generator tracking alone left this input untracked.

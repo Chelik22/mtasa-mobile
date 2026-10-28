@@ -517,7 +517,9 @@ namespace experimental_client
         CNetHTTPDownloadManagerInterface* GetHTTPDownloadManager(EDownloadModeType mode) override
         {
             const auto index = static_cast<int>(mode);
-            return index >= 0 && static_cast<std::size_t>(index) < http_.size() ? http_[index].get() : &invalid_http_;
+            if (index >= 0 && static_cast<std::size_t>(index) < http_.size())
+                return http_[index].get();
+            return &invalid_http_;
         }
         void SetServerBitStreamVersion(unsigned short version) override
         {
