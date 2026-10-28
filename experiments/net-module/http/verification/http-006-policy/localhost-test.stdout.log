@@ -1,0 +1,9 @@
+Test project D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/build-win32
+    Start 1: real_localhost_http
+1/2 Test #1: real_localhost_http ..............   Passed    2.54 sec
+    Start 2: fixture_manifest_policy
+2/2 Test #2: fixture_manifest_policy ..........   Passed    0.65 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   3.22 sec

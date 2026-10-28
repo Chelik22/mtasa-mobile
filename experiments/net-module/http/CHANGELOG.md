@@ -1,5 +1,8 @@
 # Changes
 
+- Recorded actual incremental policy/snapshot and localhost HTTP regression PASS
+  (2/2), with raw evidence and byte-identical cached vendor archives.
+
 - Recorded actual frozen-source Win32 curl/zlib/HTTP build and real localhost
   test PASS, raw logs/JUnit, input/artifact hashes and I386 PE metadata. No game,
   CNet integration or later policy execution is implied.

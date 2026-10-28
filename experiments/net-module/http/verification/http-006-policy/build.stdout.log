@@ -1,0 +1,28 @@
+CMake is re-running because D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/build-win32/CMakeFiles/generate.stamp is out-of-date.
+  the file 'D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt'
+  is newer than 'D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/build-win32/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+-- Configuring done (2.9s)
+-- Generating done (4.8s)
+-- Build files have been written to: D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/build-win32
+Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  owned_http_zlib.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\owned_http_zlib.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  owned_http_curl.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\owned_http_curl.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  HttpManager.cpp
+  FixtureContentPolicy.cpp
+  Создание кода...
+  mta_owned_http.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\mta_owned_http.lib
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  fixture_policy_tests.cpp
+  fixture_policy_tests.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\fixture_policy_tests.exe
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt
+  http_integration_tests.cpp
+  http_integration_tests.vcxproj -> D:\projects\astana\work\mtasa-mobile-http\experiments\net-module\http\build-win32\Release\http_integration_tests.exe
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-http/experiments/net-module/http/CMakeLists.txt

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="3"
+	timestamp="2026-10-28T15:52:50"
+	>
+	<testcase name="real_localhost_http" classname="real_localhost_http" time="2.54259" status="run">
+		<properties/>
+		<system-out>PASS real curl HTTP methods/options/status/files/retry/callback lifecycle; pointer_bits=32; MTA/game/client Lua/G4 NOT RUN
+PASS real localhost HTTP fixture; MTA/game/client Lua/G4 NOT RUN
+</system-out>
+	</testcase>
+	<testcase name="fixture_manifest_policy" classname="fixture_manifest_policy" time="0.654356" status="run">
+		<properties/>
+		<system-out>PASS actual Win32 fixture manifest path/URL/raw SHA256/format policy; engine checksum/private netc/G4 NOT RUN
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,5 +1,12 @@
 # Component preparation evidence
 
+Actual policy follow-up: source `47459ebd4e837781e01f26e68eafde126617bebb`
+built incrementally in the same Win32 cache; vendor curl/zlib archives stayed
+byte-identical to http-005. CTest real_localhost_http and fixture_manifest_policy
+both passed (2/2), including retained-byte snapshot/path/hash/source-format cases.
+See verification/http-006-policy/receipt.json and raw logs/JUnit. This proves the
+HTTP/policy component, not the CNet integration, game or client Lua runtime.
+
 Actual follow-up, 2026-10-28: frozen source
 `e14c1a603db7512c092ffec6b0d4a60df5351b4f` completed the native Win32
 standalone build and real localhost integration test in http-005. Both commands
