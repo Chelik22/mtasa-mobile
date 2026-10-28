@@ -1,0 +1,220 @@
+{
+  "schema": "mta-android-position-storage-static-v1",
+  "source_basis": "17eefb1de033fb23b58e4d81669b50502175ebe6",
+  "analysis": {
+    "schema": "mta-android-position-static-v1",
+    "created_utc": "2026-10-28T16:31:50.620611+00:00",
+    "library_sha256": "4c6a7445e30b27afdda781302e4db9bac89c28fc1181b68b1eef16f84d6a282e",
+    "rea_identity_evidence": "ev_e2197366568639e07dae9d653ce12e822eced06b01f57f3cf7712662ee44e654",
+    "deep_provider": "known unsupported AArch64 pwntools-elf profile; no retry",
+    "tool": "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-objdump.exe",
+    "tool_sha256": "453c285f7add2e6eb17de727354c4c7dde5a8986867aa68e4cbfc6e5ecdc3cd4",
+    "target_execution": "not_run",
+    "callable": false,
+    "ranges": [
+      {
+        "name": "find-player-ped",
+        "start": "0x4af7d4",
+        "bytes": 68,
+        "stop_exclusive": "0x4af818",
+        "command": [
+          "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-objdump.exe",
+          "--disassemble",
+          "--demangle",
+          "--print-imm-hex",
+          "--start-address=0x4af7d4",
+          "--stop-address=0x4af818",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+        ],
+        "pid": 2960,
+        "exit_code": 0,
+        "stdout.log_sha256": "7810b7c1a2a19e75139ad82f62ce2bc326d5b5df3a1666270257bec4ecff138d",
+        "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "get-matrix",
+        "start": "0x453f84",
+        "bytes": 60,
+        "stop_exclusive": "0x453fc0",
+        "command": [
+          "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-objdump.exe",
+          "--disassemble",
+          "--demangle",
+          "--print-imm-hex",
+          "--start-address=0x453f84",
+          "--stop-address=0x453fc0",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+        ],
+        "pid": 41696,
+        "exit_code": 0,
+        "stdout.log_sha256": "2bef3a2cef9771ce0b5b53e9907b5c17750d1166816c915503571ead38a53e1d",
+        "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "placeable-ctor",
+        "start": "0x4acadc",
+        "bytes": 24,
+        "stop_exclusive": "0x4acaf4",
+        "command": [
+          "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-objdump.exe",
+          "--disassemble",
+          "--demangle",
+          "--print-imm-hex",
+          "--start-address=0x4acadc",
+          "--stop-address=0x4acaf4",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+        ],
+        "pid": 23124,
+        "exit_code": 0,
+        "stdout.log_sha256": "5fffb3dc386096a76176522a54daa761959be5e9a1ac8b5971a89786a9fb4ef6",
+        "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "within-area-2d",
+        "start": "0x4acdf0",
+        "bytes": 80,
+        "stop_exclusive": "0x4ace40",
+        "command": [
+          "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-objdump.exe",
+          "--disassemble",
+          "--demangle",
+          "--print-imm-hex",
+          "--start-address=0x4acdf0",
+          "--stop-address=0x4ace40",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+        ],
+        "pid": 42516,
+        "exit_code": 0,
+        "stdout.log_sha256": "632ff3d62e5abf286fc3a9dcaaf35820b096427f18b1d68f1eb1118a059bed8e",
+        "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "within-area-3d",
+        "start": "0x4ace40",
+        "bytes": 112,
+        "stop_exclusive": "0x4aceb0",
+        "command": [
+          "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-objdump.exe",
+          "--disassemble",
+          "--demangle",
+          "--print-imm-hex",
+          "--start-address=0x4ace40",
+          "--stop-address=0x4aceb0",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+        ],
+        "pid": 25860,
+        "exit_code": 0,
+        "stdout.log_sha256": "666d9375c606a9cd3a2bcbe1186ceb71b08fb305718a048261bfa071bb0477f2",
+        "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ped-teleport",
+        "start": "0x590378",
+        "bytes": 200,
+        "stop_exclusive": "0x590440",
+        "command": [
+          "C:/Android/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-objdump.exe",
+          "--disassemble",
+          "--demangle",
+          "--print-imm-hex",
+          "--start-address=0x590378",
+          "--stop-address=0x590440",
+          "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+        ],
+        "pid": 46784,
+        "exit_code": 0,
+        "stdout.log_sha256": "6c89f4bac55a3afe0f9d6eec8d6fa4be4d16c1d157c37f43b66a76f9fe7128b5",
+        "stderr.log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "relocation_capture": {
+    "command": [
+      "C:/Android/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-readelf.exe",
+      "--relocations",
+      "--wide",
+      "D:\\projects\\astana\\work\\mta-mobile-lab\\android-game-apk-348750d2\\native\\libGame.so"
+    ],
+    "exit_code": 0,
+    "stdout_sha256": "6c11cd4d3a91d9eba1f6d7b374e178ea1eb6c5378da26c893922a1bfd17f0a02",
+    "raw_anchors_location": "ignored lab only"
+  },
+  "bodies_in_git": false,
+  "callable": false,
+  "runtime_readback": "not_run",
+  "position_storage": {
+    "pointer_width_bytes": 8,
+    "component_width_bytes": 4,
+    "matrix_pointer_offset_from_this": 24,
+    "inline_component_offsets_from_this": [
+      8,
+      12,
+      16
+    ],
+    "matrix_component_offsets": [
+      48,
+      52,
+      56
+    ],
+    "selection": "matrix pointer null -> inline; nonnull -> matrix",
+    "cped_same_prefix_instruction_confirmed": true,
+    "cped_original_this_anchor": "0x59039c",
+    "cped_matrix_read_anchor": "0x5903d0",
+    "cped_inline_write_anchors": [
+      "0x5903f0",
+      "0x5903f4"
+    ],
+    "cped_matrix_write_anchors": [
+      "0x5903d8",
+      "0x5903e0",
+      "0x5903e8"
+    ]
+  },
+  "get_matrix": {
+    "lazy_allocation": true,
+    "safe_readonly_accessor": false,
+    "allocator_call_anchor": "0x453fa0",
+    "transform_update_call_anchor": "0x453fac"
+  },
+  "find_player_ped": {
+    "has_calls": false,
+    "has_stores": false,
+    "has_index_bounds_check": false,
+    "negative_argument_uses_focus_byte": true,
+    "player_info_stride_bytes": 472,
+    "players_symbol_bytes": 944,
+    "instance_index_1_forces_second_slot": true,
+    "return_type": "opaque 64-bit value loaded from chosen slot; CPed interpretation remains ABI inference"
+  },
+  "globals": [
+    {
+      "got_rva": "0x837378",
+      "symbol": "_ZN6CWorld13PlayerInFocusE",
+      "symbol_rva": "0xa1a8d0",
+      "bytes": 1
+    },
+    {
+      "got_rva": "0x839a08",
+      "symbol": "_ZN4CHID20currentInstanceIndexE",
+      "symbol_rva": "0xd0df30",
+      "bytes": 4
+    },
+    {
+      "got_rva": "0x837358",
+      "symbol": "_ZN6CWorld7PlayersE",
+      "symbol_rva": "0xa1a520",
+      "bytes": 944
+    }
+  ],
+  "next_probe": "FindPlayerPed(-1) plus guarded snapshot on actual initialized focused GameNative frame thread only after separate live identity/lifetime verification",
+  "unknowns": [
+    "live load bias and GOT binding",
+    "runtime text modifications",
+    "ped/subclass identity and lifetime",
+    "matrix lifetime",
+    "engine worker ownership",
+    "snapshot atomicity",
+    "world units/interior/dimension",
+    "server element mapping"
+  ]
+}
