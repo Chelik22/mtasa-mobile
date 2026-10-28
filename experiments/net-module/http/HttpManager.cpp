@@ -140,7 +140,7 @@ namespace experimental_http
             Impl&                             owner;
             void*                             object = nullptr;
             PFN_DOWNLOAD_FINISHED_CALLBACK    callback = nullptr;
-            std::string                       url, destination, body, headers, detail;
+            std::string                       url, destination, body, headers, detail, effective_url;
             Options                           options;
             CURL*                             easy = nullptr;
             curl_slist*                       header_list = nullptr;
@@ -501,6 +501,7 @@ namespace experimental_http
             request.cleanup();
             request.body.clear();
             request.headers.clear();
+            request.effective_url.clear();
             request.curl_error = {};
             request.received = request.prefix = request.header_bytes = request.range_total = 0;
             request.response = 0;
@@ -610,6 +611,9 @@ namespace experimental_http
         void finished(const std::shared_ptr<Request>& request, CURLcode code)
         {
             curl_easy_getinfo(request->easy, CURLINFO_RESPONSE_CODE, &request->response);
+            char* effective_url = nullptr;
+            if (curl_easy_getinfo(request->easy, CURLINFO_EFFECTIVE_URL, &effective_url) == CURLE_OK && effective_url)
+                request->effective_url = effective_url;
             detach(*request);
             if (code == CURLE_OK && request->prefix && (!request->range_valid || request->received != request->range_total))
             {
@@ -651,7 +655,9 @@ namespace experimental_http
                 {
                     try
                     {
-                        request->success = validator(request->temporary, request->detail);
+                        const FileValidationContext context{
+                            request->temporary, output_path(request->destination), request->url, request->effective_url, request->response, request->received};
+                        request->success = validator(context, request->detail);
                     }
                     catch (...)
                     {
