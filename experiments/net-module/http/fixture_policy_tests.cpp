@@ -137,6 +137,34 @@ int main()
             escaped = true;
         }
         require(escaped, "manifest traversal rejected before file validation");
+        for (const auto& alias : {"client.lua.", "client.lua ", "folder./client.lua", "folder /client.lua", "bad?.lua", "bad*.lua", "bad<.lua", "bad|.lua",
+                                  "NUL.txt", "con.lua", "COM1.dat"})
+        {
+            auto invalid = entry;
+            invalid.destination_relative = alias;
+            bool rejected = false;
+            try
+            {
+                FixtureContentPolicy invalid_policy(root, {invalid});
+            }
+            catch (const std::invalid_argument&)
+            {
+                rejected = true;
+            }
+            require(rejected, "nonportable Windows alias rejected in each segment");
+        }
+        auto upper = entry;
+        upper.destination_relative = "Client.lua";
+        bool folded_duplicate = false;
+        try
+        {
+            FixtureContentPolicy invalid(root, {entry, upper});
+        }
+        catch (const std::invalid_argument&)
+        {
+            folded_duplicate = true;
+        }
+        require(folded_duplicate, "Windows case-insensitive duplicate rejected");
         std::cout << "PASS actual Win32 fixture manifest path/URL/raw SHA256/format policy; engine checksum/private netc/G4 NOT RUN\n";
         return 0;
     }

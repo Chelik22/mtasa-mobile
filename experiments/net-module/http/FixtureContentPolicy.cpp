@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <array>
 #include <stdexcept>
+#include <cstring>
 
 namespace experimental_http
 {
@@ -31,6 +32,29 @@ namespace experimental_http
         {
             const auto relative = path.lexically_relative(root);
             return relative == "." || relative_key(relative);
+        }
+        bool portable_segments(const std::filesystem::path& path, const std::string& raw)
+        {
+            for (const unsigned char byte : raw)
+                if (byte < 32 || byte == 127 || std::strchr("\\:<>\"|?*", byte))
+                    return false;
+            for (const auto& component : path)
+            {
+                const auto& name = component.native();
+                if (name.empty() || name.back() == L'.' || name.back() == L' ')
+                    return false;
+                auto base = name.substr(0, name.find(L'.'));
+                while (!base.empty() && base.back() == L' ')
+                    base.pop_back();
+                for (auto& byte : base)
+                    if (byte >= L'a' && byte <= L'z')
+                        byte -= L'a' - L'A';
+                if (base == L"CON" || base == L"PRN" || base == L"AUX" || base == L"NUL" || base == L"CONIN$" || base == L"CONOUT$")
+                    return false;
+                if (base.size() == 4 && (base.starts_with(L"COM") || base.starts_with(L"LPT")) && base[3] >= L'1' && base[3] <= L'9')
+                    return false;
+            }
+            return true;
         }
         bool fail(std::string& error, const char* reason)
         {
@@ -137,8 +161,9 @@ namespace experimental_http
         for (auto& entry : entries)
         {
             const auto path = std::filesystem::u8path(entry.destination_relative);
-            if (!relative_key(path) || path.filename().empty() || utf8(path.lexically_normal()) != entry.destination_relative ||
-                entry.destination_relative.size() > 4096 || entry.destination_relative.find_first_of("\\:") != std::string::npos || entry.url.size() > 8192 ||
+            if (!relative_key(path) || !portable_segments(path, entry.destination_relative) || path.filename().empty() ||
+                utf8(path.lexically_normal()) != entry.destination_relative || entry.destination_relative.size() > 4096 ||
+                entry.destination_relative.find_first_of("\\:") != std::string::npos || entry.url.size() > 8192 ||
                 !(entry.url.starts_with("http://") || entry.url.starts_with("https://")) || entry.raw_sha256.size() != 64 ||
                 entry.max_bytes > 256 * 1024 * 1024 || (entry.format != FixtureFormat::LuaSourceUtf8 && entry.format != FixtureFormat::BinaryAsset) ||
                 (entry.format == FixtureFormat::LuaSourceUtf8 && entry.max_bytes > 1024 * 1024))
@@ -150,7 +175,18 @@ namespace experimental_http
                 if (!((byte >= '0' && byte <= '9') || (byte >= 'a' && byte <= 'f')))
                     throw std::invalid_argument("Invalid fixture SHA256");
             }
-            auto key = entry.destination_relative;
+            auto       key = entry.destination_relative;
+            const auto wide_key = path.native();
+            for (const auto& [existing, ignored] : entries_)
+            {
+                const auto wide_existing = std::filesystem::u8path(existing).native();
+                const auto compared = CompareStringOrdinal(wide_key.c_str(), static_cast<int>(wide_key.size()), wide_existing.c_str(),
+                                                           static_cast<int>(wide_existing.size()), TRUE);
+                if (!compared)
+                    throw std::invalid_argument("Cannot compare fixture manifest Windows path keys");
+                if (compared == CSTR_EQUAL)
+                    throw std::invalid_argument("Case-insensitive duplicate fixture manifest path");
+            }
             if (!entries_.emplace(std::move(key), std::move(entry)).second)
                 throw std::invalid_argument("Duplicate fixture manifest path");
         }
