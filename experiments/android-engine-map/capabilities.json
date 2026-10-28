@@ -21,7 +21,7 @@
   },
   "required_before_engine_calls": [
     "exact binary identity",
-    "separately authorized ARM64 runtime",
+    "available compatible ARM64 execution environment (native or documented emulator translation)",
     "calling ABI including return/aggregate types",
     "object layouts and lifetime",
     "game thread and tick phase",
