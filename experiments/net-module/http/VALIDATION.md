@@ -1,5 +1,17 @@
 # Component preparation evidence
 
+Actual follow-up, 2026-10-28: frozen source
+`e14c1a603db7512c092ffec6b0d4a60df5351b4f` completed the native Win32
+standalone build and real localhost integration test in http-005. Both commands
+returned 0; CTest real_localhost_http passed in 3.50 seconds. JUnit contains both
+native pointer_bits=32 and actual HTTP server witnesses. The produced EXE has PE
+machine I386. See verification/http-005/receipt.json and preserved raw logs/JUnit
+for source-input, artifact and log hashes. No executable or archive is imported.
+This covers the frozen HTTP component only; later context/policy changes, CNet
+integration, MTA, GTA, client Lua and G4 remain outside this runtime proof.
+
+The preparation-only statements below describe the earlier state before http-005.
+
 2026-10-28, Windows host, installed MSVC 19.51.36257.0 x86 target,
 Windows SDK 10.0.26100.0, CMake 4.3.3, Python 3.14.6.
 

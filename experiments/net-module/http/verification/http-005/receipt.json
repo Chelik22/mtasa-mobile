@@ -1,0 +1,258 @@
+{
+  "schema": "mta-owned-http-standalone-evidence-v1",
+  "recordedUtc": "2026-10-28T10:24:07.765035+00:00",
+  "sourceSha": "e14c1a603db7512c092ffec6b0d4a60df5351b4f",
+  "sourceFiles": {
+    "experiments/net-module/http/.gitignore": {
+      "rawSha256": "297d039b698ef9b7b54d5ce747d1ffdb77c1ca8391329a6e2732322912041a67",
+      "lfSha256": "297d039b698ef9b7b54d5ce747d1ffdb77c1ca8391329a6e2732322912041a67"
+    },
+    "experiments/net-module/http/CHANGELOG.md": {
+      "rawSha256": "7dd55a0aebbd8d1752ed6874b40646652b3441caf1cce663d08e6f6c8019cc1d",
+      "lfSha256": "7dd55a0aebbd8d1752ed6874b40646652b3441caf1cce663d08e6f6c8019cc1d"
+    },
+    "experiments/net-module/http/CMakeLists.txt": {
+      "rawSha256": "db475721dc3ec4b085e53dcf5302b2ec9ab353259fd3cd0be917524be285407d",
+      "lfSha256": "db475721dc3ec4b085e53dcf5302b2ec9ab353259fd3cd0be917524be285407d"
+    },
+    "experiments/net-module/http/HttpManager.cpp": {
+      "rawSha256": "37a8a575a7ca7b815a001f637848a2a3edf9c8cd58f65e22385e53b6e938f25b",
+      "lfSha256": "c3576e21191eabe79c8df57f8d892aff846b41be283fda6ffa97db64b3e1b3dc"
+    },
+    "experiments/net-module/http/HttpManager.h": {
+      "rawSha256": "19e47b2d1f71752ec06e3d680706db2cf4c8103f066107f1250bb93479227457",
+      "lfSha256": "e6ecfe59f01c3c46ad6bfde52b7bca0746341c3fafa038d4ef7b35eabe736fcb"
+    },
+    "experiments/net-module/http/README.md": {
+      "rawSha256": "52f1c8b91d00c17465b77fda42af5669ad743a01bd21d64de84d279afc7391de",
+      "lfSha256": "52f1c8b91d00c17465b77fda42af5669ad743a01bd21d64de84d279afc7391de"
+    },
+    "experiments/net-module/http/VALIDATION.md": {
+      "rawSha256": "517b1f3c4fd705bc95581b0ee2882d5531d70ef480e5e91a64e67d558787b32c",
+      "lfSha256": "517b1f3c4fd705bc95581b0ee2882d5531d70ef480e5e91a64e67d558787b32c"
+    },
+    "experiments/net-module/http/http_fixture.py": {
+      "rawSha256": "fe35529ba9684d671b3b17419debbfb09fdb2bfe173367b63c931213eb1224e7",
+      "lfSha256": "fe35529ba9684d671b3b17419debbfb09fdb2bfe173367b63c931213eb1224e7"
+    },
+    "experiments/net-module/http/http_integration_tests.cpp": {
+      "rawSha256": "f6501ab7b3ab5bf81464d242a2462229180f25354348303940a02363eb539003",
+      "lfSha256": "7166d1f25e2c1984d16debb996d694fe8b492cbfad7b3721bef2244e30986ee8"
+    }
+  },
+  "build": "passed",
+  "localhostIntegration": "passed",
+  "platform": "Win32",
+  "maxWorkers": 1,
+  "compilerOverride": "/MP1",
+  "freshMemoryGuard": {
+    "physicalFreeMiB": 5069,
+    "commitFreeMiB": 58890
+  },
+  "steps": [
+    {
+      "name": "build",
+      "command": [
+        "C:\\Program Files\\CMake\\bin\\cmake.EXE",
+        "--build",
+        "D:\\projects\\astana\\work\\mtasa-mobile-http\\experiments\\net-module\\http\\build-win32",
+        "--config",
+        "Release",
+        "--parallel",
+        "1",
+        "--",
+        "/m:1",
+        "/nr:false",
+        "/p:MultiProcessorCompilation=false"
+      ],
+      "stdout": "D:\\projects\\astana\\work\\mta-mobile-lab\\http-standalone\\runs\\http-005\\build.stdout.log",
+      "stderr": "D:\\projects\\astana\\work\\mta-mobile-lab\\http-standalone\\runs\\http-005\\build.stderr.log",
+      "startedUtc": "2026-10-28T10:05:08.780706+00:00",
+      "exitCode": 0,
+      "pid": 8880,
+      "processStartedUtc": "2026-10-28T10:05:08.782521+00:00",
+      "seenDescendants": [
+        {
+          "pid": 6900,
+          "parentPid": 8880,
+          "name": "conhost.exe"
+        },
+        {
+          "pid": 22016,
+          "parentPid": 8880,
+          "name": "MSBuild.exe"
+        },
+        {
+          "pid": 43788,
+          "parentPid": 22016,
+          "name": "Tracker.exe"
+        },
+        {
+          "pid": 10756,
+          "parentPid": 43788,
+          "name": "conhost.exe"
+        },
+        {
+          "pid": 42096,
+          "parentPid": 43788,
+          "name": "cl.exe"
+        },
+        {
+          "pid": 12576,
+          "parentPid": 22016,
+          "name": "cmd.exe"
+        },
+        {
+          "pid": 28136,
+          "parentPid": 12576,
+          "name": "conhost.exe"
+        },
+        {
+          "pid": 40736,
+          "parentPid": 22016,
+          "name": "Tracker.exe"
+        },
+        {
+          "pid": 33652,
+          "parentPid": 40736,
+          "name": "conhost.exe"
+        },
+        {
+          "pid": 38080,
+          "parentPid": 40736,
+          "name": "cl.exe"
+        },
+        {
+          "pid": 25280,
+          "parentPid": 22016,
+          "name": "Tracker.exe"
+        },
+        {
+          "pid": 11348,
+          "parentPid": 25280,
+          "name": "conhost.exe"
+        },
+        {
+          "pid": 33196,
+          "parentPid": 25280,
+          "name": "cl.exe"
+        },
+        {
+          "pid": 28512,
+          "parentPid": 22016,
+          "name": "Tracker.exe"
+        },
+        {
+          "pid": 43132,
+          "parentPid": 28512,
+          "name": "conhost.exe"
+        },
+        {
+          "pid": 42272,
+          "parentPid": 28512,
+          "name": "cl.exe"
+        }
+      ],
+      "launchObservedUtc": "2026-10-28T10:05:08.784963+00:00",
+      "lastObservedUtc": "2026-10-28T10:17:52.512993+00:00",
+      "finishedUtc": "2026-10-28T10:17:56.784027+00:00",
+      "stdoutSha256": "ee3570388c80c73fb7f3a692d15aec1d96f2b3f29e29dbefd44da97f22b4be55",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "localhost-test",
+      "command": [
+        "C:\\Program Files\\CMake\\bin\\ctest.EXE",
+        "--test-dir",
+        "D:\\projects\\astana\\work\\mtasa-mobile-http\\experiments\\net-module\\http\\build-win32",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--parallel",
+        "1",
+        "--no-tests=error",
+        "--output-junit",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\http-standalone\\runs\\http-005\\ctest-junit.xml"
+      ],
+      "stdout": "D:\\projects\\astana\\work\\mta-mobile-lab\\http-standalone\\runs\\http-005\\localhost-test.stdout.log",
+      "stderr": "D:\\projects\\astana\\work\\mta-mobile-lab\\http-standalone\\runs\\http-005\\localhost-test.stderr.log",
+      "startedUtc": "2026-10-28T10:17:56.805489+00:00",
+      "exitCode": 0,
+      "pid": 38796,
+      "processStartedUtc": "2026-10-28T10:17:56.815899+00:00",
+      "seenDescendants": [],
+      "launchObservedUtc": "2026-10-28T10:17:56.821217+00:00",
+      "lastObservedUtc": "2026-10-28T10:17:56.864173+00:00",
+      "finishedUtc": "2026-10-28T10:18:00.624447+00:00",
+      "stdoutSha256": "7479438eb733c6c25abf1ed9c04e2fa328a45c12b6962987cf3bbc5c5cdaf6e3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "exitCode": 0,
+  "junitSha256": "b3bc9011facd3062960f53e9ac6c6f5e347ef87e0d553c6279b66032ebfc8899",
+  "logs": {
+    "build.stdout.log": {
+      "bytes": 4579,
+      "sha256": "ee3570388c80c73fb7f3a692d15aec1d96f2b3f29e29dbefd44da97f22b4be55"
+    },
+    "build.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "localhost-test.stdout.log": {
+      "bytes": 278,
+      "sha256": "7479438eb733c6c25abf1ed9c04e2fa328a45c12b6962987cf3bbc5c5cdaf6e3"
+    },
+    "localhost-test.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ctest-junit.xml": {
+      "bytes": 550,
+      "sha256": "b3bc9011facd3062960f53e9ac6c6f5e347ef87e0d553c6279b66032ebfc8899"
+    },
+    "build.exitcode": {
+      "bytes": 1,
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    "localhost-test.exitcode": {
+      "bytes": 1,
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    "runner.exitcode": {
+      "bytes": 1,
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    }
+  },
+  "artifacts": {
+    "owned_http_zlib.lib": {
+      "bytes": 126116,
+      "sha256": "dc0b799edfe64f15ae2da2ca226e2dbafc0af038060e063ac9b37470bcb0a512",
+      "includedInGit": false
+    },
+    "owned_http_curl.lib": {
+      "bytes": 1751006,
+      "sha256": "a43a3f9a01ba69b09a40489b79a258f6abbbdf7fa1dfdba3ce14884e95a1cf07",
+      "includedInGit": false
+    },
+    "mta_owned_http.lib": {
+      "bytes": 662490,
+      "sha256": "39093c50add1a5fc5062e81ea5dc9bcfba1ab57591a586e5150e1882d79db99e",
+      "includedInGit": false
+    },
+    "http_integration_tests.exe": {
+      "bytes": 551936,
+      "sha256": "1f54d8571e882ed0d1185e975253162e78ebf2f70ad27697e8736bc5142c3c02",
+      "includedInGit": false,
+      "peMachine": "I386",
+      "peMachineHex": "0x014c"
+    }
+  },
+  "scope": "Real pinned vendor curl/zlib+shared SDK HTTP component and actual localhost fixture only",
+  "CNetIntegration": "not_run",
+  "policyFollowup": "not_covered; separate feature branch",
+  "MTA": "not_run",
+  "G4": "not_run",
+  "gameExecution": "not_run",
+  "clientLua": "not_run"
+}
