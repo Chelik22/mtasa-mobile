@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="3"
+	failures="0"
+	disabled="0"
+	skipped="1"
+	hostname=""
+	time="0"
+	timestamp="2026-10-28T20:22:05"
+	>
+	<testcase name="owned_cnetserver_module" classname="owned_cnetserver_module" time="0.104022" status="run">
+		<properties/>
+		<system-out>PASS actual CNetServer DLL/ENet ABI, plain Lua buffer, callback lifetime, exact bits, identity, per-channel sequences, quit/reconnect/stale rejection; MTA CPlayer NOT RUN
+</system-out>
+	</testcase>
+	<testcase name="server_cache_filename_contract" classname="server_cache_filename_contract" time="0.0904998" status="run">
+		<properties/>
+		<system-out>PASS cache filename/root/allowlist/UTF8/missing target/env freeze contracts; content/game NOT RUN
+</system-out>
+	</testcase>
+	<testcase name="server_cache_symlinks" classname="server_cache_symlinks" time="0.0239847" status="notrun">
+		<skipped message="SKIP_RETURN_CODE=77"/>
+		<properties/>
+		<system-out>SKIP native symlink fixture unavailable: A required privilege is not held by the client.
+</system-out>
+	</testcase>
+</testsuite>

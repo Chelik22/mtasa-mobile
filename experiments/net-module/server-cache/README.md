@@ -32,3 +32,11 @@ ctest --test-dir '<ignored lab>/server-cache-tests' -C Release --parallel 1 --ou
 Portable tests: missing target для обоих buckets, regular files, unknown key/wrong bucket/wrong case, prefix escape/traversal/aliases/invalid UTF8/size/null, bad roots/entries, UTF8 root, frozen process env, directory final/file ancestor. Отдельный symlink test требует real OS symlink; при отсутствии права выходит77 и CTest явно SKIP, не PASS доказательство reparse. Linux symlink и Windows reparse/junction source branches присутствуют, но отсутствие actual run нельзя заменять source review.
 
 На этом source commit новая policy/tests/native DLL **не компилировались и не запускались**. Root review → один Win64 net_experimental DLL + policy tests build с fresh memory guard → новый actual isolated server preflight: resource_start, console fixture create/dispose, HTTP response bytes; затем настоящий game client отдельно. Failed001 captures сохраняются, новых server/game процессов здесь не создавалось.
+
+## Actual native build001 после root review
+
+ROOT source `305ba79ad326da920f1546b28ac44a1de1fd77ba`, existing ROOT VS18/x64 cache, cached ENet exact38 file set/hashes проверены по pinned dependency manifest; network downloads отключены. Configure39388, build42776 и CTest38580 завершились exit0. Один Normal worker, MP1/m1/nrfalse, fresh RAM guard>=2048MiB перед каждой стадией.
+
+Результат: `owned_cnetserver_module` PASS и `server_cache_filename_contract` PASS. `server_cache_symlinks` **SKIP**, потому что Windows отказала в создании test symlink без privilege; это не runtime proof reparse rejection. Установка privileges/system settings и повторные тесты не выполнялись. Build warnings — deprecated C++20 u8path только в test helper, ошибок нет.
+
+Новая AMD64 `net_experimental.dll`: 183296 bytes, SHA256 `858584087c9a678ff1caab59e5fc384990248755db35f60ddbb280a8db31150d`; mtime/freshness и отличие от старой DLL проверены. Captured DLL/EXE только ignored lab `server-cache-build-001/artifacts`, без binaries в Git. Preserved H1 runtime DLL SHA `58ae2741e6b7037866737d65187b005337d7302e9b155add2af35bf4bdb1ee2f` не изменилась. Raw commands/logs/JUnit/source hashes/PE/artifact metadata — `verification/build-001/`. Новый actual server replay и G4/game client этим build не доказаны и здесь не выполнялись.

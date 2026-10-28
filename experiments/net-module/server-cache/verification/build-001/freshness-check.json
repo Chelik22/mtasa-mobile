@@ -1,0 +1,15 @@
+{
+  "source_sha": "305ba79ad326da920f1546b28ac44a1de1fd77ba",
+  "dll": {
+    "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\server-cache-build-001\\artifacts\\net_experimental.dll",
+    "bytes": 183296,
+    "sha256": "858584087c9a678ff1caab59e5fc384990248755db35f60ddbb280a8db31150d",
+    "pe_machine": "AMD64"
+  },
+  "old_build_dll_sha256": "58ae2741e6b7037866737d65187b005337d7302e9b155add2af35bf4bdb1ee2f",
+  "dll_changed": true,
+  "dll_fresh": true,
+  "last_write_utc": "2026-10-28T15:21:41.295616+00:00",
+  "h1_preserved_unchanged": true,
+  "actual_server_replay": "not_run"
+}

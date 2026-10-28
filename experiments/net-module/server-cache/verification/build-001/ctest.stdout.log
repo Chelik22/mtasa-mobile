@@ -1,0 +1,14 @@
+Test project D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build
+    Start  5: owned_cnetserver_module
+1/3 Test  #5: owned_cnetserver_module ..........   Passed    0.10 sec
+    Start 10: server_cache_filename_contract
+2/3 Test #10: server_cache_filename_contract ...   Passed    0.09 sec
+    Start 11: server_cache_symlinks
+3/3 Test #11: server_cache_symlinks ............***Skipped   0.02 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.23 sec
+
+The following tests did not run:
+	 11 - server_cache_symlinks (Skipped)

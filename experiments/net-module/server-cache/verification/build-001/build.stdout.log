@@ -1,0 +1,25 @@
+Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework
+
+  1>Checking Build System
+  enet.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\_deps\enet-build\Release\enet.lib
+  ModuleRuntime.cpp
+  MtaBitStream.cpp
+  Создание кода...
+  mta_bitstream.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\Release\mta_bitstream.lib
+  OwnedNetServer.cpp
+     Создается библиотека D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/net_experimental.lib и объект D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/build/Release/net_experimental.exp
+  net_experimental.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\Release\net_experimental.dll
+Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework
+
+  Building Custom Rule D:/projects/astana/work/mtasa-mobile-net-server/experiments/net-module/server-cache/CMakeLists.txt
+  cache_filename_tests.cpp
+D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\server-cache\cache_filename_tests.cpp(40,35): warning C4996: 'std::filesystem::u8path': warning STL4021: The std::filesystem::u8path() overloads are deprecated in C++20. The constructors of std::filesystem::path provide equivalent functionality via construction from u8string, u8string_view, or iterators with value_type char8_t. You can define _SILENCE_CXX20_U8PATH_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to suppress this warning. [D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\server-cache\cache_filename_tests.vcxproj]
+D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\server-cache\cache_filename_tests.cpp(68,43): warning C4996: 'std::filesystem::u8path': warning STL4021: The std::filesystem::u8path() overloads are deprecated in C++20. The constructors of std::filesystem::path provide equivalent functionality via construction from u8string, u8string_view, or iterators with value_type char8_t. You can define _SILENCE_CXX20_U8PATH_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to suppress this warning. [D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\server-cache\cache_filename_tests.vcxproj]
+D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\server-cache\cache_filename_tests.cpp(95,46): warning C4996: 'std::filesystem::u8path': warning STL4021: The std::filesystem::u8path() overloads are deprecated in C++20. The constructors of std::filesystem::path provide equivalent functionality via construction from u8string, u8string_view, or iterators with value_type char8_t. You can define _SILENCE_CXX20_U8PATH_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to suppress this warning. [D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\server-cache\cache_filename_tests.vcxproj]
+  cache_filename_tests.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\server-cache\Release\cache_filename_tests.exe
+Версия MSBuild 18.10.1-1.26427.6+3cd27c13e для .NET Framework
+
+  enet.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\_deps\enet-build\Release\enet.lib
+  mta_bitstream.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\Release\mta_bitstream.lib
+  server_module_tests.cpp
+  server_module_tests.vcxproj -> D:\projects\astana\work\mtasa-mobile-net-server\experiments\net-module\build\Release\server_module_tests.exe
