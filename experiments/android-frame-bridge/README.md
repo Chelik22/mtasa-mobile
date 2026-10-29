@@ -71,3 +71,33 @@ Reflection добавляет boxing/dispatch overhead; это диагност�
 ownership, physics phase или CPed lifetime. Реальный first-frame log, loading,
 pause/resume/teardown и actual game drawing ещё предстоит проверить. Успешная
 компиляция собственных классов не доказывает, что modified APK запускается.
+
+## Actual javac002: 2026-10-30
+
+Frozen source `cd9d9ca829195568f12ee3aeca3d60840117cb6d`: actual javac helper
+и dexlib2 tool завершились exit0, Java class output hashes сохранены в
+[receipt](verification/javac-windows-2026-10-30.json). JDK21 напечатал по3warnings
+о deprecated source/target8 options, ошибок компиляции нет. Raw logs/driver в
+ignored `D:/projects/astana/work/mta-mobile-lab/frame-bridge-javac-002`.
+Run001 до этого отказал до compiler при1297MiB/пороге1536; после отдельного
+root разрешения tiny javac-only002 выполнен с floor768MiB, heap256MiB,
+metaspace128MiB и одним CPU, при фактических1169/1247MiB RAM и отсутствииVM.
+Эта policy не применяется к native/NDK/VM. Original run001 не изменялся.
+
+Воспроизводимые команды с новыми output dirs после отдельного resource/process
+preflight (JDKиSDK уже установлены):
+
+```powershell
+& 'C:/Program Files/Java/jdk-21.0.11/bin/javac.exe' `
+  -J-Xmx256m -J-XX:MaxMetaspaceSize=128m -J-XX:ActiveProcessorCount=1 `
+  --release 8 -cp C:/Android/platforms/android-34/android.jar `
+  -d <fresh-helper-classes> experiments/android-frame-bridge/java/org/mta/mobile/frame/FrameBridge.java
+& 'C:/Program Files/Java/jdk-21.0.11/bin/javac.exe' `
+  -J-Xmx256m -J-XX:MaxMetaspaceSize=128m -J-XX:ActiveProcessorCount=1 `
+  --release 8 -cp C:/Android/cmdline-tools/latest/lib/apkanalyzer-classpath.jar `
+  -d <fresh-tool-classes> experiments/android-frame-bridge/tools/PatchFrameInvoke.java
+```
+
+DEX transformer ещё не исполнялся; canonical roundtrip в source — требуемая
+проверка будущего запуска, не уже полученный PASS. Native bridge, helper D8,
+APK packaging/signing/install и actual frame delivery пока not_run.
