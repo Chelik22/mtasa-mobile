@@ -83,9 +83,22 @@ public final class FrameBridge {
         }
     }
 
+    private static void disableQuietly(String reason, Throwable error) {
+        try {
+            disable(reason, error);
+        } catch (Throwable ignored) {
+            // Even diagnostics/logging failure must not replace the game's draw.
+        }
+    }
+
     /** Same (F)V descriptor and original exception object; no second game draw. */
     public static void draw(float delta) {
-        long ticket = before(delta);
+        long ticket = 0;
+        try {
+            ticket = before(delta);
+        } catch (Throwable error) {
+            disableQuietly("own telemetry before-frame failed; original draw retained", error);
+        }
         boolean completed = false;
         try {
             ORIGINAL.invoke(null, delta);
@@ -95,7 +108,11 @@ public final class FrameBridge {
         } catch (IllegalAccessException error) {
             throw new IllegalStateException("original public draw unexpectedly inaccessible", error);
         } finally {
-            after(ticket, completed);
+            try {
+                after(ticket, completed);
+            } catch (Throwable error) {
+                disableQuietly("own telemetry after-frame failed; original draw outcome retained", error);
+            }
         }
     }
 
