@@ -2,8 +2,8 @@
 
 Первый source sampler для конкретного `libGame.so`2.11.311. Он читает реальные
 адреса текущего процесса через kernel copy; никакие игровые функции не вызываются,
-память игры не изменяется. **Android runtime, компиляция, game-thread integration и
-object lifetime пока не проверены.** Возвращаемый результат называется
+память игры не изменяется. **Host boundary tests и ARM64 final link прошли;
+Android runtime, game-thread integration и object lifetime пока не проверены.** Возвращаемый результат называется
 `candidate_unverified`, пригодного для gameplay значения API не выдаёт.
 
 ## Что реализовано
@@ -74,7 +74,7 @@ cmake -S experiments/android-position-backend -B <fresh-arm64-build> `
 cmake --build <fresh-arm64-build> --parallel 1
 ```
 
-Команды пока не выполнялись. Воспроизводимый Windows CLI runner дополнительно
+Воспроизводимый Windows CLI runner дополнительно
 проверяет настоящий final shared ELF link, единственный diagnostic export и
 разрешение global imports по установленным API28 libc/libdl/libm stubs:
 
@@ -97,5 +97,24 @@ stage нужен physical RAM1536MiB/commit8192MiB и отсутствие др�
 Форматирование только собственных5C++ файлов выполнено существующим NDK
 clang-format. Repo wrapper `utils/clang-format.ps1` требует скачивания отдельного
 tool21 и обходит Client/Server/Shared/Tests, не experiments; он не запускался,
-новая утилита не устанавливалась. `git diff --check` прошёл; compiler/tests
-на этом source slice ещё не запускались.
+новая утилита не устанавливалась. `git diff --check` прошёл.
+
+## Native build001: 2026-10-30
+
+На frozen source `c2d8c2459d57ba56f55627169bf651a9294f7413` выполнен настоящий
+CLI run001: host configure/build/test exit0, CTest1/1 passed; NDK28.2 ARM64/API28
+configure/final shared link exit0, три собственных translation units. Девять
+native process stages terminal exit0. Raw receipt/logs только в ignored lab
+`D:/projects/astana/work/mta-mobile-lab/android-position-build-001`.
+[Metadata receipt](verification/build-windows-arm64-2026-10-30.json) связывает
+source/tool/log hashes и independent-readable результаты inspection.
+
+Final ELF64/little/AArch64 DYN2589880bytes SHA
+`8ff6b06842b57da8fb4514188481372e6815edb13b26affbf9c669873cff5a6b`,
+единственный defined global export `MtaPositionCandidateBuildAbi`. NEEDED только
+libc/libdl/libm; все global imports разрешились по фактическим API28 stubs,
+включая process_vm_readv/dl_iterate_phdr/pread/fstat. Own EXE/SO captured read-only
+в ignored artifacts, в Git не включены. Compiler stderr пустой; warnings в
+stdout нужно оценивать по raw logs, а не считать все сборки warning-free по
+успешному exit. Shared library не загружалась/не выполнялась. Это compile/link
+proof, не runtime readback или разрешение gameplay capability.
