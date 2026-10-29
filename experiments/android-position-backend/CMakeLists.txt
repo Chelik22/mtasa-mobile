@@ -12,6 +12,14 @@ if(ANDROID)
     target_link_libraries(android_position_candidate PUBLIC position_candidate dl)
     target_include_directories(android_position_candidate PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../../Shared/sdk")
     set_target_properties(android_position_candidate position_candidate PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
+    # A real shared link is required to expose libc/NDK/SHA dependencies that a
+    # static archive alone cannot validate. This is not an installable game bridge.
+    add_library(android_position_link_probe SHARED LinkProbe.cpp AndroidSelfMemory.cpp PositionSnapshot.cpp)
+    target_include_directories(android_position_link_probe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../../Shared/sdk")
+    target_link_libraries(android_position_link_probe PRIVATE dl)
+    target_link_options(android_position_link_probe PRIVATE "-Wl,--no-undefined" "-Wl,--no-gc-sections" "-Wl,--exclude-libs,ALL"
+        "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/link-probe.exports")
+    set_target_properties(android_position_link_probe PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 endif()
 include(CTest)
 if(BUILD_TESTING AND NOT ANDROID)

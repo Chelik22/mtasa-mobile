@@ -74,8 +74,26 @@ cmake -S experiments/android-position-backend -B <fresh-arm64-build> `
 cmake --build <fresh-arm64-build> --parallel 1
 ```
 
-Команды пока не выполнялись. Статический archive не доказывает final ELF imports;
-перед упаковкой helper требуется отдельная final link/export/import проверка.
+Команды пока не выполнялись. Воспроизводимый Windows CLI runner дополнительно
+проверяет настоящий final shared ELF link, единственный diagnostic export и
+разрешение global imports по установленным API28 libc/libdl/libm stubs:
+
+```powershell
+python experiments/android-position-backend/build_probe.py `
+  --expected-source <exact-clean-40-character-commit> `
+  --run-root D:/projects/astana/work/mta-mobile-lab/android-position-build-001
+```
+
+Run root должен быть новым и вне checkout; повторный запуск в нём запрещён.
+Каждый process получает отдельные stdout/stderr, PID, exit и receipt, который
+обновляется атомарно. Source/tool SHA и clean commit проверяются перед каждым
+stage; host tests не считаются выполненными только по build exit. Перед каждым
+stage нужен physical RAM1536MiB/commit8192MiB и отсутствие другого compiler/VM.
+Порог1536 согласован root для этого маленького single-worker TU/link slice,
+не применяется к VM или полной сборке MTA. Runner не устанавливает tools,
+не меняет registry/ADB и не запускает итоговую Android library. Final probe
+не экспортирует sampler/JNI: единственный `MtaPositionCandidateBuildAbi` возвращает
+число28; `--no-gc-sections` сохраняет реальные backend зависимости при link.
 Форматирование только собственных5C++ файлов выполнено существующим NDK
 clang-format. Repo wrapper `utils/clang-format.ps1` требует скачивания отдельного
 tool21 и обходит Client/Server/Shared/Tests, не experiments; он не запускался,
