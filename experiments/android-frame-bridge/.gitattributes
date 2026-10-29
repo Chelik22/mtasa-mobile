@@ -1,0 +1,5 @@
+*.java text eol=lf
+*.cpp text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+CMakeLists.txt text eol=lf
