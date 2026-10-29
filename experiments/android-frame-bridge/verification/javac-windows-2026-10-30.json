@@ -1,0 +1,101 @@
+{
+  "source": "cd9d9ca829195568f12ee3aeca3d60840117cb6d",
+  "started_utc": "2026-10-29T21:24:26.713579+00:00",
+  "driver_pid": 48044,
+  "state": "passed",
+  "java_heap_mib": 256,
+  "metaspace_max_mib": 128,
+  "physical_floor_mib": 768,
+  "resource_policy": "root-authorized javac-only small compile; no NDK/VM/DEX transform",
+  "stages": [
+    {
+      "name": "javac-helper",
+      "argv": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "-J-XX:MaxMetaspaceSize=128m",
+        "-J-XX:ActiveProcessorCount=1",
+        "--release",
+        "8",
+        "-cp",
+        "C:\\Android\\platforms\\android-34\\android.jar",
+        "-d",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\frame-bridge-javac-002\\helper-classes",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\java\\org\\mta\\mobile\\frame\\FrameBridge.java"
+      ],
+      "memory": {
+        "physical_mib": 1169,
+        "commit_mib": 58174
+      },
+      "started_utc": "2026-10-29T21:24:27.365266+00:00",
+      "competing_processes": [],
+      "pid": 24984,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:24:30.547122+00:00",
+      "logs": {
+        ".stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".stderr.log": "33ba12f541c0c1a3892eb5494868d88abe152e43f8a001523d5ac6793a1bbf2d"
+      }
+    },
+    {
+      "name": "javac-tool",
+      "argv": [
+        "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\javac.exe",
+        "-J-Xmx256m",
+        "-J-XX:MaxMetaspaceSize=128m",
+        "-J-XX:ActiveProcessorCount=1",
+        "--release",
+        "8",
+        "-cp",
+        "C:\\Android\\cmdline-tools\\latest\\lib\\apkanalyzer-classpath.jar",
+        "-d",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\frame-bridge-javac-002\\tool-classes",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\tools\\PatchFrameInvoke.java"
+      ],
+      "memory": {
+        "physical_mib": 1247,
+        "commit_mib": 58106
+      },
+      "started_utc": "2026-10-29T21:24:30.904155+00:00",
+      "competing_processes": [],
+      "pid": 34524,
+      "state": "passed",
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:24:35.020308+00:00",
+      "logs": {
+        ".stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".stderr.log": "33ba12f541c0c1a3892eb5494868d88abe152e43f8a001523d5ac6793a1bbf2d"
+      }
+    }
+  ],
+  "apk_modified": false,
+  "game_runtime": "not_run",
+  "inputs": {
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\.gitattributes": "5e100d5e5a6d74f0041772fb9e58f231e7e0e0102ea95f312ee885e8076fac25",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\CHANGELOG.md": "d096624c7cd9c9a2cb9eb3f059abb5991bf46ee707f57cdc9148719ae5c83414",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\CMakeLists.txt": "6795d4b3ce21dfdf251a289f793ea41a97fa161e23eefe236393e01e30af3bad",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\FrameTelemetry.cpp": "f098405c61807a1f5f68d34d167cd129dd6e2363e5a43dc4a10ea3c68e08f3b8",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\README.md": "00276ec6cc27ca44afa57766cd0681e83b6ada2e019f030857cf368914ef74e1",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\tools\\PatchFrameInvoke.java": "005baf561bbc649ba62c4358251a1977550a35ea1352abefbf387f3b72c0a4de",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-frame-bridge\\experiments\\android-frame-bridge\\java\\org\\mta\\mobile\\frame\\FrameBridge.java": "a941817753336f81f0bd9f6e3e263b231f4a698fde3d8bdc5fa0f6650e29d244",
+    "C:\\Program Files\\Java\\jdk-21.0.11\\bin\\javac.exe": "70fccdaef6071181e39a42170d876be01fbe2f4a701c2c5f19608276532884c4",
+    "C:\\Android\\platforms\\android-34\\android.jar": "6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\apkanalyzer-classpath.jar": "a41766a6bf679feae9d8c65cfead8ba7573bd7762feedd808715a72a808328b2",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\external\\com\\android\\tools\\smali\\smali-util\\3.0.9\\smali-util-3.0.9.jar": "4673762894ba4156081fc5c642f74d6e78aef8b1a9c7702d691e3171d8cc1153",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\external\\com\\android\\tools\\smali\\smali-dexlib2\\3.0.9\\smali-dexlib2-3.0.9.jar": "8b547506f62f91d74b70f4beb4989b99e1ff61fc50b2525e9796ca35f0a351dc",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\external\\com\\android\\tools\\smali\\smali-baksmali\\3.0.9\\smali-baksmali-3.0.9.jar": "e7d0166945565a87f3997d1aea8779202dbb6cb0585a39ee20bab8a2f5ba87f6",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\external\\com\\google\\guava\\listenablefuture\\9999.0-empty-to-avoid-conflict-with-guava\\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar": "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\external\\com\\google\\guava\\guava\\33.4.0-jre\\guava-33.4.0-jre.jar": "b918c98a7e44dbe94ebd9fe3e40cddaadb5a93e6a78eb6008b42df237241e538",
+    "C:\\Android\\cmdline-tools\\latest\\lib\\external\\com\\google\\guava\\failureaccess\\1.0.2\\failureaccess-1.0.2.jar": "8a8f81cf9b359e3f6dfa691a1e776985c061ef2f223c9b2c80753e1b458e8064"
+  },
+  "class_outputs": {
+    "helper-classes\\org\\mta\\mobile\\frame\\FrameBridge.class": "ebe2c62e57853cd11eed71844ed730a9a8661be7114f9591da336befe67f478c",
+    "tool-classes\\org\\mta\\mobile\\tools\\PatchFrameInvoke$1.class": "2aaebbdc28c8313e9f798ace63b73566061ad38f4a57b174ee2e802218797c5b",
+    "tool-classes\\org\\mta\\mobile\\tools\\PatchFrameInvoke.class": "f4f9f2f5a5f86734e0a68310ac0e11dd883ca1100b734190149ae6eacf586096"
+  },
+  "ended_utc": "2026-10-29T21:24:35.403472+00:00",
+  "original_receipt_sha256": "a97bc00f098c98de2e4cf37974bba636d5aac777a36a2d785fb8680e3c7ff87c",
+  "scope": "Actual javac helper/tool compatibility only; DEX transform, D8, JNI, APK/game not run",
+  "warnings": "Each javac printed three JDK21 obsolete --release8 option warnings; no compile errors"
+}

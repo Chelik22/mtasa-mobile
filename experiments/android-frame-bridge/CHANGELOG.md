@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Actual tiny javac002: helper и official dexlib2 tool compile exit0; hashes и
+  честные JDK21 source8 warnings сохранены. DEX transformation/APK not_run.
+
 - Independent review: own before/after/logging Throwable перехватывается только
   на instrumentation boundary, чтобы SecurityException/Error не отменял
   оригинальный draw или его исходное исключение.
