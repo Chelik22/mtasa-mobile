@@ -1,0 +1,83 @@
+# Pinned Android position candidate
+
+Первый source sampler для конкретного `libGame.so`2.11.311. Он читает реальные
+адреса текущего процесса через kernel copy; никакие игровые функции не вызываются,
+память игры не изменяется. **Android runtime, компиляция, game-thread integration и
+object lifetime пока не проверены.** Возвращаемый результат называется
+`candidate_unverified`, пригодного для gameplay значения API не выдаёт.
+
+## Что реализовано
+
+- `AndroidModule::Open` на Android ARM64 находит единственный загруженный
+  `libGame.so` через `dl_iterate_phdr`. Требуется PT_LOAD c offset/vaddr0.
+- Открывает его фактический absolute file path с O_NOFOLLOW. Inode/device первого
+  readable mapping с offset0 должны совпасть с открытым FD. Для packed APK library
+  (`!`), deleted mapping, unreadable `/proc/self/maps` и относительного linker name
+  возвращается явный отказ, без выбора похожего extracted файла.
+- Проверяет8943088bytes и полный SHA256
+  `4c6a7445e30b27afdda781302e4db9bac89c28fc1181b68b1eef16f84d6a282e`
+  существующей реализацией `Shared/sdk/sha2.hpp`; file stat до/после hash должен
+  совпасть. File/live ELF header — ELF64 little-endian AArch64 ET_DYN.
+- Проверяет live FindPlayerPed anchor RVA0x4af7d4/68bytes против fingerprinted
+  файла, вычисляя file offset через executable PT_LOAD. Game bytes в Git нет.
+- Для каждого candidate до/после проверяет mapping/file metadata/code anchor.
+  Decoder требует точные три GOT pointers:
+  `0x837378→bias+0xa1a8d0`, `0x839a08→bias+0xd0df30`,
+  `0x837358→bias+0xa1a520`. Другой relocation/interposition отвергается.
+- Semantics `FindPlayerPed(-1)` реализованы чтением: instance word==1 выбирает
+  slot1, иначе focus byte; только slot0/1, stride0x1d8. Никакой server ElementID
+  не передаётся как slot. Matrix pointer ped+0x18 выбирает12bytes по ped+8 или
+  matrix+0x30. Три компоненты должны быть finite; null ped — `no_player`.
+- `process_vm_readv(getpid)` копирует максимум4096bytes за вызов, без прямого
+  dereference; partial/denied/ENOSYS — `read_unavailable`. В установленном NDK
+  `sys/uio.h` API объявлен сAPI23, build target здесьAPI28+. Разрешение SELinux и
+  ARM translation runtime не предполагается.
+- Повторное чтение slot/selector/matrix отбрасывает замеченные изменения. Failure
+  всегда очищает output, чтобы предыдущая позиция не стала текущей.
+
+Offsets и semantics взяты из [position map](../android-position-map/README.md),
+не из PC layout. Decoder tests используют независимые golden memory values и
+проверяют matrix replacement, invalid pointers/GOT/selector, partial read, null,
+NaN, inline/matrix branch и instance override. Это synthetic boundary tests,
+не доказательство Android исполнения.
+
+## Граница интеграции
+
+Экспортов JNI, hooks, вызова native game методов и публичного `verified=true` нет.
+`ReadUnverifiedCandidate` — диагностический кандидат, а не local-player API.
+Следующий шаг — подключить собственный consumer в фактический ExecutorThread
+перед `GameNative.implOnDrawFrame(F)V`, внутри реальных focus/initialized gates,
+с lifecycle epoch и идентичностью именно этого потока. Вход из UI thread или
+фоновый polling не заменяют этот callback. Пока seam не подключён, sampler
+самостоятельно не вызывается и данные на сервер не отправляются.
+
+Kernel copy избегает user-space invalid dereference, но **не удерживает CPed или
+matrix от удаления**. Повторное чтение не обнаруживает ABA, не делает12bytes
+атомарными и не доказывает согласованность координат. Hash файла и anchor не
+доказывают отсутствие всех runtime patches APK. Потребуются реальное наблюдение
+lifetime, game thread/phase, loading/pause/teardown и сравнение с motion readback;
+до этого gameplay capability остаётся запрещённой. Для APK-backed mapping нужен
+отдельный verifier ZIP segment/FD identity, а не снятие текущей проверки.
+Mapping проверки также не исключают unload/remap между двумя наблюдениями или
+повторное отображение того же inode/bias (ABA). FD удерживает файл, не library
+mapping и не игровые объекты. Последующие mapping/code checks не являются lease.
+
+## Сборка после разрешённого resource preflight
+
+```powershell
+cmake -S experiments/android-position-backend -B <fresh-host-build>
+cmake --build <fresh-host-build> --config Release --parallel 1
+ctest --test-dir <fresh-host-build> -C Release --output-on-failure
+cmake -S experiments/android-position-backend -B <fresh-arm64-build> `
+  -DCMAKE_TOOLCHAIN_FILE=C:/Android/ndk/28.2.13676358/build/cmake/android.toolchain.cmake `
+  -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-28 -DBUILD_TESTING=OFF
+cmake --build <fresh-arm64-build> --parallel 1
+```
+
+Команды пока не выполнялись. Статический archive не доказывает final ELF imports;
+перед упаковкой helper требуется отдельная final link/export/import проверка.
+Форматирование только собственных5C++ файлов выполнено существующим NDK
+clang-format. Repo wrapper `utils/clang-format.ps1` требует скачивания отдельного
+tool21 и обходит Client/Server/Shared/Tests, не experiments; он не запускался,
+новая утилита не устанавливалась. `git diff --check` прошёл; compiler/tests
+на этом source slice ещё не запускались.
