@@ -1,0 +1,387 @@
+{
+  "schema": "mta-position-build-v1",
+  "source_sha": "c2d8c2459d57ba56f55627169bf651a9294f7413",
+  "started_utc": "2026-10-29T21:07:17.926171+00:00",
+  "state": "passed",
+  "driver_pid": 46864,
+  "workers": 1,
+  "memory_floor_mib": 1536,
+  "resource_policy": "root-authorized tiny TU-only host/ARM64 link slice, no VM/full client build",
+  "commit_floor_mib": 8192,
+  "stages": [
+    {
+      "name": "host-configure",
+      "argv": [
+        "C:\\Program Files\\CMake\\bin\\cmake.EXE",
+        "-S",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend",
+        "-B",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\host",
+        "-G",
+        "Visual Studio 18 2026",
+        "-A",
+        "x64"
+      ],
+      "started_utc": "2026-10-29T21:07:22.075790+00:00",
+      "memory": {
+        "free_physical_mib": 3868,
+        "free_commit_mib": 65234
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 44260,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:27.842976+00:00",
+      "logs_sha256": {
+        ".stdout.log": "ee46209d558a98cd789a2c46da1810e1ec9a09b7bd09f2af7a9260905b9a2f33",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "host-build",
+      "argv": [
+        "C:\\Program Files\\CMake\\bin\\cmake.EXE",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\host",
+        "--config",
+        "Release",
+        "--parallel",
+        "1",
+        "--",
+        "/m:1",
+        "/nr:false",
+        "/p:MultiProcessorCompilation=false"
+      ],
+      "started_utc": "2026-10-29T21:07:29.796269+00:00",
+      "memory": {
+        "free_physical_mib": 3845,
+        "free_commit_mib": 65161
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 15948,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:33.597113+00:00",
+      "logs_sha256": {
+        ".stdout.log": "3cd30acafb7eff2c9c396e621289772d23f1a8296193147caa538e3ab6292ea1",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "host-tests",
+      "argv": [
+        "C:\\Program Files\\CMake\\bin\\ctest.exe",
+        "--test-dir",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\host",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\host-tests.xml"
+      ],
+      "started_utc": "2026-10-29T21:07:35.534272+00:00",
+      "memory": {
+        "free_physical_mib": 3825,
+        "free_commit_mib": 65135
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 34624,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:35.684763+00:00",
+      "logs_sha256": {
+        ".stdout.log": "9101cabb4111f1b6b9e8367bcc1b1814334d5e6fab761beeac0a8b90306c4aba",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "arm64-configure",
+      "argv": [
+        "C:\\Program Files\\CMake\\bin\\cmake.EXE",
+        "-S",
+        "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend",
+        "-B",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\arm64",
+        "-G",
+        "Ninja",
+        "-DCMAKE_MAKE_PROGRAM=C:\\Android\\cmake\\3.22.1\\bin\\ninja.exe",
+        "-DCMAKE_TOOLCHAIN_FILE=C:\\Android\\ndk\\28.2.13676358\\build\\cmake\\android.toolchain.cmake",
+        "-DANDROID_ABI=arm64-v8a",
+        "-DANDROID_PLATFORM=android-28",
+        "-DANDROID_STL=c++_static",
+        "-DBUILD_TESTING=OFF",
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "started_utc": "2026-10-29T21:07:38.211544+00:00",
+      "memory": {
+        "free_physical_mib": 3856,
+        "free_commit_mib": 65192
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 28332,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:41.030527+00:00",
+      "logs_sha256": {
+        ".stdout.log": "0f38436abbab9e6721f831e2334328043373a7342ba72743d9e2679f829dffde",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "arm64-link",
+      "argv": [
+        "C:\\Program Files\\CMake\\bin\\cmake.EXE",
+        "--build",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\arm64",
+        "--target",
+        "android_position_link_probe",
+        "--parallel",
+        "1"
+      ],
+      "started_utc": "2026-10-29T21:07:43.718726+00:00",
+      "memory": {
+        "free_physical_mib": 3858,
+        "free_commit_mib": 65177
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 44696,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:48.408531+00:00",
+      "logs_sha256": {
+        ".stdout.log": "036e6b77b6bc00716681ba6bca421d9c1a94173a2127058172b0e4416c509f02",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "elf-inspect",
+      "argv": [
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "-h",
+        "-d",
+        "--dyn-syms",
+        "--wide",
+        "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\arm64\\libandroid_position_link_probe.so"
+      ],
+      "started_utc": "2026-10-29T21:07:49.936653+00:00",
+      "memory": {
+        "free_physical_mib": 3899,
+        "free_commit_mib": 65087
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 45608,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:49.987687+00:00",
+      "logs_sha256": {
+        ".stdout.log": "481554ef9b8c263cf5e3b694dc6dee5b86e1b70fd0d6067b884ea27b9f17a420",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "stub-libc",
+      "argv": [
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "--dyn-syms",
+        "--wide",
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\28\\libc.so"
+      ],
+      "started_utc": "2026-10-29T21:07:51.515595+00:00",
+      "memory": {
+        "free_physical_mib": 3868,
+        "free_commit_mib": 65184
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 32012,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:51.627493+00:00",
+      "logs_sha256": {
+        ".stdout.log": "038117945d61d617c53865f43274ab39e3b48f8943a363e1e8fa34bcd9b5c5cf",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "stub-libdl",
+      "argv": [
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "--dyn-syms",
+        "--wide",
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\28\\libdl.so"
+      ],
+      "started_utc": "2026-10-29T21:07:53.821723+00:00",
+      "memory": {
+        "free_physical_mib": 3792,
+        "free_commit_mib": 65106
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 23896,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:53.889513+00:00",
+      "logs_sha256": {
+        ".stdout.log": "7102db5b023c9d8e36b6cba93339de8002d7318198a14bef7498a306961c9825",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "stub-libm",
+      "argv": [
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe",
+        "--dyn-syms",
+        "--wide",
+        "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\28\\libm.so"
+      ],
+      "started_utc": "2026-10-29T21:07:57.006488+00:00",
+      "memory": {
+        "free_physical_mib": 3881,
+        "free_commit_mib": 65169
+      },
+      "competing_processes": [],
+      "state": "passed",
+      "pid": 21316,
+      "exit_code": 0,
+      "ended_utc": "2026-10-29T21:07:57.079770+00:00",
+      "logs_sha256": {
+        ".stdout.log": "559416883e75932a0ca9360c46e713e8b5d0899f7398f48e0985e3f7e347e77c",
+        ".stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "android_runtime": "not_run",
+  "game_runtime": "not_run",
+  "frame_lifetime": "not_run",
+  "apk_modified": false,
+  "input_sha256": {
+    "C:\\Android\\cmake\\3.22.1\\bin\\ninja.exe": "d5d6705439aac3162ff6cfb1509246cdbbecaf9d10d7c846713af2c07d8d7ee8",
+    "C:\\Android\\ndk\\28.2.13676358\\build\\cmake\\android.toolchain.cmake": "dbad92d9dcfea0d32b7c5e5f82f5072d878ded5d46a5d3f1f581ea108ca7fe89",
+    "C:\\Android\\ndk\\28.2.13676358\\source.properties": "c00aa236fdb205e9be9edd9e2169763e48aca52735efff4e16f34205d49783b5",
+    "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe": "7d31c6f6fad98987b6c9d21b800afaa8b3e37f052e94aaddc941d42ff2a35579",
+    "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\ld.lld.exe": "3208134dfd067fb969f8d052db5da2e9e44802e239494e051113d81ce8700e83",
+    "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-readelf.exe": "2646e382d8b2559b5c4ae91e9a98e187ed9bd59f23936054d424049ef795ba5e",
+    "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\28\\libc.so": "c23f16f1d4bef9913cfa328cd095708ac66386b9ab7852599caa7625ca829f80",
+    "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\28\\libdl.so": "7278f2b138d8904fa74add2c90dcbfa1e7850ef7dd17d2f0b6612f818237fa6e",
+    "C:\\Android\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\28\\libm.so": "7ab492d23464c6f14562891f27d344999f7a1d2a940d2b683ddbc1427c179d1c",
+    "C:\\Program Files\\CMake\\bin\\cmake.exe": "70fa92ce2ac9f54b0ae395b0b3790d9147ef2ebdbd7c4e0bb20852aac581baea",
+    "C:\\Program Files\\CMake\\bin\\ctest.exe": "ef43b316fc627f66c608f396150f807a61d906d6b532aaff64acf24f3b39d34c",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\.gitattributes": "0454a1eacd9dd2b751240d683881134544eea12f2dfda9d52a4f111ad9a82c93",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\AndroidSelfMemory.cpp": "5d02c613c12e8e33085f8a798b2eb7100d51161a5beb78b26477272f5745ff0f",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\AndroidSelfMemory.h": "6042ad6dce7bfeb2ce9d8dafe8c8c55303919af8f3342a11018c1bc1e84ba586",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\build_probe.py": "85660430e0a9cfa793795589de6b6fe2327acdbe3e9ad66eab3ac6f4588ff83e",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\CHANGELOG.md": "1b615c4905feb578f2ca19a2f1be1596bd8841027791873b0a644a530c355e17",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\CMakeLists.txt": "07df15b61266b4e36cb041a8d841527070f6414cf5b8f0ba2b77972527b8d32c",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\link-probe.exports": "b405e53cd07e301732bdf7884e2896ab6e22c8bd81715bd2ecb49734d12f276e",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\LinkProbe.cpp": "c42cd553fd49540dd8a3723b199f7e3edcd47cc51a54deabb5f78c2e91d5dbd4",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\PositionSnapshot.cpp": "3db752fd430d7a5e94e70ad16a5af2df676e84606f8e339c049eaee8c2f9fe12",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\PositionSnapshot.h": "504d46746cd011026797044d376c651818339cc7f8e17d5de9dd2c1075c8e63e",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\README.md": "e5f6c2293cc46c70f22e19c8e9fed2275f05f79a8b43d49b18cf5a6e00857014",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\experiments\\android-position-backend\\tests.cpp": "d313192cdf3c48c1662e16e4bd529908cbf794e13c35efa082d5d9c8a7546c4c",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\Shared\\sdk\\sha2.h": "c7b2d61625d8dd9439a7151dc6faae75b2df9e6a57a6eb6add8fc109e46e4fa7",
+    "D:\\projects\\astana\\work\\mtasa-mobile-android-position-backend\\Shared\\sdk\\sha2.hpp": "c71750b5666c00c3a21d67776df230bd1f2e03208ddabb4f0df5cbdd3f61cce0"
+  },
+  "elf": {
+    "needed": [
+      "libc.so",
+      "libdl.so",
+      "libm.so"
+    ],
+    "exports": [
+      "MtaPositionCandidateBuildAbi"
+    ],
+    "global_imports": [
+      "__cxa_atexit",
+      "__cxa_finalize",
+      "__errno",
+      "__memcpy_chk",
+      "__open_2",
+      "__pread_chk",
+      "__register_atfork",
+      "__sF",
+      "__stack_chk_fail",
+      "__system_property_get",
+      "abort",
+      "android_set_abort_message",
+      "calloc",
+      "close",
+      "closelog",
+      "dl_iterate_phdr",
+      "fclose",
+      "feof",
+      "ferror",
+      "fflush",
+      "fgets",
+      "fopen",
+      "fprintf",
+      "fputc",
+      "free",
+      "fstat",
+      "fwrite",
+      "getauxval",
+      "getpid",
+      "malloc",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memmove",
+      "memset",
+      "openlog",
+      "posix_memalign",
+      "pread",
+      "process_vm_readv",
+      "pthread_getspecific",
+      "pthread_key_create",
+      "pthread_key_delete",
+      "pthread_mutex_lock",
+      "pthread_mutex_unlock",
+      "pthread_once",
+      "pthread_rwlock_rdlock",
+      "pthread_rwlock_unlock",
+      "pthread_rwlock_wrlock",
+      "pthread_setspecific",
+      "realloc",
+      "snprintf",
+      "sscanf",
+      "strcmp",
+      "strlen",
+      "strncmp",
+      "strtod",
+      "strtof",
+      "strtol",
+      "strtold",
+      "strtoll",
+      "strtoul",
+      "strtoull",
+      "swprintf",
+      "syscall",
+      "syslog",
+      "vasprintf",
+      "vfprintf",
+      "wcslen",
+      "wcstod",
+      "wcstof",
+      "wcstol",
+      "wcstold",
+      "wcstoll",
+      "wcstoul",
+      "wcstoull",
+      "wmemchr",
+      "wmemcmp"
+    ],
+    "resolved_against_api28_stubs": true
+  },
+  "artifacts": {
+    "libandroid_position_link_probe.so": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\artifacts\\libandroid_position_link_probe.so",
+      "bytes": 2589880,
+      "sha256": "8ff6b06842b57da8fb4514188481372e6815edb13b26affbf9c669873cff5a6b"
+    },
+    "position_candidate_tests.exe": {
+      "path": "D:\\projects\\astana\\work\\mta-mobile-lab\\android-position-build-001\\artifacts\\position_candidate_tests.exe",
+      "bytes": 25088,
+      "sha256": "99d30ea3e5ba0ec3e7ddbe262491e16b704c8e174844349d1f53e756b55787d5"
+    }
+  },
+  "ended_utc": "2026-10-29T21:07:58.664229+00:00",
+  "original_receipt_sha256": "526cbbe9876df7a2f65bb14baf13ad6b185c6a4f9b1657df42ab6cd493d94fd0",
+  "scope": "Native host boundary tests and actual ARM64/API28 final link; no Android execution/game/frame/lifetime"
+}
